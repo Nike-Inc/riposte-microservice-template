@@ -1,0 +1,79 @@
+evaluationDependsOn(':')
+
+dependencies {
+    compile(
+            "com.nike.riposte:riposte-spi:$riposteVersion",
+            "com.nike.riposte:riposte-core:$riposteVersion",
+            "com.nike.riposte:riposte-typesafe-config:$riposteVersion",
+            "com.nike.riposte:riposte-guice:$riposteVersion",
+            "com.nike.riposte:riposte-guice-typesafe-config:$riposteVersion",
+            "com.nike.riposte:riposte-async-http-client:$riposteVersion",
+            "com.nike.riposte:riposte-service-registration-eureka:$riposteVersion",
+            "com.nike.riposte:riposte-metrics-codahale:$riposteVersion",
+            "com.nike.riposte:riposte-auth:$riposteVersion",
+            "org.codehaus.groovy:groovy-all:$groovyVersion", // For logback groovy config processing
+            "ch.qos.logback:logback-classic:$logbackVersion",
+            "ch.qos.logback:logback-core:$logbackVersion",
+            "javax.validation:validation-api:$validationApiVersion",
+            "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
+            "javax.el:el-api:$elApiVersion", // The el-api and el-impl are needed for the JSR 303 validation
+            "org.glassfish.web:el-impl:$elImplVersion",
+            // org.ow2.asm:asm-all is required for full java 8 support
+            //      (we're excluding the old ASM 3 pulled in by various other libraries in the main build.gradle)
+            "org.ow2.asm:asm-all:$orgOw2AsmVersion",
+
+            // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency below unless you need it in your app
+            "net.javacrumbs.future-converter:future-converter-java8-guava:$futureConverterJava8GuavaVersion",
+            // TODO: EXAMPLE CLEANUP - Remove the cassandra related dependencies below unless you need them in your app
+            "org.apache.cassandra:cassandra-all:$apacheCassandraVersion",
+            "com.datastax.cassandra:cassandra-driver-core:$datastaxCassandraDriverVersion",
+            // TODO: EXAMPLE CLEANUP - Remove the embedded cassandra dependency below
+            "org.cassandraunit:cassandra-unit:$cassandraUnitVersion"
+    )
+
+    testCompile (
+            "junit:junit:$junitVersion",
+            "org.assertj:assertj-core:$assertJVersion",
+            "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
+            "org.mockito:mockito-core:$mockitoVersion",
+            "com.nike.backstopper:backstopper-reusable-tests:$backstopperVersion",
+            "com.jayway.restassured:rest-assured:$restAssuredVersion"
+    )
+}
+
+compileJava {
+    doFirst {
+        // Create a *-local-overrides.conf properties file if it doesn't already exist.
+        String filePath = "$buildDir"
+        filePath = filePath.substring(0, filePath.indexOf("/build"))
+        filePath += "/src/main/resources"
+        String filename = "$rootProject.name-local-overrides.conf"
+        File localPropertiesOverrideFile = new File("$filePath/$filename")
+        if (!localPropertiesOverrideFile.exists()) {
+            println("\nNOTE: The $filename file does not exist. " +
+                    "Creating an empty file for it at location: ${localPropertiesOverrideFile.getAbsolutePath()}.\n"
+            )
+            boolean success = localPropertiesOverrideFile.createNewFile()
+            if (success) {
+                String fileContents = "# Add local environment overrides for your machine here - this is not checked " +
+                                      "into git, so you can set any properties you want without affecting other people.\n\n"
+                localPropertiesOverrideFile << fileContents
+            } else {
+                println("WARNING: Unable to create the $filename file at location " +
+                        "${localPropertiesOverrideFile.getAbsolutePath()}. Please create it manually.\n"
+                )
+            }
+        }
+    }
+}
+
+jar {
+    doFirst {
+        // Add version information to the app's main properties file
+        ant.replace(file: "$buildDir/resources/main/${rootProject.name}.conf", token: "@@RELEASE@@", value: version)
+
+        // Replace version and appname info in logback.groovy so that log messages will be tagged with the correct values.
+        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@RELEASE@@", value: version)
+        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@APPNAME@@", value: artifactId)
+    }
+}

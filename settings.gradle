@@ -1,0 +1,2 @@
+rootProject.name = 'riposte-microservice-template'
+include "riposte-microservice-template-core-code","riposte-microservice-template-remote-tests"

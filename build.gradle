@@ -1,0 +1,201 @@
+// ========== GRADLE PLUGINS / REPOSITORIES SETUP
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+
+        // STUFF FOR JACOCO
+        classpath 'com.palantir:jacoco-coverage:0.3.0'
+        // jacoco-coverage blows up unless you specify guava dependency
+        classpath 'com.google.guava:guava:18.0'
+        // Plugin for spitting out coverage numbers to the console
+        classpath 'com.github.ksoichiro:gradle-console-reporter:0.4.0'
+    }
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'groovy'
+
+// All modules should apply the following bits
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'groovy'
+    apply plugin: 'project-report'
+    apply plugin: 'idea'
+
+    // Include source jar
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives sourcesJar
+    }
+
+    // Tell IntelliJ to download sources
+    idea {
+        module {
+            downloadSources = true
+        }
+    }
+
+    // Define the repos used for finding dependencies.
+    repositories {
+        jcenter()
+    }
+
+    //http://www.gradle.org/docs/current/userguide/java_plugin.html
+    sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+    targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+}
+
+// Define args for the application plugin so that `./gradlew run` launches the app with the correct system properties.
+mainClassName = "com.myorg.Main"
+applicationDefaultJvmArgs = [ "-D@appId=" + project.name , "-D@environment=local" ]
+
+run {
+    // Make sure system properties included in the gradle task are piped through to the application.
+    systemProperties = System.getProperties()
+}
+
+artifacts {
+    archives shadowJar
+}
+
+// ========== PROPERTIES AND DEPENDENCIES
+ext {
+    // DEPENDENCY VERSIONS
+    riposteVersion = '0.8.1'
+    backstopperVersion = '0.9.2'
+    slf4jVersion = '1.7.21'
+    logbackVersion = '1.1.7'
+    groovyVersion = '2.4.7'
+
+    orgOw2AsmVersion = '5.0.4'
+
+    validationApiVersion = '1.1.0.Final'
+    hibernateValidatorVersion = '5.1.2.Final'
+    elApiVersion = '2.2.1-b04'
+    elImplVersion = '2.2.1-b05'
+
+    junitVersion = '4.12'
+    mockitoVersion = '1.10.19'
+    assertJVersion = '3.0.0'
+    junitDataproviderVersion = '1.10.2'
+    restAssuredVersion = '2.3.3'
+
+    // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency version below unless you need it in your app
+    futureConverterJava8GuavaVersion = '1.0.0'
+    // TODO: EXAMPLE CLEANUP - Remove the cassandra related dependency versions below unless you need them in your app
+    apacheCassandraVersion = '3.7'
+    datastaxCassandraDriverVersion = '3.1.1'
+    // TODO: EXAMPLE CLEANUP - Remove the embedded cassandra dependency below
+    cassandraUnitVersion = '3.0.0.1'
+
+    // JACOCO PROPERTIES
+    jacocoToolVersion = '0.7.7.201606060606'
+    // Anything in this jacocoExclusions list will be excluded from coverage reports.
+    jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']
+    jacocoCoverageThresholdSetup = {
+        // You can filter to only specific submodules by adjusting the code in the findAll { [condition] } code block.
+        // e.g. To have jacoco coverage only fail the build if it detects insufficient coverage in the "foo-core-code" submodule,
+        //      you could adjust the line to be: configure(subprojects.findAll { it.name == "foo-core-code" }) {
+        // You can also run the coverage checks on the combo report rather than submodule reports by removing the configure(...) block entirely,
+        //      thus putting the jacocoCoverage task at the root level.
+        configure(subprojects.findAll { !it.name.endsWith("remote-tests") }) {
+            jacocoCoverage {
+                // Enforce minimum code coverage.
+                //      See https://github.com/palantir/gradle-jacoco-coverage for the full list of options.
+                reportThreshold 0.8, INSTRUCTION
+                reportThreshold 0.8, BRANCH
+            }
+        }
+    }
+}
+
+allprojects {
+    configurations.all {
+        // Other libraries like to include random versions of junit and mockito. Make sure we force the versions we want.
+        resolutionStrategy.force "junit:junit:$junitVersion"
+        resolutionStrategy.force "org.mockito:mockito-core:$mockitoVersion"
+        // Ditto on groovy
+        resolutionStrategy.force "org.codehaus.groovy:groovy-all:$groovyVersion"
+
+        // Don't accidentally transitively pull in SLF4J implementations we don't want to use from other libraries.
+        //      NOTE: If you'd prefer to use one of these rather than logback then you'll need to remove the exclusion
+        //      for the lib you want and exclude logback instead.
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+	    exclude group: 'log4j'
+        exclude group: 'commons-logging', module: 'commons-logging'
+
+        // com.codahale.metrics artifacts conflict with the io.dropwizard metrics stuff Riposte uses.
+        exclude group: 'com.codahale.metrics'
+
+        // Required for full java 8 support (Guice, among other libraries).
+        //      The following exclusions combined with explicitly asking for org.ow2.asm:asm-all at version 5 or greater
+        //      and com.google.inject:guice at version 4 or greater will fix a bunch of stuff. The old asm versions
+        //      are not java 8 compatible and if they get on the classpath they can cause all kinds of frustrating errors.
+        exclude group: 'asm', module: 'asm-all'
+        exclude group: 'asm', module: 'asm'
+    }
+}
+
+dependencies {
+    compile(
+        project(':' + rootProject.name + '-core-code'),
+        "org.codehaus.groovy:groovy-all:$groovyVersion"
+    )
+}
+
+// ========== COMBO TEST REPORT - View the combined/merged report at: [project_root]/build/reports/tests/index.html
+apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/junitComboTestReport.gradle')
+
+// ========== JACOCO SETUP - View the combined/merged report at: [project_root]/build/reports/jacoco/jacocoRootReport/html/index.html.
+//                           Individual reports for each submodule can be found at: [project_root]/[submodule]/build/reports/jacoco/test/html/index.html
+apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/jacoco.gradle')
+
+allprojects {
+    group = groupId // Necessary for the maven install task to function correctly
+
+    task versionInfo << {
+        def versionfile = new File("$buildDir/version.properties")
+        versionfile << "release.version=$artifactId-$version"
+    }
+
+    build.dependsOn versionInfo
+}
+
+// Disable the "-all" portion of the default shadow jar name. We want the output to be "${rootProject.name}-${version}.jar".
+//      If you'd prefer the default shadow jar name then you can remove this block.
+shadowJar {
+    doFirst {
+        println("The Executable jar should be created at build/libs/${rootProject.name}-${version}.jar")
+    }
+
+    classifier = ''
+}
+
+// The root level shouldn't generate the normal jar and source jars, just the shadow jar. Disable the jar and source jar
+//      tasks for the root level project (this won't affect submodules, where we *do* want jars created)
+jar.enabled = false
+sourcesJar.enabled = false
+
+
+// TODO: EXAMPLE CLEANUP - This replaceTemplate task can be removed.
+task replaceTemplate {
+    description = 'Run Replace Template Groovy script'
+
+    doFirst {
+        System.setProperty("rootProjectLocation", rootProject.projectDir.getAbsolutePath())
+
+        evaluate(new File(rootProject.projectDir.getAbsolutePath() + "/riposte-microservice-template-core-code/src/main/groovy/setup.groovy"))
+    }
+}
+

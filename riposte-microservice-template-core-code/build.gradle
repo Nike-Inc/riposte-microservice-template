@@ -53,7 +53,16 @@ compileJava {
             println("\nNOTE: The $filename file does not exist. " +
                     "Creating an empty file for it at location: ${localPropertiesOverrideFile.getAbsolutePath()}.\n"
             )
-            boolean success = localPropertiesOverrideFile.createNewFile()
+
+            boolean success
+            try {
+                success = localPropertiesOverrideFile.createNewFile()
+            }
+            catch(Throwable t) {
+                success = false
+                println("An exception was thrown while trying to create ${localPropertiesOverrideFile.getAbsolutePath()}: " + t.toString())
+            }
+
             if (success) {
                 String fileContents = "# Add local environment overrides for your machine here - this is not checked " +
                                       "into git, so you can set any properties you want without affecting other people.\n\n"

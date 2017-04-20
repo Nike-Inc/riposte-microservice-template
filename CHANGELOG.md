@@ -2,6 +2,13 @@
 
 All notable changes to the `Riposte Microservice Template` will be documented in this file. This is a template project and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version numbers. This file will track changes based on the dates the changes were made.
 
+## 2017-04-20
+
+### Updated
+
+- Updated Riposte libraries to 0.9.3 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
+    - Updated by [Nic Munroe][contrib_nicmunroe].
+
 ## 2017-02-28
 
 ### Updated

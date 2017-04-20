@@ -6,6 +6,8 @@ import com.nike.backstopper.handler.riposte.config.guice.BackstopperRiposteConfi
 import com.nike.backstopper.service.riposte.BackstopperRiposteValidatorAdapter;
 import com.nike.riposte.metrics.MetricsListener;
 import com.nike.riposte.metrics.codahale.CodahaleMetricsListener;
+import com.nike.riposte.metrics.codahale.EndpointMetricsHandler;
+import com.nike.riposte.metrics.codahale.impl.EndpointMetricsHandlerDefaultImpl;
 import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator;
 import com.nike.riposte.server.logging.AccessLogger;
@@ -60,12 +62,14 @@ public class AppServerConfigTest {
     }
 
     @Test
-    public void constructor_calls_initServerConfigMetrics_on_metricsListener() {
+    public void constructor_calls_initEndpointAndServerConfigMetrics_on_metricsListener() {
         // given
         AppServerConfig asc = new AppServerConfig(configForTesting);
 
         // expect
-        assertThat(((CodahaleMetricsListener) asc.metricsListener()).getEndpointRequestsTimers()).isNotEmpty();
+        EndpointMetricsHandler emh = ((CodahaleMetricsListener) asc.metricsListener()).getEndpointMetricsHandler();
+        assertThat(emh).isInstanceOf(EndpointMetricsHandlerDefaultImpl.class);
+        assertThat(((EndpointMetricsHandlerDefaultImpl)emh).getEndpointRequestsTimers()).isNotEmpty();
     }
 
     @Test

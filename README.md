@@ -331,6 +331,29 @@ There are several reporting options you can choose from to retrieve the metrics,
 * JMX Reporting - The metrics are reported via JMX by default. If you want to turn this off you can set `metrics.jmx.reporting.enabled` to false, however under most circumstances you can leave it on. You can use standard JMX tools like JConsole to retrieve or view the metrics.
 * SLF4J Reporting - You can spit out the raw Codahale Metrics data to your SLF4J log file periodically by setting `metrics.slf4j.reporting.enabled` to true. This is spammy so it's turned off by default.
 * Graphite Reporting - Graphite reporting is also possible. Make sure the `metrics.graphite.url` and `metrics.graphite.port` properties are set correctly and set the `metrics.graphite.reporting.enabled` property to true and the metrics will be reported to Graphite. This is disabled by default as not everyone uses Graphite.
+* SignalFx Reporting - There is Riposte support for SignalFx if you use that. It's not shown in this template project, but if you'd like to use it then you'll need to do the following:
+    + Pull in the `"com.nike.riposte:riposte-metrics-codahale-signalfx:$riposteVersion"` dependency.
+    + Create and expose a singleton `SignalFxReporterFactory` configured the way you want it. Inject it into `AppGuiceModule.metricsReporters()` and include it in the returned `List<ReporterFactory>`.
+    + Inject that same `SignalFxReporterFactory` into `AppGuiceModule.metricsListener()` and configure the returned `CodahaleMetricsListener` like so:
+``` java
+return CodahaleMetricsListener
+    .newBuilder(metricsCollector)
+    .withEndpointMetricsHandler(
+        new SignalFxEndpointMetricsHandler(signalFxReporterFactory, 
+                                           metricsCollector.getMetricRegistry())
+    )
+    .withServerStatsMetricNamingStrategy(
+        CodahaleMetricsListener.MetricNamingStrategy.defaultNoPrefixImpl()
+    )
+    .withServerConfigMetricNamingStrategy(
+        CodahaleMetricsListener.MetricNamingStrategy.defaultNoPrefixImpl()
+    )
+    .withRequestAndResponseSizeHistogramSupplier(
+        () -> new Histogram(new SlidingTimeWindowReservoir(signalFxReporterFactory.getInterval(), 
+                                                           signalFxReporterFactory.getTimeUnit()))
+    )
+    .build();
+```
 
 These options are not mutually exclusive. You can have multiple metrics reporters enabled at the same time, and you can add your own custom reporters - just follow the pattern in `AppGuiceModule.metricsReporters(...)`.
 

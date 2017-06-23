@@ -71,7 +71,7 @@ artifacts {
 // ========== PROPERTIES AND DEPENDENCIES
 ext {
     // DEPENDENCY VERSIONS
-    riposteVersion = '0.9.4'
+    riposteVersion = '0.10.0'
     backstopperVersion = '0.11.1'
     slf4jVersion = '1.7.21'
     logbackVersion = '1.1.7'

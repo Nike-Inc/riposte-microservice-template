@@ -51,7 +51,7 @@ cd "$targetDir"
 [ "$(ls -A .)" ] && die "ERROR: \"$targetDir\" not empty"
 
 echo -e "\nFetching repository archive into target directory"
-curl -L https://github.com/Nike-Inc/riposte-microservice-template/archive/master.tar.gz | tar xf - --strip-components 1 || die "An error occurred while retrieving or unpacking the template project's repository archive"
+curl -L https://github.com/Nike-Inc/riposte-microservice-template/archive/master.tar.gz | tar xfz - --strip-components 1 || die "An error occurred while retrieving or unpacking the template project's repository archive"
 
 echo -e "\nChanging project name to \"$projectName\" and company/org name \"$orgName\""
 echo "(Extra system properties being sent to the gradle replacer task: ${SYSTEM_PROPS_ARRAY[@]})"

@@ -2,6 +2,13 @@
 
 All notable changes to the `Riposte Microservice Template` will be documented in this file. This is a template project and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version numbers. This file will track changes based on the dates the changes were made.
 
+## 2017-07-17
+
+### Fixed
+
+- Fixed bootstrap script to work with versions of `tar` that don't automatically detect gzip.
+    - Fixed by [amitsk][contrib_amitsk] in [pull request #11](https://github.com/Nike-Inc/riposte-microservice-template/pull/11).
+
 ## 2017-05-23
 
 ### Updated
@@ -56,3 +63,4 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 
 [contrib_nicmunroe]: https://github.com/nicmunroe
 [contrib_lukas-krecan]: https://github.com/lukas-krecan
+[contrib_amitsk]: https://github.com/amitsk

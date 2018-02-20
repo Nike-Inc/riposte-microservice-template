@@ -2,13 +2,14 @@ package com.myorg.ripostemicroservicetemplate.functionaltest;
 
 import com.nike.backstopper.apierror.sample.SampleCoreApiError;
 
-import com.jayway.restassured.response.ExtractableResponse;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint;
 
 import org.junit.Test;
 
-import static com.jayway.restassured.RestAssured.given;
+import io.restassured.response.ExtractableResponse;
+
 import static io.netty.handler.codec.http.HttpHeaders.Names.AUTHORIZATION;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

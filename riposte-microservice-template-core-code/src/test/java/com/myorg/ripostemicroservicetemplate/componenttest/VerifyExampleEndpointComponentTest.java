@@ -5,7 +5,6 @@ import com.nike.internal.util.Pair;
 import com.nike.riposte.server.Server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.restassured.response.ExtractableResponse;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleEndpoint;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleEndpoint.ErrorHandlingEndpointArgs;
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiError;
@@ -19,9 +18,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static com.jayway.restassured.RestAssured.given;
+import io.restassured.response.ExtractableResponse;
+
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedError;
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedErrors;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

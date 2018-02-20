@@ -38,7 +38,7 @@ dependencies {
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
             "com.nike.backstopper:backstopper-reusable-tests:$backstopperVersion",
-            "com.jayway.restassured:rest-assured:$restAssuredVersion"
+            "io.rest-assured:rest-assured:$restAssuredVersion"
     )
 }
 

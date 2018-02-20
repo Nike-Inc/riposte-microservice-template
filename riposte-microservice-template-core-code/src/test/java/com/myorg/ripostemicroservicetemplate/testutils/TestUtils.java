@@ -8,7 +8,6 @@ import com.nike.riposte.server.Server;
 import com.nike.riposte.server.config.ServerConfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.restassured.response.ExtractableResponse;
 import com.myorg.ripostemicroservicetemplate.server.config.AppServerConfig;
 import com.typesafe.config.Config;
 
@@ -17,6 +16,8 @@ import java.net.ServerSocket;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+
+import io.restassured.response.ExtractableResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

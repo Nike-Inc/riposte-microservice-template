@@ -90,7 +90,7 @@ ext {
     mockitoVersion = '1.10.19'
     assertJVersion = '3.9.0'
     junitDataproviderVersion = '1.13.1'
-    restAssuredVersion = '2.3.3'
+    restAssuredVersion = '3.0.7'
 
     // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency version below unless you need it in your app
     futureConverterJava8GuavaVersion = '1.0.0'

@@ -101,7 +101,7 @@ ext {
     cassandraUnitVersion = '3.0.0.1'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.7.7.201606060606'
+    jacocoToolVersion = '0.8.0'
     // Anything in this jacocoExclusions list will be excluded from coverage reports.
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']
     jacocoCoverageThresholdSetup = {

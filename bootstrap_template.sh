@@ -45,10 +45,10 @@ done
 
 echo -e "\nInitializing new Riposte project into target directory \"$targetDir\" with new project name \"$projectName\" and company/org name \"$orgName\""
 
-echo -e "\nCreating target directory: \"$targetDir\""
+echo -e "\nCreating target directory (if necessary): \"$targetDir\""
 mkdir -p "$targetDir" || die "ERROR: Unable to create directory \"$targetDir\""
 cd "$targetDir"
-[ "$(ls -A .)" ] && die "ERROR: \"$targetDir\" not empty"
+[ "$(ls -A . | grep -v "^\.git[/]\?$")" ] && die "ERROR: \"$targetDir\" not empty - the only thing it may contain is a .git folder (so you can initialize into an empty git repo)"
 
 echo -e "\nFetching repository archive into target directory"
 curl -L https://github.com/Nike-Inc/riposte-microservice-template/archive/master.tar.gz | tar xfz - --strip-components 1 || die "An error occurred while retrieving or unpacking the template project's repository archive"

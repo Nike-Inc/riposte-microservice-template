@@ -1,6 +1,31 @@
 # Riposte Microservice Template Changelog / Release Notes
 
-All notable changes to the `Riposte Microservice Template` will be documented in this file. This is a template project and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version numbers. This file will track changes based on the dates the changes were made.
+All notable changes to the `Riposte Microservice Template` will be documented in this file. This is a template project 
+and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version 
+numbers. This file will track changes based on the dates the changes were made.
+
+## 2018-02-20
+
+### Updated
+
+- Updated various libraries:
+    - Riposte libraries from `0.10.0` to `0.12.0` ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
+    - Backstopper libraries from `0.11.1` to `0.11.4` ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/master/CHANGELOG.md)).
+    - SLF4J libraries from `1.7.21` to `1.7.25` ([SLF4J changelog](https://www.slf4j.org/news.html)).
+    - Logback libraries from `1.1.7` to `1.2.3` ([Logback changelog](https://logback.qos.ch/news.html)).
+    - AssertJ libraries from `3.5.2` to `3.9.0` ([AssertJ changelog](http://joel-costigliola.github.io/assertj/assertj-core-news.html)).
+    - RestAssured libraries from `2.3.3` to `3.0.7` ([RestAssured changelog](https://github.com/rest-assured/rest-assured/blob/master/changelog.txt)).
+    - Jacoco from `0.7.7.201606060606` to `0.8.0` ([Jacoco changelog](http://www.jacoco.org/jacoco/trunk/doc/changes.html)).
+    - Gradle from `2.13` to `4.5.1` ([Gradle releases](https://gradle.org/releases/)).
+    - Updated by [Nic Munroe][contrib_nicmunroe].
+
+### Other
+
+- Other changes:
+    - Move local-override properties file creation to `processResources` gradle task.
+    - Allow bootstrapping projects into empty git repos (directories that only have a `.git` subdirectory and nothing 
+    else).
+    - Done by [Nic Munroe][contrib_nicmunroe].
 
 ## 2017-07-17
 

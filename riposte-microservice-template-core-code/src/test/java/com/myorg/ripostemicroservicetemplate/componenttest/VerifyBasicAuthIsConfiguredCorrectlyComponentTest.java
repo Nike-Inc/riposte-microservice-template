@@ -4,7 +4,6 @@ import com.nike.backstopper.apierror.sample.SampleCoreApiError;
 import com.nike.internal.util.Pair;
 import com.nike.riposte.server.Server;
 
-import com.jayway.restassured.response.ExtractableResponse;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 
@@ -16,10 +15,11 @@ import java.io.IOException;
 import java.util.Base64;
 
 import io.netty.util.CharsetUtil;
+import io.restassured.response.ExtractableResponse;
 
-import static com.jayway.restassured.RestAssured.given;
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedError;
 import static io.netty.handler.codec.http.HttpHeaders.Names.AUTHORIZATION;
+import static io.restassured.RestAssured.given;
 
 /**
  * Component test that verifies the basic auth security is configured correctly on the server.

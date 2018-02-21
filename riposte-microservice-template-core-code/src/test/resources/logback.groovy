@@ -68,6 +68,8 @@ logger("com.nike.trace.Tracer", INFO, allAsyncAppendersArray, false)
 
 logger("com.codahale.metrics.JmxReporter", INFO, allAsyncAppendersArray, false)
 
+logger("org.reflections.Reflections", INFO, allAsyncAppendersArray, false)
+
 // Root logger.
 root(DEBUG, allAsyncAppendersArray)
 

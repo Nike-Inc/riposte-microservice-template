@@ -1,7 +1,6 @@
 package com.myorg.ripostemicroservicetemplate.endpoints;
 
 import com.nike.backstopper.apierror.ApiErrorWithMetadata;
-import com.nike.backstopper.apierror.sample.SampleCoreApiError;
 import com.nike.backstopper.exception.ApiException;
 import com.nike.backstopper.handler.riposte.config.guice.BackstopperRiposteConfigGuiceModule;
 import com.nike.internal.util.MapBuilder;
@@ -99,12 +98,10 @@ public class ExampleEndpoint {
         public CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> execute(
             RequestInfo<ErrorHandlingEndpointArgs> request, Executor longRunningTaskExecutor, ChannelHandlerContext ctx
         ) {
-            // If we reach here then the request content has already been run through the JSR 303 validator.
+            // If we reach here then the request content has already been run through the JSR 303 validator and we know
+            //      it's non-null (since the InputType in our StandardEndpoint<InputType, OutputType> definition is
+            //      not Void).
             ErrorHandlingEndpointArgs content = request.getContent();
-
-            // We do need to check for null however.
-            if (content == null)
-                throw new ApiException(SampleCoreApiError.MISSING_EXPECTED_CONTENT);
 
             // Manually check the throwManualError query param (normally you'd do this with JSR 303 annotations on the
             //      object, but this shows how you can manually throw exceptions to be picked up by the error handling

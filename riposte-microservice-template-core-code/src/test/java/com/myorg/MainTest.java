@@ -3,7 +3,6 @@ package com.myorg;
 import com.nike.riposte.server.config.ServerConfig;
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil;
 
-import com.jayway.restassured.response.ExtractableResponse;
 import com.myorg.ripostemicroservicetemplate.server.config.AppServerConfig;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 import com.typesafe.config.Config;
@@ -12,8 +11,10 @@ import com.typesafe.config.ConfigFactory;
 import org.junit.AfterClass;
 import org.junit.Test;
 
-import static com.jayway.restassured.RestAssured.given;
+import io.restassured.response.ExtractableResponse;
+
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

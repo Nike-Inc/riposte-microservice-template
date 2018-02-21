@@ -92,10 +92,10 @@ public class ExampleBasicAuthProtectedEndpoint {
     /**
      * The POST implementation of /exampleBasicAuth
      */
-    public static class Post extends StandardEndpoint<String, String> {
+    public static class Post extends StandardEndpoint<Void, String> {
 
         @Override
-        public CompletableFuture<ResponseInfo<String>> execute(RequestInfo<String> request,
+        public CompletableFuture<ResponseInfo<String>> execute(RequestInfo<Void> request,
                                                                Executor longRunningTaskExecutor,
                                                                ChannelHandlerContext ctx) {
 

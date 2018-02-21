@@ -38,41 +38,45 @@ dependencies {
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
             "com.nike.backstopper:backstopper-reusable-tests:$backstopperVersion",
-            "com.jayway.restassured:rest-assured:$restAssuredVersion"
+            "io.rest-assured:rest-assured:$restAssuredVersion"
     )
 }
 
-compileJava {
+processResources {
     doFirst {
-        // Create a *-local-overrides.conf properties file if it doesn't already exist.
-        String filePath = "$buildDir"
-        filePath = filePath.substring(0, filePath.indexOf("/build"))
-        filePath += "/src/main/resources"
-        String filename = "$rootProject.name-local-overrides.conf"
-        File localPropertiesOverrideFile = new File("$filePath/$filename")
-        if (!localPropertiesOverrideFile.exists()) {
-            println("\nNOTE: The $filename file does not exist. " +
-                    "Creating an empty file for it at location: ${localPropertiesOverrideFile.getAbsolutePath()}.\n"
+        createLocalPropertiesOverrideFileIfNeeded()
+    }
+}
+
+def createLocalPropertiesOverrideFileIfNeeded() {
+    // Create a *-local-overrides.conf properties file if it doesn't already exist.
+    String filePath = "$buildDir"
+    filePath = filePath.substring(0, filePath.indexOf("/build"))
+    filePath += "/src/main/resources"
+    String filename = "$rootProject.name-local-overrides.conf"
+    File localPropertiesOverrideFile = new File("$filePath/$filename")
+    if (!localPropertiesOverrideFile.exists()) {
+        println("\nNOTE: The $filename file does not exist. " +
+                "Creating an empty file for it at location: ${localPropertiesOverrideFile.getAbsolutePath()}.\n"
+        )
+
+        boolean success
+        try {
+            success = localPropertiesOverrideFile.createNewFile()
+        }
+        catch(Throwable t) {
+            success = false
+            println("An exception was thrown while trying to create ${localPropertiesOverrideFile.getAbsolutePath()}: " + t.toString())
+        }
+
+        if (success) {
+            String fileContents = "# Add local environment overrides for your machine here - this is not checked " +
+                                  "into git, so you can set any properties you want without affecting other people.\n\n"
+            localPropertiesOverrideFile << fileContents
+        } else {
+            println("WARNING: Unable to create the $filename file at location " +
+                    "${localPropertiesOverrideFile.getAbsolutePath()}. Please create it manually.\n"
             )
-
-            boolean success
-            try {
-                success = localPropertiesOverrideFile.createNewFile()
-            }
-            catch(Throwable t) {
-                success = false
-                println("An exception was thrown while trying to create ${localPropertiesOverrideFile.getAbsolutePath()}: " + t.toString())
-            }
-
-            if (success) {
-                String fileContents = "# Add local environment overrides for your machine here - this is not checked " +
-                                      "into git, so you can set any properties you want without affecting other people.\n\n"
-                localPropertiesOverrideFile << fileContents
-            } else {
-                println("WARNING: Unable to create the $filename file at location " +
-                        "${localPropertiesOverrideFile.getAbsolutePath()}. Please create it manually.\n"
-                )
-            }
         }
     }
 }

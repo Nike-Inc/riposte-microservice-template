@@ -5,18 +5,24 @@ buildscript {
     }
     dependencies {
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
 
         // STUFF FOR JACOCO
-        classpath 'com.palantir:jacoco-coverage:0.3.0'
+        classpath 'com.palantir:jacoco-coverage:0.4.0'
         // jacoco-coverage blows up unless you specify guava dependency
         classpath 'com.google.guava:guava:18.0'
         // Plugin for spitting out coverage numbers to the console
-        classpath 'com.github.ksoichiro:gradle-console-reporter:0.4.0'
+        classpath 'com.github.ksoichiro:gradle-console-reporter:0.5.0'
     }
 }
 
 apply plugin: 'application'
+
+// Define args for the application plugin so that `./gradlew run` launches the app with the correct system properties.
+//      NOTE: We have to define these here, between the application and shadow plugins, due to: https://github.com/johnrengelman/shadow/issues/336
+mainClassName = "com.myorg.Main"
+applicationDefaultJvmArgs = [ "-D@appId=" + project.name , "-D@environment=local" ]
+
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'groovy'
 
@@ -51,13 +57,9 @@ allprojects {
     }
 
     //http://www.gradle.org/docs/current/userguide/java_plugin.html
-    sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
-    targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-// Define args for the application plugin so that `./gradlew run` launches the app with the correct system properties.
-mainClassName = "com.myorg.Main"
-applicationDefaultJvmArgs = [ "-D@appId=" + project.name , "-D@environment=local" ]
 
 run {
     // Make sure system properties included in the gradle task are piped through to the application.
@@ -71,10 +73,10 @@ artifacts {
 // ========== PROPERTIES AND DEPENDENCIES
 ext {
     // DEPENDENCY VERSIONS
-    riposteVersion = '0.10.0'
-    backstopperVersion = '0.11.1'
-    slf4jVersion = '1.7.21'
-    logbackVersion = '1.1.7'
+    riposteVersion = '0.12.0'
+    backstopperVersion = '0.11.4'
+    slf4jVersion = '1.7.25'
+    logbackVersion = '1.2.3'
     groovyVersion = '2.4.7'
 
     orgOw2AsmVersion = '5.0.4'
@@ -86,9 +88,9 @@ ext {
 
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
-    assertJVersion = '3.5.2'
-    junitDataproviderVersion = '1.12.0'
-    restAssuredVersion = '2.3.3'
+    assertJVersion = '3.9.0'
+    junitDataproviderVersion = '1.13.1'
+    restAssuredVersion = '3.0.7'
 
     // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency version below unless you need it in your app
     futureConverterJava8GuavaVersion = '1.0.0'
@@ -99,7 +101,7 @@ ext {
     cassandraUnitVersion = '3.0.0.1'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.7.7.201606060606'
+    jacocoToolVersion = '0.8.0'
     // Anything in this jacocoExclusions list will be excluded from coverage reports.
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']
     jacocoCoverageThresholdSetup = {
@@ -164,9 +166,11 @@ apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/jacoco.grad
 allprojects {
     group = groupId // Necessary for the maven install task to function correctly
 
-    task versionInfo << {
-        def versionfile = new File("$buildDir/version.properties")
-        versionfile << "release.version=$artifactId-$version"
+    task versionInfo {
+        doLast {
+            def versionfile = new File("$buildDir/version.properties")
+            versionfile << "release.version=$artifactId-$version"
+        }
     }
 
     build.dependsOn versionInfo

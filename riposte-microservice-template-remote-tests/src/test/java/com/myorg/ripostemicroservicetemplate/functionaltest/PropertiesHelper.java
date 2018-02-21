@@ -6,7 +6,6 @@ import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.jayway.restassured.response.ExtractableResponse;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 import com.typesafe.config.Config;
 
@@ -17,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.netty.util.CharsetUtil;
+import io.restassured.response.ExtractableResponse;
 
 /**
  * Helper that automates the extraction of functional test properties from the appropriate properties files and provides

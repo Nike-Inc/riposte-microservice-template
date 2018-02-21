@@ -1,10 +1,15 @@
 // ========== GRADLE PLUGINS / REPOSITORIES SETUP
 buildscript {
+    ext.kotlinVersion = '1.6.21'
+
     repositories {
         gradlePluginPortal()
         mavenCentral()
     }
     dependencies {
+        // STUFF FOR KOTLIN
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
         classpath 'gradle.plugin.com.github.johnrengelman:shadow:7.1.2'
     }
@@ -13,14 +18,16 @@ buildscript {
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'groovy'
+apply plugin: 'kotlin'
 
 // Define args for the application plugin so that `./gradlew run` launches the app with the correct system properties.
-mainClassName = "com.myorg.Main"
+mainClassName = "com.myorg.MainKt"
 applicationDefaultJvmArgs = [ "-D@appId=" + project.name , "-D@environment=local" ]
 
 // All modules should apply the following bits
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'kotlin'
     apply plugin: 'project-report'
     apply plugin: 'idea'
 
@@ -68,6 +75,17 @@ allprojects {
     //      build and run with a Java 17 JDK. No other changes are needed - this project is Java 17 ready.
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }
 
 run {
@@ -93,6 +111,8 @@ ext {
     // Guice 5.1.0 or later required for Java 17 support.
     guiceVersion = '5.1.0'
 
+    kotlinGuiceVersion = '1.6.0'
+
     validationApiVersion = '2.0.1.Final'
     hibernateValidatorVersion = '6.2.3.Final'
     elApiVersion = '3.0.1-b06'
@@ -103,6 +123,9 @@ ext {
     mockitoVersion = '4.6.0'
     assertJVersion = '3.23.0'
     restAssuredVersion = '5.1.0'
+
+    mockitoKotlinVersion = '2.2.0'
+    assertJKotlinBridgeVersion = '0.2.1'
 
     // JACOCO PROPERTIES
     jacocoToolVersion = '0.8.8'
@@ -154,6 +177,16 @@ allprojects {
         // Other libraries like to include random versions of mockito. Make sure we force the version we want.
         resolutionStrategy.force "org.mockito:mockito-core:$mockitoVersion"
 
+        // Enforce the version of Kotlin we want
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+        // Exclude the kotlin-stdlib-jre* dependencies - we are pulling in the recommended kotlin-stdlib-jdk8 ourselves,
+        //      and the jre* libs are deprecated (the jdk* libs are the replacements).
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre8'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+
         // Don't accidentally transitively pull in SLF4J implementations we don't want to use from other libraries.
         //      NOTE: If you'd prefer to use one of these rather than logback then you'll need to remove the exclusion
         //      for the lib you want and exclude logback instead.
@@ -179,6 +212,11 @@ apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/junitComboT
 // ========== JACOCO SETUP - View the combined/merged report at: [project_root]/build/reports/jacoco/jacocoRootReport/html/index.html.
 //                           Individual reports for each submodule can be found at: [project_root]/[submodule]/build/reports/jacoco/test/html/index.html
 apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/jacoco.gradle')
+
+// ========== KTLINT - run ktlint via the gradle task: ktlint. Auto-format to make ktlint happy with the gradle task: ktlintFormat
+//      See the ktlint.gradle file for further configuration details and options.
+//      See the ktlint website for more: https://ktlint.github.io/
+apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/ktlint.gradle')
 
 allprojects {
     group = groupId // Necessary for the maven install task to function correctly

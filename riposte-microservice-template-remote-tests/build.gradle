@@ -19,6 +19,12 @@ dependencies {
 
         "com.nike.riposte:riposte-typesafe-config:$riposteVersion",
         "com.nike.riposte:riposte-guice-typesafe-config:$riposteVersion",
+
+        // Kotlin stuff
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+        "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
+        "net.wuerl.kotlin:assertj-core-kotlin:$assertJKotlinBridgeVersion",
+        "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
     )
 }
 
@@ -31,6 +37,12 @@ task functionalTest(type: Test, dependsOn: "testClasses") {
     description = "This is a task to run Functional Tests"
     include '**/functionaltest/**'
     useJUnitPlatform()
+
+    testLogging {
+        exceptionFormat "FULL"
+        events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+        displayGranularity = 0
+    }
 
     testLogging {
         exceptionFormat "FULL"

@@ -2,7 +2,7 @@
 
 # This script is for bootstrapping a new project from this template repository with a one line command. You don't even need to checkout the project.
 #   Just run the following curl command:
-#   curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/main/bootstrap_template.sh' | bash /dev/stdin <newprojectname> <myorgname> </optional/target/dir> <-DoptionalSystemProps=stuff>
+#   curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/projecttemplate/kotlin/bootstrap_template.sh' | bash /dev/stdin <newprojectname> <myorgname> </optional/target/dir> <-DoptionalSystemProps=stuff>
 #   <newprojectname> - REQUIRED - The name of the new project.
 #   <myorgname> - REQUIRED - The company/organization name you want to use for the final java class packaging.
 #                            i.e. if you pass in 'foo' then all the java classes in the resulting project will be in the package com.foo
@@ -51,7 +51,7 @@ cd "$targetDir"
 [ "$(ls -A . | grep -v "^\.git[/]\?$")" ] && die "ERROR: \"$targetDir\" not empty - the only thing it may contain is a .git folder (so you can initialize into an empty git repo)"
 
 echo -e "\nFetching repository archive into target directory"
-curl -L https://github.com/Nike-Inc/riposte-microservice-template/archive/main.tar.gz | tar xfz - --strip-components 1 || die "An error occurred while retrieving or unpacking the template project's repository archive"
+curl -L https://github.com/Nike-Inc/riposte-microservice-template/archive/projecttemplate/kotlin.tar.gz | tar xfz - --strip-components 1 || die "An error occurred while retrieving or unpacking the template project's repository archive"
 
 echo -e "\nChanging project name to \"$projectName\" and company/org name \"$orgName\""
 echo "(Extra system properties being sent to the gradle replacer task: ${SYSTEM_PROPS_ARRAY[@]})"

@@ -3,7 +3,7 @@
 _Description of your service goes here._
 
 (NOTE: This project was instantiated from the 
-[Riposte Microservice Template](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate).
+[Riposte Microservice Template Kotlin branch](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate/tree/projecttemplate/kotlin).
 See that template project's readme for some general details on working with a Riposte project.) 
 
 ## Information for integrating clients
@@ -26,11 +26,11 @@ module.
 ### Run/debug the service locally
 
 The template project's 
-["Running the server"](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate#running_the_server)
+["Running the server"](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate/tree/projecttemplate/kotlin#running_the_server)
 section has full details on all your options. Here's a cheat sheet (**these are all equivalent**).
 
-* **Run/debug directly in your IDE.** For example in IntelliJ you can just right click on the `com.myorg.Main` class and 
-select either `Run 'Main.main()'` or `Debug 'Main.main()'` from the right-click-menu. Selecting the debug option will 
+* **Run/debug directly in your IDE.** For example in IntelliJ you can just right click on the `com/myorg/Main.kt` file and 
+select either `Run 'com.myorg.MainKt'` or `Debug 'com.myorg.MainKt'` from the right-click-menu. Selecting the debug option will 
 let you hit breakpoints immediately without launching a remote debug session.
     + NOTE: The first time it runs using this launch option it will fail, complaining about the `@appId` and 
     `@environment` System properties. You will need to edit the configuration for this launch option to include the 
@@ -72,5 +72,5 @@ The value of the `-DremoteTestEnv=[environment]` System property can be `local`,
 
 Remote tests should not be confused with "Component Tests", which live in the main core-code module and serve as
 _compile-time_ integration tests. For more details, see the template project readme sections on 
-[Remote Tests](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate#remote_tests) and 
-[Component Tests](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate#component_tests). 
+[Remote Tests](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate/tree/projecttemplate/kotlin#remote_tests) and 
+[Component Tests](https://github.com/Nike-Inc/riposte%2Dmicroservice%2Dtemplate/tree/projecttemplate/kotlin#component_tests). 

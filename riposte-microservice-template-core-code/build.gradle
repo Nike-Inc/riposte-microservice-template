@@ -26,7 +26,7 @@ dependencies {
             "org.slf4j:log4j-over-slf4j:$slf4jVersion",
 
             "javax.validation:validation-api:$validationApiVersion",
-            "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
+            "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion",
             "javax.el:javax.el-api:$elApiVersion", // The el-api and el-impl are needed for the JSR 303 validation
             "org.glassfish:javax.el:$elImplVersion",
             
@@ -37,6 +37,12 @@ dependencies {
             "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
+
+            // Kotlin stuff
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+            "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
+            "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion",
+            "dev.misfitlabs.kotlinguice4:kotlin-guice:$kotlinGuiceVersion",
     )
 
     testImplementation (
@@ -47,6 +53,10 @@ dependencies {
             "org.mockito:mockito-core:$mockitoVersion",
             "com.nike.backstopper:backstopper-reusable-tests-junit5:$backstopperVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion",
+
+            // Kotlin stuff
+            "net.wuerl.kotlin:assertj-core-kotlin:$assertJKotlinBridgeVersion",
+            "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
     )
 }
 

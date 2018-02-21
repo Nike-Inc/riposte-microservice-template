@@ -3,7 +3,7 @@
 All notable changes to the `Riposte Microservice Template` will be documented in this file. This is a template project 
 and is not available via typical artifact repositories (Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
-   
+
 ## 2022-06-03
          
 ### Updated 
@@ -11,6 +11,17 @@ numbers. This file will track changes based on the dates the changes were made.
 - Migrated to `backstopper-reusable-tests-junit5` and got rid of last bits of JUnit 4 in the project.
 - Replaced copied mockito class with `Glassbox`.
 - Removed author tags in javadocs.
+
+### `projecttemplate/kotlin` branch
+
+- Updated the Kotlin version of the Riposte microservice template with the latest changes from the Java branch.
+
+## 2022-05-31
+
+### `projecttemplate/kotlin` branch
+
+- Updated the Kotlin version of the Riposte microservice template with the latest changes from the Java branch along
+  with Kotlin-specific dependency/etc updates.
 
 ## 2022-05-31
 
@@ -52,8 +63,8 @@ numbers. This file will track changes based on the dates the changes were made.
 - Removed the Eureka dependency by default because it pulls in a lot of dependencies, and many projects don't need it.
 You can re-enable Eureka by searching the project for the `TODO: EXAMPLE CLEANUP` markers and following instructions.
 - Removed the groovy dependency after migrating to XML-based logback configuration.
-- All of the above dependency removals and cleanup resulted in the application fat jar dropping from 74 MB 
-down to 15 MB, and reduced build time by about 50-60%.
+- All of the above dependency removals and cleanup resulted in the application fat jar dropping from 78 MB 
+down to 19 MB, and reduced build time by about 50-60%.
 
 ### Changed
 
@@ -71,6 +82,13 @@ application properties on startup.
 
 - Upgraded most libraries to the latest available.
 - Generally cleaned up, updated, and modernized the project.
+- Added ktlint as an optional gradle task.
+
+## 2018-02-22
+
+### `projecttemplate/kotlin` branch
+
+- Added a Kotlin version of the Riposte microservice template.
 
 ## 2018-02-22
 

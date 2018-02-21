@@ -11,9 +11,11 @@ dependencies {
             "ch.qos.logback:logback-classic:$logbackVersion",
             "ch.qos.logback:logback-core:$logbackVersion",
             "org.assertj:assertj-core:$assertJVersion",
+            "net.wuerl.kotlin:assertj-core-kotlin:$assertJKotlinBridgeVersion",
             "junit:junit:$junitVersion",
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
+            "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion"
     )
 }

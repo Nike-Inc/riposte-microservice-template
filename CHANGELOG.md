@@ -4,6 +4,22 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
 
+## 2018-02-21
+
+### Updated
+
+- Updated Jackson dependencies to explicitly specify version `2.9.4` for all modules that were being pulled in 
+transitively.
+
+### Other
+
+- Moved endpoint matchers to constants to prevent unnecessary object creation.
+- Added to the manual-error-throwing example in `ExampleEndpoint.Post` to show how you can specify extra logs and/or
+response headers when throwing an `ApiException`.
+- Cleaned up various code warnings.
+- Removed a test that was there for code coverage which became unnecessary with the upgrade to Jacoco 0.8.0. 
+- Force gradle to always execute the `functionalTest` task when specified, even if no code changes have occurred.
+
 ## 2018-02-20
 
 ### Updated

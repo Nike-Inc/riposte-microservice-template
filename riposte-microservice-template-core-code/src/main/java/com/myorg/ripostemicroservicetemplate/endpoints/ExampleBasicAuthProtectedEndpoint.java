@@ -58,6 +58,8 @@ public class ExampleBasicAuthProtectedEndpoint {
      */
     public static class Get extends StandardEndpoint<Void, Map<String, String>> {
 
+        private static final Matcher MATCHER = Matcher.match(MATCHING_PATH, HttpMethod.GET);
+        
         private final String basicAuthHeaderValueRequired;
 
         @Inject
@@ -84,7 +86,7 @@ public class ExampleBasicAuthProtectedEndpoint {
 
         @Override
         public Matcher requestMatcher() {
-            return Matcher.match(MATCHING_PATH, HttpMethod.GET);
+            return MATCHER;
         }
 
     }
@@ -93,6 +95,8 @@ public class ExampleBasicAuthProtectedEndpoint {
      * The POST implementation of /exampleBasicAuth
      */
     public static class Post extends StandardEndpoint<Void, String> {
+
+        private static final Matcher MATCHER = Matcher.match(MATCHING_PATH, HttpMethod.POST);
 
         @Override
         public CompletableFuture<ResponseInfo<String>> execute(RequestInfo<Void> request,
@@ -109,7 +113,7 @@ public class ExampleBasicAuthProtectedEndpoint {
 
         @Override
         public Matcher requestMatcher() {
-            return Matcher.match(MATCHING_PATH, HttpMethod.POST);
+            return MATCHER;
         }
 
     }

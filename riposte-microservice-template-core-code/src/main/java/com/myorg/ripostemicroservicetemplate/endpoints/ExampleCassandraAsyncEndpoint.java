@@ -48,6 +48,7 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static final String MATCHING_ENDPOINT_PATH = "/exampleCassandraAsync";
+    private static final Matcher MATCHER = Matcher.match(MATCHING_ENDPOINT_PATH);
 
     private static final Statement basicCassandraQuery =
         new SimpleStatement("SELECT release_version FROM system.local");
@@ -105,7 +106,7 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
 
     @Override
     public Matcher requestMatcher() {
-        return Matcher.match(MATCHING_ENDPOINT_PATH);
+        return MATCHER;
     }
 
     /**

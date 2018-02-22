@@ -23,6 +23,11 @@ dependencies {
             //      (we're excluding the old ASM 3 pulled in by various other libraries in the main build.gradle)
             "org.ow2.asm:asm-all:$orgOw2AsmVersion",
 
+            // Define the Jackson modules we depend on explicitly to guarantee the same version is used
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
+            "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
+
             // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency below unless you need it in your app
             "net.javacrumbs.future-converter:future-converter-java8-guava:$futureConverterJava8GuavaVersion",
             // TODO: EXAMPLE CLEANUP - Remove the cassandra related dependencies below unless you need them in your app

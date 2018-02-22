@@ -12,6 +12,7 @@ dependencies {
             "com.nike.riposte:riposte-service-registration-eureka:$riposteVersion",
             "com.nike.riposte:riposte-metrics-codahale:$riposteVersion",
             "com.nike.riposte:riposte-auth:$riposteVersion",
+            "com.google.code.findbugs:jsr305:$googleFindbugsJsr305Version", // So Guice can pick up @Nullable
             "org.codehaus.groovy:groovy-all:$groovyVersion", // For logback groovy config processing
             "ch.qos.logback:logback-classic:$logbackVersion",
             "ch.qos.logback:logback-core:$logbackVersion",

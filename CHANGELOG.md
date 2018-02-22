@@ -4,6 +4,16 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
 
+## 2018-02-22
+
+### Added
+
+- Added dependency on `com.google.code.findbugs:jsr305` - this ensures Guice can see `@Nullable` annotations after 
+removing example code. Previously `@Nullable` was being transitively pulled in by other dependencies that aren't 
+needed for all projects (e.g. Eureka dependencies).
+- Added a unit test to cover `ProjectApiError.getMetadata()` so that code coverage stays at 100% after removing 
+example code.
+
 ## 2018-02-21
 
 ### Updated

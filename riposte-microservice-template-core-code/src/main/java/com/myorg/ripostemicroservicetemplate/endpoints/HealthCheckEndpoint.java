@@ -18,7 +18,7 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class HealthCheckEndpoint extends StandardEndpoint<Void, Void> {
 
-    private static final Matcher matcher = Matcher.match("/healthcheck");
+    private static final Matcher MATCHER = Matcher.match("/healthcheck");
 
     @Override
     public CompletableFuture<ResponseInfo<Void>> execute(
@@ -29,6 +29,6 @@ public class HealthCheckEndpoint extends StandardEndpoint<Void, Void> {
 
     @Override
     public Matcher requestMatcher() {
-        return matcher;
+        return MATCHER;
     }
 }

@@ -55,6 +55,8 @@ public class ExampleEndpoint {
      */
     public static class Get extends StandardEndpoint<Void, ErrorHandlingEndpointArgs> {
 
+        private static final Matcher MATCHER = Matcher.match(MATCHING_PATH, HttpMethod.GET);
+
         @Override
         public CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> execute(RequestInfo<Void> request,
                                                                                   Executor longRunningTaskExecutor,
@@ -74,7 +76,7 @@ public class ExampleEndpoint {
 
         @Override
         public Matcher requestMatcher() {
-            return Matcher.match(MATCHING_PATH, HttpMethod.GET);
+            return MATCHER;
         }
 
     }
@@ -83,6 +85,8 @@ public class ExampleEndpoint {
      * The POST implementation of /example
      */
     public static class Post extends StandardEndpoint<ErrorHandlingEndpointArgs, ErrorHandlingEndpointArgs> {
+
+        private static final Matcher MATCHER = Matcher.match(MATCHING_PATH, HttpMethod.POST);
 
         /**
          * Resource endpoint that gives an example of how to use the error handling system (hooked up to Backstopper via
@@ -125,7 +129,7 @@ public class ExampleEndpoint {
 
         @Override
         public Matcher requestMatcher() {
-            return Matcher.match(MATCHING_PATH, HttpMethod.POST);
+            return MATCHER;
         }
 
     }

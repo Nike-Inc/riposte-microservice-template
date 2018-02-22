@@ -41,6 +41,7 @@ public class ExampleDownstreamHttpAsyncEndpoint extends StandardEndpoint<Void, M
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static final String MATCHING_ENDPOINT_PATH = "/exampleDownstreamHttpAsync";
+    private static final Matcher MATCHER = Matcher.match(MATCHING_ENDPOINT_PATH);
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final AsyncHttpClientHelper asyncHttpClientHelper;
@@ -91,7 +92,7 @@ public class ExampleDownstreamHttpAsyncEndpoint extends StandardEndpoint<Void, M
 
     @Override
     public Matcher requestMatcher() {
-        return Matcher.match(MATCHING_ENDPOINT_PATH);
+        return MATCHER;
     }
 
     private static class ObjectHolder<T> {

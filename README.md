@@ -1,10 +1,10 @@
-# Riposte Microservice Template
+# Riposte Microservice Template - Kotlin
 
 [![][travis img]][travis]
-[![Code Coverage](https://img.shields.io/codecov/c/github/Nike-Inc/riposte-microservice-template/master.svg)](https://codecov.io/github/Nike-Inc/riposte-microservice-template?branch=master)
+[![Code Coverage](https://img.shields.io/codecov/c/github/Nike-Inc/riposte-microservice-template/projecttemplate/kotlin.svg)](https://codecov.io/github/Nike-Inc/riposte-microservice-template/branch/projecttemplate%2Fkotlin)
 [![][license img]][license]
 
-**This is an example template for quickly creating a new [Riposte](https://github.com/Nike-Inc/riposte) project.** 
+**This is an example template for quickly creating a new Kotlin-based [Riposte](https://github.com/Nike-Inc/riposte) project.** 
 Riposte is a Netty-based microservice framework for rapid development of production-ready HTTP APIs. It includes robust 
 features baked in like distributed tracing (provided by the Zipkin-compatible 
 [Wingtips](https://github.com/Nike-Inc/wingtips)), error handling and validation (pluggable implementation with the 
@@ -14,6 +14,12 @@ default provided by [Backstopper](https://github.com/Nike-Inc/backstopper)), and
 ***IMPORTANT NOTE:*** Riposte uses Java 8. This project will not build or run unless you use a Java 8 JDK. Verify 
 you're using a Java 8 JDK with a simple `java -version`.
 
+## Want a Java Version of this Microservice Template?
+
+You're currently viewing the Kotlin version of this Riposte microservice template. **A Java version exists - if you 
+want to create a Java-native Riposte project please see the 
+[Java (master) branch](https://github.com/Nike-Inc/riposte-microservice-template) of this repository.**
+
 <a name="tldr"></a>
 ## TL;DR - Getting Started
 
@@ -21,7 +27,7 @@ you're using a Java 8 JDK with a simple `java -version`.
 * Run the following bootstrapping `curl` command, replacing `newprojectname` with the new project name you want, and 
 replacing `myorgname` with the name of your company/org (this is used for package names, i.e. `com.myorgname`):
 ``` shell
-curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/master/bootstrap_template.sh' \
+curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/projecttemplate/kotlin/bootstrap_template.sh' \
 | bash /dev/stdin newprojectname myorgname
 ```
 * `cd` into the `newprojectname` folder.
@@ -81,7 +87,7 @@ Just run the following `curl` command in a command line shell, replacing and/or 
 options explained [below](#bootstrap_command_args)):
 
 ``` shell
-curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/master/bootstrap_template.sh' \
+curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/projecttemplate/kotlin/bootstrap_template.sh' \
 | bash /dev/stdin <newprojectname> <myorgname> </optional/target/dir> <-DoptionalSystemProps=stuff>
 ```
 
@@ -93,7 +99,7 @@ After you execute the `curl` command your new project will be setup and ready to
 If the `curl` command above doesn't work for you then you will need to perform a few more steps to setup your project:
 
 * Download the following archive of this template project repository: 
-[https://github.com/Nike-Inc/riposte-microservice-template/archive/master.zip](https://github.com/Nike-Inc/riposte-microservice-template/archive/master.zip)
+[https://github.com/Nike-Inc/riposte-microservice-template/archive/projecttemplate/kotlin.zip](https://github.com/Nike-Inc/riposte-microservice-template/archive/projecttemplate/kotlin.zip)
 * Unpack this zipped archive wherever you want your project to live.
 * Open a command line shell and `cd` into the new project folder that was just unpacked.
 * Execute the following gradle wrapper command, replacing and/or removing the `<newprojectname>`, `<myorgname>`, and 
@@ -148,7 +154,7 @@ ability to explore, build, or run your project locally.
 The following `curl` command is an example for a project named `example-riposte-project`:
 
 ``` shell
-curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/master/bootstrap_template.sh' \
+curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/projecttemplate/kotlin/bootstrap_template.sh' \
 | bash /dev/stdin example-riposte-project someorg \
 -Dfixme_project_remotetest_url_test=https://exampleriposteproject.test.someorg.com \
 -Dfixme_project_remotetest_url_prod=https://exampleriposteproject.someorg.com \
@@ -161,8 +167,9 @@ curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-templat
 <a name="running_the_server"></a>
 ## Running the server
 
-A Riposte application is ultimately just a simple standard `public static void main` style java app. No container to 
-deal with, no funky setup requirements. The main class is `com.myorg.Main`. The only thing you have to do when 
+This Kotlin Riposte application is ultimately just a simple standard `fun main` style Kotlin app. No container to 
+deal with, no funky setup requirements. The main class is `com.myorg.MainKt` (an artificial class generated by the 
+Kotlin compiler when it sees how `Main.kt` is setup). The only thing you have to do when 
 launching the app is to set the following System properties: `@appId` and `@environment`. By default this app uses 
 Archaius-style conventions for property/environment management, and it needs those two System properties to know which 
 `src/main/resources/*.properties` and/or `src/main/resources/*.conf` files to load (this template actually uses 
@@ -179,7 +186,7 @@ There are three out-of-the-box ways to launch the app:
 
 1. A simple method for launching the app during development is directly in your IDE. Depending on your development 
 style this may be the most efficient launch method for rapid iteration. For example in IntelliJ you can just right 
-click on the `com.myorg.Main` class and select either `Run 'Main.main()'` or `Debug 'Main.main()'` from the 
+click on the `com/myorg/Main.kt` file and select either `Run 'com.myorg.MainKt'` or `Debug 'com.myorg.MainKt'` from the 
 right-click-menu. Selecting the debug option will let you hit breakpoints immediately without launching a remote debug 
 session.
 
@@ -705,7 +712,7 @@ This Riposte microservice template is released under the
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 [travis]:https://travis-ci.org/Nike-Inc/riposte-microservice-template
-[travis img]:https://api.travis-ci.org/Nike-Inc/riposte-microservice-template.svg?branch=master
+[travis img]:https://api.travis-ci.org/Nike-Inc/riposte-microservice-template.svg?branch=projecttemplate%2Fkotlin
 
 [license]:LICENSE.txt
 [license img]:https://img.shields.io/badge/License-Apache%202-blue.svg

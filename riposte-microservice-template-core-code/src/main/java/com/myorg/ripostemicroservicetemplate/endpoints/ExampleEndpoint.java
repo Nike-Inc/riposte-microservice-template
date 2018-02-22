@@ -3,7 +3,7 @@ package com.myorg.ripostemicroservicetemplate.endpoints;
 import com.nike.backstopper.apierror.ApiErrorWithMetadata;
 import com.nike.backstopper.exception.ApiException;
 import com.nike.backstopper.handler.riposte.config.guice.BackstopperRiposteConfigGuiceModule;
-import com.nike.internal.util.MapBuilder;
+import com.nike.internal.util.Pair;
 import com.nike.riposte.server.http.RequestInfo;
 import com.nike.riposte.server.http.ResponseInfo;
 import com.nike.riposte.server.http.StandardEndpoint;
@@ -23,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
+
+import static java.util.Collections.singletonList;
 
 /**
  * An example endpoint that shows how to do automatic and manual validation (in the {@link Post} inner class).
@@ -115,8 +117,12 @@ public class ExampleEndpoint {
                                   .withExceptionMessage("Manual error throw was requested")
                                   .withApiErrors(new ApiErrorWithMetadata(
                                       ProjectApiError.EXAMPLE_ERROR_MANUALLY_THROWN,
-                                      MapBuilder.builder("dynamic_metadata", (Object)System.currentTimeMillis()).build()
+                                      Pair.of("dynamic_metadata", System.currentTimeMillis())
                                   ))
+                                  .withExtraDetailsForLogging(Pair.of("some_important_log_info", "foo"))
+                                  .withExtraResponseHeaders(
+                                      Pair.of("useful-error-related-response-header", singletonList("foo"))
+                                  )
                                   .build();
             }
 

@@ -78,6 +78,7 @@ ext {
     slf4jVersion = '1.7.25'
     logbackVersion = '1.2.3'
     jacksonVersion = '2.9.4'
+    googleFindbugsJsr305Version = '3.0.2'
     groovyVersion = '2.4.7'
 
     orgOw2AsmVersion = '5.0.4'

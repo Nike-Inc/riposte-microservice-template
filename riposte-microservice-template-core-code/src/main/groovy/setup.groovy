@@ -184,7 +184,7 @@ printDots("Updating files with project name: $replacementName, and org name: $my
                 // Not a directory, so replace text
                 replaceText(it, replacementName, replacementPackageName, myOrgReplacementName, optionalReplacementPairs)
             }
-        } else if (!it.isDirectory() && it.name =~ /.*\.properties|.*\.java|.*\.xml|.*\.pp|.*\.sh|.*\.json|.*\.txt|.*\.gradle|.*\.md|.*\.yaml/) {
+        } else if (!it.isDirectory() && it.name =~ /.*\.properties|.*\.java|.*\.kt|.*\.xml|.*\.pp|.*\.sh|.*\.json|.*\.txt|.*\.gradle|.*\.md|.*\.yaml/) {
             // Filename does not match template name, but it is a non-directory file that might have template stuff in it
             // so replace the contents.
             replaceText(it, replacementName, replacementPackageName, myOrgReplacementName, optionalReplacementPairs)

@@ -40,4 +40,7 @@ task functionalTest(type: Test, dependsOn: "testClasses") {
         // See also https://issues.gradle.org/browse/GRADLE-2859
         systemProperties['user.dir'] = workingDir
     }
+
+    // Force this task to always run when specified (i.e. prevent gradle from saying "this task is up-to-date so I don't need to run it")
+    outputs.upToDateWhen { false }
 }

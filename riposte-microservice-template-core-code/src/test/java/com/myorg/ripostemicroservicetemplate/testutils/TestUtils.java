@@ -107,6 +107,7 @@ public class TestUtils {
         private final Config testingAppConfig;
         private final int portToUse;
 
+        @SuppressWarnings("WeakerAccess")
         public AppServerConfigForTesting(
             TypesafeConfigPropertiesRegistrationGuiceModuleForTesting propertiesRegistrationModule
         ) throws IOException {

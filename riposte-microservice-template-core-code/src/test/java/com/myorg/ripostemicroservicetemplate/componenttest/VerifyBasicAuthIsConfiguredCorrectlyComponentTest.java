@@ -11,7 +11,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Base64;
 
 import io.netty.util.CharsetUtil;
@@ -72,7 +71,7 @@ public class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
     }
 
     @Test
-    public void endpoint_call_should_fail_with_invalid_basic_auth_header() throws IOException {
+    public void endpoint_call_should_fail_with_invalid_basic_auth_header() {
         ExtractableResponse response =
             given()
                 .baseUri("http://localhost")

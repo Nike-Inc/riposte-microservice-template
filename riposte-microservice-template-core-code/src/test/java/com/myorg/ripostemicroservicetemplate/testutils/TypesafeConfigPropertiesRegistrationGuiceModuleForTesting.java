@@ -21,6 +21,7 @@ public class TypesafeConfigPropertiesRegistrationGuiceModuleForTesting
 
     private static Config tempStaticConfig;
 
+    @SuppressWarnings("WeakerAccess")
     public TypesafeConfigPropertiesRegistrationGuiceModuleForTesting(String appIdToUse, String environmentToUse) {
         super(generateConfig(appIdToUse, environmentToUse));
         this.appIdToUse = appIdToUse;

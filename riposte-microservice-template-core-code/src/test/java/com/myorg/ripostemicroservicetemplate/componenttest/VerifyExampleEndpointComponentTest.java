@@ -145,7 +145,7 @@ public class VerifyExampleEndpointComponentTest {
     }
 
     @Test
-    public void example_endpoint_post_call_should_return_MISSING_EXPECTED_CONTENT_when_payload_is_missing() throws IOException {
+    public void example_endpoint_post_call_should_return_MISSING_EXPECTED_CONTENT_when_payload_is_missing() {
         ExtractableResponse response =
             given()
                 .baseUri("http://localhost")

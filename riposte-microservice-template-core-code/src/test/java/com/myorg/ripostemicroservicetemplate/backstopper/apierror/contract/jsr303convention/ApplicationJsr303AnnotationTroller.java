@@ -27,10 +27,6 @@ public final class ApplicationJsr303AnnotationTroller extends ReflectionBasedJsr
 
     public static final ApplicationJsr303AnnotationTroller INSTANCE = new ApplicationJsr303AnnotationTroller();
 
-    public static ApplicationJsr303AnnotationTroller getInstance() {
-        return INSTANCE;
-    }
-
     // Intentionally private - use {@code getInstance()} to retrieve the singleton instance of this class.
     private ApplicationJsr303AnnotationTroller() {
         super();
@@ -42,7 +38,7 @@ public final class ApplicationJsr303AnnotationTroller extends ReflectionBasedJsr
     }
 
     @Override
-    protected List<Predicate<Pair<Annotation, AnnotatedElement>>> specificAnnotationDeclarationExclusionsForProject() throws Exception {
+    protected List<Predicate<Pair<Annotation, AnnotatedElement>>> specificAnnotationDeclarationExclusionsForProject() {
         return null;
     }
 }

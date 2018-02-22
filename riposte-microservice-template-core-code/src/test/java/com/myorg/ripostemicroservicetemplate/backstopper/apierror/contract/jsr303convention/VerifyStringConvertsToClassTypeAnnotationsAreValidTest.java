@@ -20,6 +20,6 @@ public class VerifyStringConvertsToClassTypeAnnotationsAreValidTest
 
     @Override
     protected ReflectionBasedJsr303AnnotationTrollerBase getAnnotationTroller() {
-        return ApplicationJsr303AnnotationTroller.getInstance();
+        return ApplicationJsr303AnnotationTroller.INSTANCE;
     }
 }

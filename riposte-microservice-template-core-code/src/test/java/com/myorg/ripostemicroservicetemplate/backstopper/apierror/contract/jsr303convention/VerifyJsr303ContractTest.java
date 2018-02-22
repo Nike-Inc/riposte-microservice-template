@@ -25,7 +25,7 @@ public class VerifyJsr303ContractTest extends VerifyJsr303ValidationMessagesPoin
 
     @Override
     protected ReflectionBasedJsr303AnnotationTrollerBase getAnnotationTroller() {
-        return ApplicationJsr303AnnotationTroller.getInstance();
+        return ApplicationJsr303AnnotationTroller.INSTANCE;
     }
 
     @Override

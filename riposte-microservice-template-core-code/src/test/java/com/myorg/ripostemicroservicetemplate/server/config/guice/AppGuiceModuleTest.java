@@ -130,6 +130,7 @@ public class AppGuiceModuleTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void eurekaServerHook_uses_config_for_suppliers() {
         // given
         Config configMock = mock(Config.class);
@@ -155,6 +156,7 @@ public class AppGuiceModuleTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void metrics_related_objects_are_non_null_and_related_to_each_other_as_expected() {
         // when
         List<ReporterFactory> reporters = injector.getInstance(Key.get(new TypeLiteral<List<ReporterFactory>>() {}));
@@ -216,6 +218,7 @@ public class AppGuiceModuleTest {
 
         if (enableGraphiteReporter) {
             assertThat(reporterClasses).contains(DefaultGraphiteReporterFactory.class);
+            @SuppressWarnings("ConstantConditions")
             DefaultGraphiteReporterFactory graphiteReporter = (DefaultGraphiteReporterFactory)reporters
                 .stream().filter(r -> r instanceof DefaultGraphiteReporterFactory).findFirst().get();
             AppInfo appInfo = injector.getInstance(Key.get(new TypeLiteral<CompletableFuture<AppInfo>>() {},
@@ -253,6 +256,7 @@ public class AppGuiceModuleTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void codahaleMetricsEngine_gracefully_handles_null_reporters_list() {
         // given
         CodahaleMetricsCollector cmc = new CodahaleMetricsCollector();

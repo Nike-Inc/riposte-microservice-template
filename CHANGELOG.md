@@ -6,6 +6,12 @@ numbers. This file will track changes based on the dates the changes were made.
 
 ## 2018-02-22
 
+### `projecttemplate/kotlin` branch
+
+- Added a Kotlin version of the Riposte microservice template.
+
+## 2018-02-22
+
 ### Added
 
 - Added dependency on `com.google.code.findbugs:jsr305` - this ensures Guice can see `@Nullable` annotations after 

@@ -29,6 +29,12 @@ dependencies {
             "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
 
+            // Kotlin stuff
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+            "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
+            "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion",
+            "com.authzee.kotlinguice4:kotlin-guice:$kotlinGuiceVersion",
+
             // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency below unless you need it in your app
             "net.javacrumbs.future-converter:future-converter-java8-guava:$futureConverterJava8GuavaVersion",
             // TODO: EXAMPLE CLEANUP - Remove the cassandra related dependencies below unless you need them in your app
@@ -41,8 +47,10 @@ dependencies {
     testCompile (
             "junit:junit:$junitVersion",
             "org.assertj:assertj-core:$assertJVersion",
+            "net.wuerl.kotlin:assertj-core-kotlin:$assertJKotlinBridgeVersion",
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
+            "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
             "com.nike.backstopper:backstopper-reusable-tests:$backstopperVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion"
     )

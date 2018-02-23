@@ -1,10 +1,10 @@
-# Riposte Microservice Template
+# Riposte Microservice Template - Java
 
 [![][travis img]][travis]
 [![Code Coverage](https://img.shields.io/codecov/c/github/Nike-Inc/riposte-microservice-template/master.svg)](https://codecov.io/github/Nike-Inc/riposte-microservice-template?branch=master)
 [![][license img]][license]
 
-**This is an example template for quickly creating a new [Riposte](https://github.com/Nike-Inc/riposte) project.** 
+**This is an example template for quickly creating a new Java-based [Riposte](https://github.com/Nike-Inc/riposte) project.** 
 Riposte is a Netty-based microservice framework for rapid development of production-ready HTTP APIs. It includes robust 
 features baked in like distributed tracing (provided by the Zipkin-compatible 
 [Wingtips](https://github.com/Nike-Inc/wingtips)), error handling and validation (pluggable implementation with the 
@@ -13,6 +13,12 @@ default provided by [Backstopper](https://github.com/Nike-Inc/backstopper)), and
 
 ***IMPORTANT NOTE:*** Riposte uses Java 8. This project will not build or run unless you use a Java 8 JDK. Verify 
 you're using a Java 8 JDK with a simple `java -version`.
+
+## Want a Kotlin Version of this Microservice Template?
+
+You're currently viewing the Java version of this Riposte microservice template. **A Kotlin version exists - if you 
+want to create a Kotlin-native Riposte project please see the 
+[Kotlin branch](https://github.com/Nike-Inc/riposte-microservice-template/tree/projecttemplate/kotlin) of this repository.**
 
 <a name="tldr"></a>
 ## TL;DR - Getting Started

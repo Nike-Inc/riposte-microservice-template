@@ -150,6 +150,13 @@ allprojects {
         // Ditto on groovy
         resolutionStrategy.force "org.codehaus.groovy:groovy-all:$groovyVersion"
 
+        // Enforce the version of Kotlin we want
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+        resolutionStrategy.force "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+        
         // Don't accidentally transitively pull in SLF4J implementations we don't want to use from other libraries.
         //      NOTE: If you'd prefer to use one of these rather than logback then you'll need to remove the exclusion
         //      for the lib you want and exclude logback instead.

@@ -14,6 +14,11 @@ needed for all projects (e.g. Eureka dependencies).
 - Added a unit test to cover `ProjectApiError.getMetadata()` so that code coverage stays at 100% after removing 
 example code.
 
+### Fixed
+
+- Fixed `bootstrap_template.sh` to run the `./gradlew` command as a background task to prevent gradle from squashing 
+stdout/stderr, which was preventing final success/failure messages from reaching stdout/stderr.
+
 ## 2018-02-21
 
 ### Updated

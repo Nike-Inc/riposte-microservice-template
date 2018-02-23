@@ -56,13 +56,21 @@ curl -L https://github.com/Nike-Inc/riposte-microservice-template/archive/master
 echo -e "\nChanging project name to \"$projectName\" and company/org name \"$orgName\""
 echo "(Extra system properties being sent to the gradle replacer task: ${SYSTEM_PROPS_ARRAY[@]})"
 echo -e "\nNOTE: The first time this is run on your machine it may take a few minutes as the gradle wrapper and buildscript dependencies are downloaded. Subsequent executions should complete much quicker."
-if ! ./gradlew replaceTemplate -DnewProjectName="$projectName" -DmyOrgName="$orgName" -DallowDashes=true "${SYSTEM_PROPS_ARRAY[@]}" &> bootstrap_template.log; then
-	code=$?
+
+# Run the gradle replaceTemplate task to do the desired template renaming/setup
+#   NOTE: We have to do this as a background task and then capture the PID, wait for the background task to finish, and
+#   capture the resulting background task status because otherwise in some cases (e.g. doing the recommended
+#   bootstrap-via-curl mechanism to start this script) gradle eats stdout/stderr and we can't echo anything after it runs.
+(./gradlew replaceTemplate -DnewProjectName="$projectName" -DmyOrgName="$orgName" -DallowDashes=true "${SYSTEM_PROPS_ARRAY[@]}" >bootstrap_template.log 2>&1) &
+GRADLE_REPLACER_PID=$!
+wait ${GRADLE_REPLACER_PID}
+GRADLE_REPLACER_STATUS=$?
+if [ ${GRADLE_REPLACER_STATUS} != 0 ]; then
 	echo "ERROR: Gradle replaceTemplate failed. See log output below for info."
 	echo -e "\n--- START OF bootstrap_template.log ---"
 	cat bootstrap_template.log
 	echo -e "--- END OF bootstrap_template.log ---\n"
-	exit $code
+	exit ${GRADLE_REPLACER_STATUS}
 fi
 
 echo -e "\nProject name change successful."

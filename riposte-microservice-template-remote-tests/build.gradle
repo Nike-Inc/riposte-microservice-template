@@ -29,6 +29,12 @@ task functionalTest(type: Test, dependsOn: "testClasses") {
     description = "This is a task to run Functional Tests"
     include '**/functionaltest/**'
 
+    testLogging {
+        exceptionFormat "FULL"
+        events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+        displayGranularity = 0
+    }
+
     doFirst {
         String remoteTestEnv = System.getProperty('remoteTestEnv')
         if (remoteTestEnv == null) {
@@ -36,7 +42,7 @@ task functionalTest(type: Test, dependsOn: "testClasses") {
                                       'functional tests. Valid options are: local, test, or prod. e.g. -DremoteTestEnv=test')
         }
 
-        systemProperties = System.getProperties()
+        systemProperties.putAll(System.getProperties())
         // Hack to fix jacoco blowing up our tests
         // See https://discuss.gradle.org/t/getting-classnotfoundexception-org-jacoco-agent-rt-internal-9dd1198-premain-with-1-7s-jacoco-plugin/1444
         // See also https://issues.gradle.org/browse/GRADLE-2859

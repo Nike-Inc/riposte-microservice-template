@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.myorg.ripostemicroservicetemplate.server.config.AppServerConfig
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.createServerForTesting
 import com.nike.backstopper.apierror.ApiError
 import com.nike.backstopper.model.DefaultErrorContractDTO
 import com.nike.internal.util.Pair
@@ -50,7 +51,7 @@ object TestUtils {
     fun createServerForTesting(): Pair<Server, AppServerConfigForTesting> {
         val propsRegistrationModule = TypesafeConfigPropertiesRegistrationGuiceModuleForTesting(APP_ID, "compiletimetest")
 
-        val serverConfig = TestUtils.AppServerConfigForTesting(propsRegistrationModule)
+        val serverConfig = AppServerConfigForTesting(propsRegistrationModule)
         val server = Server(serverConfig)
         
         return Pair.of(server, serverConfig)

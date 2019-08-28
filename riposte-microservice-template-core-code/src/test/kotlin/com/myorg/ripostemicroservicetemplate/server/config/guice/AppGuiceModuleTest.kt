@@ -55,7 +55,11 @@ class AppGuiceModuleTest {
     fun beforeMethod() {
         System.setProperty("@appId", APP_ID)
         System.setProperty("@environment", "compiletimetest")
-        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(true, true, false)
+        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
+            slf4jReportingEnabled = true,
+            jmxReportingEnabled = true,
+            graphiteEnabled = false
+        )
         appGuiceModule = AppGuiceModule(configForTesting)
         injector = generateInjector(appGuiceModule, configForTesting)
     }
@@ -228,7 +232,11 @@ class AppGuiceModuleTest {
     @Test
     fun metrics_related_objects_are_null_if_all_reporters_are_disabled() {
         // given
-        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(false, false, false)
+        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
+            slf4jReportingEnabled = false,
+            jmxReportingEnabled = false,
+            graphiteEnabled = false
+        )
         appGuiceModule = AppGuiceModule(configForTesting)
         injector = generateInjector(appGuiceModule, configForTesting)
 
@@ -266,8 +274,11 @@ class AppGuiceModuleTest {
     @Test
     fun codahaleMetricsEngine_is_configured_with_jvm_metrics_on_or_off_based_on_property(reportJvmMetrics: Boolean) {
         // given
-        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(true, true, false)
-                .withValue("metrics.reportJvmMetrics", ConfigValueFactory.fromAnyRef(reportJvmMetrics))
+        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
+            slf4jReportingEnabled = true,
+            jmxReportingEnabled = true,
+            graphiteEnabled = false
+        ).withValue("metrics.reportJvmMetrics", ConfigValueFactory.fromAnyRef(reportJvmMetrics))
         appGuiceModule = AppGuiceModule(configForTesting)
         injector = generateInjector(appGuiceModule, configForTesting)
 

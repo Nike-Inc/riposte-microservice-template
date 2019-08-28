@@ -38,8 +38,8 @@ constructor(@Named("endpoints.port") httpPort: Int,
 ) {
 
     override fun getDownstreamRequestFirstChunkInfo(
-            request: RequestInfo<*>, longRunningTaskExecutor: Executor?, ctx: ChannelHandlerContext
-    ): CompletableFuture<ProxyRouterEndpoint.DownstreamRequestFirstChunkInfo> {
+            request: RequestInfo<*>, longRunningTaskExecutor: Executor, ctx: ChannelHandlerContext
+    ): CompletableFuture<DownstreamRequestFirstChunkInfo> {
 
         // Reuse the super.getDownstreamRequestFirstChunkInfo() impl since it does most of what we want.
         return super.getDownstreamRequestFirstChunkInfo(request, longRunningTaskExecutor, ctx)

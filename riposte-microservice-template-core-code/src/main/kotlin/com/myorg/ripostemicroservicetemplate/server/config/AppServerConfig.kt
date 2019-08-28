@@ -22,7 +22,6 @@ import com.nike.riposte.server.http.Endpoint
 import com.nike.riposte.server.logging.AccessLogger
 import com.typesafe.config.Config
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -81,7 +80,7 @@ protected constructor(
     constructor(appConfig: Config?) : this(appConfig, TypesafeConfigPropertiesRegistrationGuiceModule(appConfig))
 
     protected open fun getAppGuiceModules(appConfig: Config): List<Module> {
-        return Arrays.asList<Module>(
+        return listOf<Module>(
                 AppGuiceModule(appConfig),
                 BackstopperRiposteConfigGuiceModule()
         )

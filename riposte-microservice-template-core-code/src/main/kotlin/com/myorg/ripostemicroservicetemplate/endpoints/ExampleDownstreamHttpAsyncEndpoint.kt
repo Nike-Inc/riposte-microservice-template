@@ -47,9 +47,9 @@ constructor(private val asyncHttpClientHelper: AsyncHttpClientHelper,
     init {
         val localServerHostAndPort =
                 if (useSecure)
-                    "https://localhost:" + httpsPort
+                    "https://localhost:$httpsPort"
                 else
-                    "http://localhost:" + httpPort
+                    "http://localhost:$httpPort"
         this.downstreamUrl = localServerHostAndPort + ExampleEndpoint.MATCHING_PATH
     }
 

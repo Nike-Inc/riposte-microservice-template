@@ -134,8 +134,9 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 
     // Find and collect the project name package directories that need to be renamed
     rootLocationFile.eachFileRecurse {
-        if (it.isDirectory() && it.name =~ /.*ripostemicroservicetemplate*./)
+        if (it.isDirectory() && it.name =~ /.*ripostemicroservicetemplate*./) {
             projectPackageNameDirectoryRenameList.add(it)
+        }
     }
 
     // Sort the project package directory rename list based on file depth so we rename the deep ones first
@@ -148,8 +149,9 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 
     // Find and collect the org name package directories that need to be renamed
     rootLocationFile.eachFileRecurse {
-        if (it.isDirectory() && it.name =~ /.*myorg*./)
+        if (it.isDirectory() && it.name =~ /.*myorg*./) {
             orgPackageNameDirectoryRenameList.add(it)
+        }
     }
 
     // Sort the org package directory rename list based on file depth so we rename the deep ones first
@@ -162,9 +164,10 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 
     // Find and collect the non-package directories that need to be renamed
     rootLocationFile.eachFileRecurse {
-        if (it.isDirectory() && it.name =~ /.*riposte-microservice-template*./)
+        if (it.isDirectory() && it.name =~ /.*riposte-microservice-template*./) {
             normalNameDirectoryRenameList.add(it)
         }
+    }
 
     // Sort the non-package directory rename list based on file depth so we rename the deep ones first
     normalNameDirectoryRenameList.sort(fileDepthComparator)

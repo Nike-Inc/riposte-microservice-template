@@ -27,7 +27,6 @@ import com.nike.riposte.util.AwsUtil
 import com.typesafe.config.Config
 import org.slf4j.LoggerFactory
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.LinkedHashSet
 import java.util.concurrent.CompletableFuture
 import javax.annotation.Nullable
@@ -78,13 +77,15 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
             exampleBasicAuthProtectedEndpointGet: ExampleBasicAuthProtectedEndpoint.Get,
             exampleBasicAuthProtectedEndpointPost: ExampleBasicAuthProtectedEndpoint.Post
     ): Set<Endpoint<*>> {
-        return LinkedHashSet(Arrays.asList(
+        return LinkedHashSet(
+            listOf(
                 healthCheckEndpoint,
                 // Example endpoints
                 exampleEndpointGet, exampleEndpointPost, exampleCassandraAsyncEndpoint,
                 exampleDownstreamHttpAsyncEndpoint, exampleProxyRouterEndpoint,
                 exampleBasicAuthProtectedEndpointGet, exampleBasicAuthProtectedEndpointPost
-        ))
+            )
+        )
     }
 
     @Provides
@@ -202,7 +203,7 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
         //      everything else should be allowed. Once you're done with the examples and ready to build your app you
         //      may want to delete the line below and uncomment the line above, or otherwise adjust the filter for your
         //      needs.
-        return endpoints.filter { it is ExampleBasicAuthProtectedEndpoint.Post }
+        return endpoints.filterIsInstance<ExampleBasicAuthProtectedEndpoint.Post>()
     }
 
     @Provides

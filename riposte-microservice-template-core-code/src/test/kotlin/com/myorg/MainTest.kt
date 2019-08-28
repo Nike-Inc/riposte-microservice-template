@@ -58,7 +58,7 @@ class MainTest {
         ConfigFactory.invalidateCaches()
 
         // when
-        com.myorg.main(arrayOf())
+        main(arrayOf())
 
         // then
         val healthCheckCallResponse = given()

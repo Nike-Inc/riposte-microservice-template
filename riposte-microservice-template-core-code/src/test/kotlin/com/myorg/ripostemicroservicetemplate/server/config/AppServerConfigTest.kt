@@ -90,7 +90,7 @@ class AppServerConfigTest {
 
     private fun <T : Module> getModuleOfType(modules: List<Module>, desiredType: Class<T>): T? {
         @Suppress("UNCHECKED_CAST")
-        return modules.firstOrNull({ desiredType.isInstance(it) }) as T
+        return modules.firstOrNull { desiredType.isInstance(it) } as T
     }
 
     @Test

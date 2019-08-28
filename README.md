@@ -235,10 +235,10 @@ for making the requests so you can easily specify HTTP method, payloads, headers
 
 * `GET|POST /example` - Basic GET/POST behavior with validation. The GET call just returns an example payload. You can 
 copy/paste this payload and POST it back to explore the validation and exception behavior. The `input_val_1` and 
-`input_val_2` fields are required and validation is controlled by JSR 303 annotations - remove these fields or make 
-them blank for your `POST` call to see the validation in action. Set the `throwManualError` field to true to see the 
-result of a thrown exception from inside an endpoint. Implemented by the `ExampleEndpoint.Get` and 
-`ExampleEndpoint.Post` classes.
+`input_val_2` fields are required and have length limitations, and validation is controlled by JSR 303 annotations - 
+remove these fields or make them blank or really long (> 60 chars) for your `POST` call to see the validation in 
+action. Set the `throwManualError` field to true to see the result of a thrown exception from inside an endpoint. 
+Implemented by the `ExampleEndpoint.Get` and `ExampleEndpoint.Post` classes.
 * `ANY-METHOD /exampleDownstreamHttpAsync` - An example of performing a downstream HTTP network call using an 
 async/nonblocking NIO client to avoid using any threads for the entirety of the endpoint. Since we want the example 
 endpoints to be fully self-contained we simply make a downstream call to our own `/example` endpoint described above. 

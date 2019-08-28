@@ -1,11 +1,11 @@
 package com.myorg.ripostemicroservicetemplate.error
 
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox
 import com.nike.backstopper.apierror.ApiError
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrorsTestBase
 import org.assertj.core.api.Assertions
 import org.junit.Test
-import org.mockito.internal.util.reflection.Whitebox
 
 /**
  * Unit tests the ProjectApiErrorsImpl class. The real tests live in [ProjectApiErrorsTestBase]

@@ -14,6 +14,7 @@ import com.typesafe.config.Config
 import io.restassured.response.ExtractableResponse
 import org.assertj.core.api.Assertions.assertThat
 import java.io.IOException
+import java.lang.reflect.Field
 import java.net.ServerSocket
 
 /**
@@ -108,4 +109,55 @@ object TestUtils {
 
     }
 
+    /**
+     * A copy of the Mockito 1.x Whitebox class - needed because they dropped this class in Mockito 2.x.
+     */
+    object Whitebox {
+        fun getInternalState(target: Any, field: String): Any {
+            val c: Class<*> = target.javaClass
+            try {
+                val f: Field = getFieldFromHierarchy(c, field)
+                f.isAccessible = true
+                return f.get(target)
+            } catch (e: Exception) {
+                throw RuntimeException("Unable to get internal state on a private field.", e)
+            }
+        }
+
+        fun setInternalState(target: Any, field: String, value: Any) {
+            val c: Class<*> = target.javaClass
+            try {
+                val f: Field = getFieldFromHierarchy(c, field)
+                f.isAccessible = true
+                f.set(target, value)
+            } catch (e: Exception) {
+                throw RuntimeException("Unable to set internal state on a private field.", e)
+            }
+        }
+
+        private fun getFieldFromHierarchy(origClass: Class<*>, field: String): Field {
+            var f: Field? = getField(origClass, field)
+            var clazz: Class<*> = origClass
+            while (f == null && clazz != Object::class.java) {
+                clazz = clazz.superclass
+                f = getField(clazz, field)
+            }
+
+            if (f == null) {
+                throw RuntimeException(
+                    "You want me to get this field: '" + field +
+                    "' on this class: '" + clazz.getSimpleName() +
+                    "' but this field is not declared withing hierarchy of this class!");
+            }
+            return f
+        }
+
+        private fun getField(clazz: Class<*>, field: String): Field? {
+            return try {
+                clazz.getDeclaredField(field)
+            } catch (e: NoSuchFieldException) {
+                null
+            }
+        }
+    }
 }

@@ -15,7 +15,7 @@ dependencies {
             "junit:junit:$junitVersion",
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
-            "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
+            "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion"
     )
 }

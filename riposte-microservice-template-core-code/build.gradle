@@ -54,7 +54,7 @@ dependencies {
             "net.wuerl.kotlin:assertj-core-kotlin:$assertJKotlinBridgeVersion",
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
-            "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
+            "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
             "com.nike.backstopper:backstopper-reusable-tests:$backstopperVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion"
     )

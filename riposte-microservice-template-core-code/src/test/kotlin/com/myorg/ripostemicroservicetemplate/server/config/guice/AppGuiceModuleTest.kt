@@ -5,8 +5,9 @@ import com.google.inject.Injector
 import com.google.inject.name.Names
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule
 import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
@@ -33,7 +34,6 @@ import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.internal.util.reflection.Whitebox
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import java.util.function.Supplier
@@ -260,7 +260,7 @@ class AppGuiceModuleTest {
         val cmc = CodahaleMetricsCollector()
 
         // when
-        val engine = appGuiceModule!!.codahaleMetricsEngine(cmc, null, false)
+        val engine: CodahaleMetricsEngine = appGuiceModule!!.codahaleMetricsEngine(cmc, null, false)!!
 
         // then
         assertThat(Whitebox.getInternalState(engine, "reporters") as Collection<ReporterFactory>).isEmpty()

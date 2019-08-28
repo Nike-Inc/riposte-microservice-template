@@ -4,8 +4,9 @@ import com.nike.backstopper.apierror.ApiError;
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors;
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrorsTestBase;
 
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
+
 import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

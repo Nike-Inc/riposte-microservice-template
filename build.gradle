@@ -97,7 +97,7 @@ ext {
     jaxbApiVersion = '2.4.0-b180830.0359'
 
     junitVersion = '4.12'
-    mockitoVersion = '1.10.19'
+    mockitoVersion = '3.0.0'
     assertJVersion = '3.13.2'
     junitDataproviderVersion = '1.13.1'
     restAssuredVersion = '4.0.0'

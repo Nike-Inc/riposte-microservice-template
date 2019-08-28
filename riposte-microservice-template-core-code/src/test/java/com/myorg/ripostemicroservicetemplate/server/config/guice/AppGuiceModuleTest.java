@@ -22,6 +22,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl;
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.typesafe.config.Config;
@@ -30,7 +31,6 @@ import com.typesafe.config.ConfigValueFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import java.util.Collection;
 import java.util.List;

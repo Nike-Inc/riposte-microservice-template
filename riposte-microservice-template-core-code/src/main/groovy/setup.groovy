@@ -116,6 +116,13 @@ def replaceText(File it, String name, String packageName, String orgName, List<L
     it.write(text)
 }
 
+def fixLinksToTemplateProjectOnGithub(File svcReadme) {
+    String text = svcReadme.text
+    text = text.replaceAll("riposte%2Dmicroservice%2Dtemplate", "riposte-microservice-template")
+    println("\nFixing links to the Riposte Microservice Template repo on GitHub for file: " + svcReadme.getAbsolutePath())
+    svcReadme.write(text)
+}
+
 def numForwardSlashes(String line) {
     return line.length() - line.replace("/", "").length()
 }
@@ -203,3 +210,9 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 println("\nDeleting setup script groovy folder: " + (new File("${rootLocation}/${replacementName}-core-code/src/main/groovy").deleteDir()))
 println("\nDeleting bootstrap_template.sh: " + (new File("${rootLocation}/bootstrap_template.sh").delete()))
 println("\nDeleting bootstrap_template.log (if it exists): " + (new File("${rootLocation}/bootstrap_template.log").delete()))
+
+String mainReadmeFilepath = "${rootLocation}/README.md"
+File tmpltReadme = new File(mainReadmeFilepath)
+File svcReadme = new File("${rootLocation}/README_SERVICE.md")
+fixLinksToTemplateProjectOnGithub(svcReadme)
+println("\nReplacing README.md with README_SERVICE.md: " + (tmpltReadme.delete() && svcReadme.renameTo(mainReadmeFilepath)))

@@ -4,6 +4,8 @@ import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.ResultSet
 import com.datastax.driver.core.Session
 import com.datastax.driver.core.SimpleStatement
+import com.myorg.ripostemicroservicetemplate.error.ProjectApiError
+import com.nike.backstopper.apierror.ApiError
 import com.nike.backstopper.apierror.sample.SampleCoreApiError
 import com.nike.backstopper.exception.ApiException
 import com.nike.riposte.server.http.RequestInfo
@@ -20,6 +22,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Named
+
 
 /**
  * Endpoint that shows how to do Cassandra calls in an async way using the async driver utilities, without creating
@@ -57,7 +60,7 @@ constructor(
             //      See https://github.com/jsevellec/cassandra-unit/issues/186
             System.setProperty("cassandra.storagedir", "build/embeddedCassandra/storageDir")
             EmbeddedCassandraUtils.startEmbeddedCassandra(disableCassandra)
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             // No need to prevent the entire app from starting up if there are cassandra problems
             logger.error("Error during embedded cassandra startup", ex)
         }
@@ -67,9 +70,15 @@ constructor(
     override fun execute(request: RequestInfo<Void>, longRunningTaskExecutor: Executor,
                          ctx: ChannelHandlerContext): CompletableFuture<ResponseInfo<String>> {
 
+        val apiErrorToThrowIfSessionMissing: ApiError =
+            if (disableCassandra)
+                ProjectApiError.EXAMPLE_EMBEDDED_CASSANDRA_DISABLED
+            else
+                SampleCoreApiError.GENERIC_SERVICE_ERROR
+
         val session = EmbeddedCassandraUtils.cassandraSession(disableCassandra)
                 ?: throw ApiException.newBuilder()
-                        .withApiErrors(SampleCoreApiError.GENERIC_SERVICE_ERROR)
+                        .withApiErrors(apiErrorToThrowIfSessionMissing)
                         .withExceptionMessage("Unable to get cassandra session.")
                         .build()
 
@@ -126,13 +135,16 @@ constructor(
 
             if (cassandraSession == null) {
                 val cassandraWorkDir = File(embeddedClusterWorkDirectory)
+                val cassandraWorkDirAbsolutePath: String = cassandraWorkDir.absolutePath
                 if (!cassandraWorkDir.exists()) {
-                    logger.info("Creating the  embedded Cassandra folders...{}", cassandraWorkDir.absolutePath)
+                    logger.info("Creating the  embedded Cassandra folders...{}", cassandraWorkDirAbsolutePath)
 
-                    cassandraWorkDir.mkdirs()
+                    if (!cassandraWorkDir.mkdirs()) {
+                        throw RuntimeException("Unable to create working directory $cassandraWorkDirAbsolutePath")
+                    }
                 }
                 // Start embedded cassandra
-                logger.info("Finished Creating the  embedded Cassandra folders...{}", cassandraWorkDir.absolutePath)
+                logger.info("Finished Creating the  embedded Cassandra folders...{}", cassandraWorkDirAbsolutePath)
                 logger.info("Starting embedded Cassandra")
 
                 try {

@@ -37,6 +37,11 @@ enum class ProjectApiError(private val delegate: ApiError) : ApiError {
                     "static_metadata_1" to "foo",
                     "static_metadata_2" to 42
             )
+    ),
+    EXAMPLE_EMBEDDED_CASSANDRA_DISABLED(
+        99155,
+        "Embedded cassandra is disabled. Please enable it by setting disableCassandra=false in your local conf.",
+        INTERNAL_SERVER_ERROR.code()
     );
 
     @Suppress("unused")

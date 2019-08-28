@@ -52,7 +52,7 @@ test, or prod.
 	* [Setting environment-specific properties during bootstrapping](#set_env_props_during_bootstrap)
 	* [Example all-in-one curl command](#example_all_in_one_curl_command)
 * [Running the server](#running_the_server)
-    * [Disabling embedded cassandra](#disabling_embedded_cassandra)
+    * [Enabling embedded cassandra](#enabling_embedded_cassandra)
 * [Example endpoints](#example_endpoints)
     * [Other things to try](#other_things_to_try)
 * [Template Application properties and dependency injection](#app_props_and_dependency_injection)
@@ -215,14 +215,14 @@ application using this shadow jar you would do something like the following:
 	There is a `debugShadowJar.sh` script at the root of the project that already contains this command and configures 
 	remote debugging on port 5005.
 
-<a name="disabling_embedded_cassandra"></a>
-### Disabling embedded Cassandra
+<a name="enabling_embedded_cassandra"></a>
+### Enabling embedded Cassandra
 
 This template microservice contains an embedded Cassandra database as an example of interacting with a database in an 
-async nonblocking way. Unfortunately this significantly increases the startup time of the application. When you're done 
-experimenting with the Cassandra endpoint you can disable embedded Cassandra so that subsequent startup times are much 
-quicker. Simply add the following line to your `[appname]-core-code/src/main/resources/[appname]-local-overrides.conf` 
-file: `disableCassandra=true`. 
+async nonblocking way. Unfortunately this significantly increases the startup time of the application, so it's 
+disabled by default. When you want to experiment with the Cassandra endpoint you can enable embedded Cassandra
+by adding the following line to your `[appname]-core-code/src/main/resources/[appname]-local-overrides.conf`
+file: `disableCassandra=false`. 
 
 [back to top](#top)
 

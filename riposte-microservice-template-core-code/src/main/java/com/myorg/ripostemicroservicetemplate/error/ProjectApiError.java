@@ -41,6 +41,11 @@ public enum ProjectApiError implements ApiError {
                                   MapBuilder.builder("static_metadata_1", (Object)"foo")
                                             .put("static_metadata_2", 42)
                                             .build()
+    ),
+    EXAMPLE_EMBEDDED_CASSANDRA_DISABLED(
+        99155,
+        "Embedded cassandra is disabled. Please enable it by setting disableCassandra=false in your local conf.",
+        INTERNAL_SERVER_ERROR.code()
     );
 
     private final ApiError delegate;

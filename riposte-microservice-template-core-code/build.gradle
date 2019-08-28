@@ -29,7 +29,7 @@ dependencies {
             "javax.xml.bind:jaxb-api:$jaxbApiVersion",
 
             // Define the Jackson modules we depend on explicitly to guarantee the same version is used
-            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabindVersion",
             "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
 

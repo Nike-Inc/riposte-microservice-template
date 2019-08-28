@@ -17,6 +17,7 @@ import com.datastax.driver.core.Statement;
 import net.javacrumbs.futureconverter.java8guava.FutureConverter;
 
 import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,9 +74,11 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
     }
 
     @Override
-    public CompletableFuture<ResponseInfo<String>> execute(RequestInfo<Void> request, Executor longRunningTaskExecutor,
-                                                           ChannelHandlerContext ctx) {
-
+    public @NotNull CompletableFuture<ResponseInfo<String>> execute(
+        @NotNull RequestInfo<Void> request,
+        @NotNull Executor longRunningTaskExecutor,
+        @NotNull ChannelHandlerContext ctx
+    ) {
         Session session = EmbeddedCassandraUtils.cassandraSession(disableCassandra);
         if (session == null) {
             throw ApiException.newBuilder()
@@ -105,7 +108,7 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
     }
 
     @Override
-    public Matcher requestMatcher() {
+    public @NotNull Matcher requestMatcher() {
         return MATCHER;
     }
 
@@ -127,6 +130,7 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
 
         private static Session cassandraSession = null;
 
+        @SuppressWarnings("UnusedReturnValue")
         private static Session startEmbeddedCassandra(boolean disableCassandra) {
             if (disableCassandra) {
                 logger.warn("Embedded cassandra is NOT starting up because your app configuration explicitly requests "

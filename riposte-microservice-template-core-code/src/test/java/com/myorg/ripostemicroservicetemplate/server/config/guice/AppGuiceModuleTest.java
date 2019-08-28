@@ -88,6 +88,7 @@ public class AppGuiceModuleTest {
     @Test
     public void constructor_fails_if_passed_null_appConfig() {
         // when
+        @SuppressWarnings("ConstantConditions")
         Throwable thrown = catchThrowable(() -> new AppGuiceModule(null));
 
         // then
@@ -206,19 +207,23 @@ public class AppGuiceModuleTest {
                                                                 .collect(Collectors.toList());
 
         // then
-        if (enableSlf4jReporter)
+        if (enableSlf4jReporter) {
             assertThat(reporterClasses).contains(DefaultSLF4jReporterFactory.class);
-        else
+        }
+        else {
             assertThat(reporterClasses).doesNotContain(DefaultSLF4jReporterFactory.class);
+        }
 
-        if (enableJmxReporter)
+        if (enableJmxReporter) {
             assertThat(reporterClasses).contains(DefaultJMXReporterFactory.class);
-        else
+        }
+        else {
             assertThat(reporterClasses).doesNotContain(DefaultJMXReporterFactory.class);
+        }
 
         if (enableGraphiteReporter) {
             assertThat(reporterClasses).contains(DefaultGraphiteReporterFactory.class);
-            @SuppressWarnings("ConstantConditions")
+            @SuppressWarnings("OptionalGetWithoutIsPresent")
             DefaultGraphiteReporterFactory graphiteReporter = (DefaultGraphiteReporterFactory)reporters
                 .stream().filter(r -> r instanceof DefaultGraphiteReporterFactory).findFirst().get();
             AppInfo appInfo = injector.getInstance(Key.get(new TypeLiteral<CompletableFuture<AppInfo>>() {},
@@ -231,8 +236,9 @@ public class AppGuiceModuleTest {
             assertThat(Whitebox.getInternalState(graphiteReporter, "graphiteURL")).isEqualTo(expectedGraphiteUrl);
             assertThat(Whitebox.getInternalState(graphiteReporter, "graphitePort")).isEqualTo(expectedPort);
         }
-        else
+        else {
             assertThat(reporterClasses).doesNotContain(DefaultGraphiteReporterFactory.class);
+        }
     }
 
     @Test

@@ -13,6 +13,7 @@ dependencies {
             "com.nike.riposte:riposte-metrics-codahale:$riposteVersion",
             "com.nike.riposte:riposte-auth:$riposteVersion",
             "com.google.code.findbugs:jsr305:$googleFindbugsJsr305Version", // So Guice can pick up @Nullable
+            "org.jetbrains:annotations:$jetbrainsAnnotationsVersion",
             "org.codehaus.groovy:groovy-all:$groovyVersion", // For logback groovy config processing
             "ch.qos.logback:logback-classic:$logbackVersion",
             "ch.qos.logback:logback-core:$logbackVersion",
@@ -88,12 +89,14 @@ def createLocalPropertiesOverrideFileIfNeeded() {
 }
 
 jar {
+    dependsOn processResources
+
     doFirst {
         // Add version information to the app's main properties file
-        ant.replace(file: "$buildDir/resources/main/${rootProject.name}.conf", token: "@@RELEASE@@", value: version)
+        ant.replace(file: "$buildDir/resources/main/${rootProject.name}.conf", token: "@@RELEASE@@", value: archiveVersion.get())
 
         // Replace version and appname info in logback.groovy so that log messages will be tagged with the correct values.
-        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@RELEASE@@", value: version)
+        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@RELEASE@@", value: archiveVersion.get())
         ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@APPNAME@@", value: artifactId)
     }
 }

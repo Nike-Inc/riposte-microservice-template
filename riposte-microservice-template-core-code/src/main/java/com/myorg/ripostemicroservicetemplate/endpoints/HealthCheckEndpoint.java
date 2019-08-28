@@ -5,6 +5,8 @@ import com.nike.riposte.server.http.ResponseInfo;
 import com.nike.riposte.server.http.StandardEndpoint;
 import com.nike.riposte.util.Matcher;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -21,14 +23,16 @@ public class HealthCheckEndpoint extends StandardEndpoint<Void, Void> {
     private static final Matcher MATCHER = Matcher.match("/healthcheck");
 
     @Override
-    public CompletableFuture<ResponseInfo<Void>> execute(
-        RequestInfo<Void> request, Executor longRunningTaskExecutor, ChannelHandlerContext ctx
+    public @NotNull CompletableFuture<ResponseInfo<Void>> execute(
+        @NotNull RequestInfo<Void> request,
+        @NotNull Executor longRunningTaskExecutor,
+        @NotNull ChannelHandlerContext ctx
     ) {
         return CompletableFuture.completedFuture(ResponseInfo.<Void>newBuilder().withHttpStatusCode(200).build());
     }
 
     @Override
-    public Matcher requestMatcher() {
+    public @NotNull Matcher requestMatcher() {
         return MATCHER;
     }
 }

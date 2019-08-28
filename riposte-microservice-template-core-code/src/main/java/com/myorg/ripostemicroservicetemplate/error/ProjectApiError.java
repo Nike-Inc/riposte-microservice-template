@@ -35,7 +35,9 @@ public enum ProjectApiError implements ApiError {
      */
     EXAMPLE_ERROR_BAD_INPUT_VAL_1(99150, "Bad request body - null/empty input_val_1", BAD_REQUEST.code()),
     EXAMPLE_ERROR_BAD_INPUT_VAL_2(99151, "Bad request body - null/empty input_val_2", BAD_REQUEST.code()),
-    EXAMPLE_ERROR_MANUALLY_THROWN(99152, "You asked for an error to be thrown", INTERNAL_SERVER_ERROR.code(),
+    EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE(99152, "Bad request body - input_val_1 cannot be larger than 50 chars", BAD_REQUEST.code()),
+    EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE(99153, "Bad request body - input_val_2 cannot be larger than 60 chars", BAD_REQUEST.code()),
+    EXAMPLE_ERROR_MANUALLY_THROWN(99154, "You asked for an error to be thrown", INTERNAL_SERVER_ERROR.code(),
                                   MapBuilder.builder("static_metadata_1", (Object)"foo")
                                             .put("static_metadata_2", 42)
                                             .build()

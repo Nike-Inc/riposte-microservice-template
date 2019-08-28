@@ -73,8 +73,9 @@ public class AppGuiceModule extends AbstractModule {
     private final Config appConfig;
 
     public AppGuiceModule(Config appConfig) {
-        if (appConfig == null)
+        if (appConfig == null) {
             throw new IllegalArgumentException("appConfig cannot be null");
+        }
 
         this.appConfig = appConfig;
     }
@@ -137,8 +138,9 @@ public class AppGuiceModule extends AbstractModule {
     @Singleton
     public CodahaleMetricsListener metricsListener(@Nullable CodahaleMetricsCollector metricsCollector,
                                                    @Nullable CodahaleMetricsEngine engine) {
-        if (metricsCollector == null)
+        if (metricsCollector == null) {
             return null;
+        }
 
         // We don't actually need the CodahaleMetricsEngine, but we ask for it here to guarantee that it is created and
         //      started.
@@ -151,15 +153,18 @@ public class AppGuiceModule extends AbstractModule {
     public CodahaleMetricsEngine codahaleMetricsEngine(@Nullable CodahaleMetricsCollector cmc,
                                                        @Nullable List<ReporterFactory> reporters,
                                                        @Named("metrics.reportJvmMetrics") boolean reportJvmMetrics) {
-        if (cmc == null)
+        if (cmc == null) {
             return null;
+        }
 
-        if (reporters == null)
+        if (reporters == null) {
             reporters = Collections.emptyList();
+        }
 
         CodahaleMetricsEngine engine = new CodahaleMetricsEngine(cmc, reporters);
-        if (reportJvmMetrics)
+        if (reportJvmMetrics) {
             engine.reportJvmMetrics();
+        }
         engine.start();
         return engine;
     }
@@ -167,8 +172,9 @@ public class AppGuiceModule extends AbstractModule {
     @Provides
     @Singleton
     public CodahaleMetricsCollector codahaleMetricsCollector(@Nullable List<ReporterFactory> reporters) {
-        if (reporters == null)
+        if (reporters == null) {
             return null;
+        }
 
         return new CodahaleMetricsCollector();
     }
@@ -185,11 +191,13 @@ public class AppGuiceModule extends AbstractModule {
     ) {
         List<ReporterFactory> reporters = new ArrayList<>();
 
-        if (slf4jReportingEnabled)
+        if (slf4jReportingEnabled) {
             reporters.add(new DefaultSLF4jReporterFactory());
+        }
 
-        if (jmxReportingEnabled)
+        if (jmxReportingEnabled) {
             reporters.add(new DefaultJMXReporterFactory());
+        }
 
         if (graphiteEnabled) {
             AppInfo appInfo = appInfoFuture.join();

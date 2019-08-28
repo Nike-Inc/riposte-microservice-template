@@ -34,6 +34,7 @@ public class TypesafeConfigPropertiesRegistrationGuiceModuleForTesting
         return tempStaticConfig;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public Config getConfig() {
         return config;
     }

@@ -67,7 +67,9 @@ public class AppServerConfigTest {
         AppServerConfig asc = new AppServerConfig(configForTesting);
 
         // expect
-        EndpointMetricsHandler emh = ((CodahaleMetricsListener) asc.metricsListener()).getEndpointMetricsHandler();
+        CodahaleMetricsListener cml = (CodahaleMetricsListener) asc.metricsListener();
+        assert cml != null;
+        EndpointMetricsHandler emh = cml.getEndpointMetricsHandler();
         assertThat(emh).isInstanceOf(EndpointMetricsHandlerDefaultImpl.class);
         assertThat(((EndpointMetricsHandlerDefaultImpl)emh).getEndpointRequestsTimers()).isNotEmpty();
     }

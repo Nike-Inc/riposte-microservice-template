@@ -10,6 +10,7 @@ import com.nike.riposte.util.Matcher;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,17 +61,19 @@ public class ExampleDownstreamHttpAsyncEndpoint extends StandardEndpoint<Void, M
     }
 
     @Override
-    public CompletableFuture<ResponseInfo<Map<String, Object>>> execute(RequestInfo<Void> request,
-                                                                        Executor longRunningTaskExecutor,
-                                                                        ChannelHandlerContext ctx) {
-
+    public @NotNull CompletableFuture<ResponseInfo<Map<String, Object>>> execute(
+        @NotNull RequestInfo<Void> request,
+        @NotNull Executor longRunningTaskExecutor,
+        @NotNull ChannelHandlerContext ctx
+    ) {
         RequestBuilderWrapper reqWrapper = asyncHttpClientHelper.getRequestBuilder(downstreamUrl, request.getMethod());
         reqWrapper.requestBuilder
             .addQueryParam("some_query_param", "foo")
             .addHeader("Accept", "application/json");
 
-        if (request.getRawContentLengthInBytes() > 0)
+        if (request.getRawContentLengthInBytes() > 0) {
             reqWrapper.requestBuilder.setBody(request.getRawContent());
+        }
 
         logger.info("About to make async library call");
         ObjectHolder<Long> startTime = new ObjectHolder<>();
@@ -91,7 +94,7 @@ public class ExampleDownstreamHttpAsyncEndpoint extends StandardEndpoint<Void, M
     }
 
     @Override
-    public Matcher requestMatcher() {
+    public @NotNull Matcher requestMatcher() {
         return MATCHER;
     }
 

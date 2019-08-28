@@ -31,7 +31,7 @@ public class GuiceProvidedServerConfigValues extends DependencyInjectionProvided
     public final RiposteUnhandledErrorHandler riposteUnhandledErrorHandler;
     public final RequestValidator validationService;
     public final CompletableFuture<AppInfo> appInfoFuture;
-    public final CodahaleMetricsListener metricsListener;
+    public final @Nullable CodahaleMetricsListener metricsListener;
     // TODO: EXAMPLE CLEANUP - Do you use Eureka and/or basic auth? If not then you can delete references to them here,
     //       remove the creation of them in `AppGuiceModule`, and fix `AppServerConfig` to not attempt to use them.
     public final EurekaServerHook eurekaServerHook;

@@ -27,10 +27,9 @@ import io.restassured.response.ExtractableResponse;
  *
  * @author Nic Munroe
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class PropertiesHelper {
 
-    @SuppressWarnings("WeakerAccess")
     public static final PropertiesHelper INSTANCE = generateInstance();
 
     public final String ripostemicroservicetemplateHost;

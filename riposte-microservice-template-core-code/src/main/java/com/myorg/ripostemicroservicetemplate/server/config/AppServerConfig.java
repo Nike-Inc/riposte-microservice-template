@@ -22,6 +22,9 @@ import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule;
 import com.myorg.ripostemicroservicetemplate.server.config.guice.GuiceProvidedServerConfigValues;
 import com.typesafe.config.Config;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -60,8 +63,9 @@ public class AppServerConfig implements ServerConfig {
         super();
 
         // Store the appConfig.
-        if (appConfig == null)
+        if (appConfig == null) {
             throw new IllegalArgumentException("appConfig cannot be null");
+        }
 
         this.appConfig = appConfig;
 
@@ -77,8 +81,9 @@ public class AppServerConfig implements ServerConfig {
         this.guiceValues = appInjector.getProvider(GuiceProvidedServerConfigValues.class).get();
 
         // Now that everything else is setup, we can initialize the metrics listener.
-        if (guiceValues.metricsListener != null)
+        if (guiceValues.metricsListener != null) {
             guiceValues.metricsListener.initEndpointAndServerConfigMetrics(this);
+        }
     }
 
     public AppServerConfig(Config appConfig) {
@@ -93,52 +98,52 @@ public class AppServerConfig implements ServerConfig {
     }
 
     @Override
-    public AccessLogger accessLogger() {
+    public @Nullable AccessLogger accessLogger() {
         return accessLogger;
     }
 
     @Override
-    public CompletableFuture<AppInfo> appInfo() {
+    public @Nullable CompletableFuture<@Nullable AppInfo> appInfo() {
         return guiceValues.appInfoFuture;
     }
 
     @Override
-    public MetricsListener metricsListener() {
+    public @Nullable MetricsListener metricsListener() {
         return guiceValues.metricsListener;
     }
 
     @Override
-    public RequestSecurityValidator requestSecurityValidator() {
+    public @Nullable RequestSecurityValidator requestSecurityValidator() {
         return guiceValues.basicAuthSecurityValidator;
     }
 
     @Override
-    public List<PostServerStartupHook> postServerStartupHooks() {
+    public @Nullable List<@NotNull PostServerStartupHook> postServerStartupHooks() {
         return Collections.singletonList(guiceValues.eurekaServerHook);
     }
 
     @Override
-    public List<ServerShutdownHook> serverShutdownHooks() {
+    public @Nullable List<@NotNull ServerShutdownHook> serverShutdownHooks() {
         return Collections.singletonList(guiceValues.eurekaServerHook);
     }
 
     @Override
-    public Collection<Endpoint<?>> appEndpoints() {
+    public @NotNull Collection<@NotNull Endpoint<?>> appEndpoints() {
         return guiceValues.appEndpoints;
     }
 
     @Override
-    public RiposteErrorHandler riposteErrorHandler() {
+    public @NotNull RiposteErrorHandler riposteErrorHandler() {
         return guiceValues.riposteErrorHandler;
     }
 
     @Override
-    public RiposteUnhandledErrorHandler riposteUnhandledErrorHandler() {
+    public @NotNull RiposteUnhandledErrorHandler riposteUnhandledErrorHandler() {
         return guiceValues.riposteUnhandledErrorHandler;
     }
 
     @Override
-    public RequestValidator requestContentValidationService() {
+    public @Nullable RequestValidator requestContentValidationService() {
         return guiceValues.validationService;
     }
 

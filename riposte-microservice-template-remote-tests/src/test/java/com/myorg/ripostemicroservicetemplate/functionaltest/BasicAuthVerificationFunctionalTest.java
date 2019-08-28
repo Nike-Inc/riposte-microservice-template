@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import io.restassured.response.ExtractableResponse;
 
-import static io.netty.handler.codec.http.HttpHeaders.Names.AUTHORIZATION;
+import static io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +31,7 @@ public class BasicAuthVerificationFunctionalTest {
 
         ExtractableResponse response =
             given()
-                .header(AUTHORIZATION, props.basicAuthHeaderVal)
+                .header(AUTHORIZATION.toString(), props.basicAuthHeaderVal)
                 .log().all()
             .when()
                 .post(fullUrl)
@@ -49,7 +49,7 @@ public class BasicAuthVerificationFunctionalTest {
 
         ExtractableResponse response =
             given()
-                .header(AUTHORIZATION, "foo" + props.basicAuthHeaderVal)
+                .header(AUTHORIZATION.toString(), "foo" + props.basicAuthHeaderVal)
                 .log().all()
             .when()
                 .post(fullUrl)

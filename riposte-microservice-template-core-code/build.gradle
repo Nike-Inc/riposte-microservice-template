@@ -29,7 +29,7 @@ dependencies {
             "javax.xml.bind:jaxb-api:$jaxbApiVersion",
 
             // Define the Jackson modules we depend on explicitly to guarantee the same version is used
-            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabindVersion",
             "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
 
@@ -37,7 +37,7 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
             "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
             "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion",
-            "com.authzee.kotlinguice4:kotlin-guice:$kotlinGuiceVersion",
+            "dev.misfitlabs.kotlinguice4:kotlin-guice:$kotlinGuiceVersion",
 
             // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency below unless you need it in your app
             "net.javacrumbs.future-converter:future-converter-java8-guava:$futureConverterJava8GuavaVersion",

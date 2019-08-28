@@ -98,10 +98,11 @@ ext {
     // DEPENDENCY VERSIONS
     riposteVersion = '0.18.0'
     backstopperVersion = '0.12.0'
-    slf4jVersion = '1.7.25'
+    slf4jVersion = '1.7.28'
     logbackVersion = '1.2.3'
-    jacksonVersion = '2.9.4'
-    kotlinGuiceVersion = '1.0.0'
+    jacksonVersion = '2.9.9'
+    jacksonDatabindVersion = '2.9.9.3'
+    kotlinGuiceVersion = '1.4.0'
     googleFindbugsJsr305Version = '3.0.2'
     jetbrainsAnnotationsVersion = '17.0.0'
     groovyVersion = '2.4.7'
@@ -115,10 +116,10 @@ ext {
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
     mockitoKotlinVersion = '1.5.0'
-    assertJVersion = '3.9.0'
+    assertJVersion = '3.13.2'
     assertJKotlinBridgeVersion = '0.2.1'
     junitDataproviderVersion = '1.13.1'
-    restAssuredVersion = '3.0.7'
+    restAssuredVersion = '4.0.0'
 
     // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency version below unless you need it in your app
     futureConverterJava8GuavaVersion = '1.0.0'

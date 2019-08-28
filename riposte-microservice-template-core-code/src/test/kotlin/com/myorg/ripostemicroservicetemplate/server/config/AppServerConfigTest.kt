@@ -1,6 +1,5 @@
 package com.myorg.ripostemicroservicetemplate.server.config
 
-import com.authzee.kotlinguice4.typeLiteral
 import com.google.inject.Module
 import com.google.inject.util.Modules
 import com.google.inject.util.Providers
@@ -15,6 +14,7 @@ import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigValueFactory
+import dev.misfitlabs.kotlinguice4.typeLiteral
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before

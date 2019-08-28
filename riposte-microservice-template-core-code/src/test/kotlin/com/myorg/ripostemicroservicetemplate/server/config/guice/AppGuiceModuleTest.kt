@@ -1,7 +1,5 @@
 package com.myorg.ripostemicroservicetemplate.server.config.guice
 
-import com.authzee.kotlinguice4.annotatedKey
-import com.authzee.kotlinguice4.getInstance
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.name.Names
@@ -28,6 +26,8 @@ import com.tngtech.java.junit.dataprovider.DataProvider
 import com.tngtech.java.junit.dataprovider.DataProviderRunner
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigValueFactory
+import dev.misfitlabs.kotlinguice4.annotatedKey
+import dev.misfitlabs.kotlinguice4.getInstance
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before

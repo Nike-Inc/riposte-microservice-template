@@ -13,10 +13,10 @@ import com.nike.riposte.util.Matcher
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpResponseStatus
-import org.hibernate.validator.constraints.NotBlank
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 /**

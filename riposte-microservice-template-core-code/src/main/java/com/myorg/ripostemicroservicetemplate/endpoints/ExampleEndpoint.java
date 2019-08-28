@@ -12,13 +12,13 @@ import com.nike.riposte.util.Matcher;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiError;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import io.netty.channel.ChannelHandlerContext;

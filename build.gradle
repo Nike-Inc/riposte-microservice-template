@@ -89,12 +89,11 @@ ext {
     jetbrainsAnnotationsVersion = '17.0.0'
     groovyVersion = '2.4.7'
 
-    orgOw2AsmVersion = '5.0.4'
-
-    validationApiVersion = '1.1.0.Final'
-    hibernateValidatorVersion = '5.1.2.Final'
-    elApiVersion = '2.2.1-b04'
-    elImplVersion = '2.2.1-b05'
+    validationApiVersion = '2.0.1.Final'
+    hibernateValidatorVersion = '6.0.17.Final'
+    elApiVersion = '3.0.1-b06'
+    elImplVersion = '3.0.1-b11'
+    jaxbApiVersion = '2.4.0-b180830.0359'
 
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
@@ -170,13 +169,6 @@ allprojects {
 
         // com.codahale.metrics artifacts conflict with the io.dropwizard metrics stuff Riposte uses.
         exclude group: 'com.codahale.metrics'
-
-        // Required for full java 8 support (Guice, among other libraries).
-        //      The following exclusions combined with explicitly asking for org.ow2.asm:asm-all at version 5 or greater
-        //      and com.google.inject:guice at version 4 or greater will fix a bunch of stuff. The old asm versions
-        //      are not java 8 compatible and if they get on the classpath they can cause all kinds of frustrating errors.
-        exclude group: 'asm', module: 'asm-all'
-        exclude group: 'asm', module: 'asm'
     }
 }
 

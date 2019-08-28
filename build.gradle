@@ -5,14 +5,7 @@ buildscript {
     }
     dependencies {
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
-
-        // STUFF FOR JACOCO
-        classpath 'com.palantir:jacoco-coverage:0.4.0'
-        // jacoco-coverage blows up unless you specify guava dependency
-        classpath 'com.google.guava:guava:18.0'
-        // Plugin for spitting out coverage numbers to the console
-        classpath 'com.github.ksoichiro:gradle-console-reporter:0.5.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
     }
 }
 
@@ -54,6 +47,20 @@ allprojects {
     // Define the repos used for finding dependencies.
     repositories {
         jcenter()
+    }
+
+    test {
+        // Minimize console spam while running tests without swallowing critical debugging info.
+        testLogging {
+            exceptionFormat "FULL"
+            events "passed", "skipped", "failed"
+            displayGranularity = 0
+            showExceptions true
+            showCauses true
+            showStackTraces true
+        }
+
+        ignoreFailures = false
     }
 
     //http://www.gradle.org/docs/current/userguide/java_plugin.html
@@ -103,23 +110,44 @@ ext {
     cassandraUnitVersion = '3.0.0.1'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.8.0'
-    // Anything in this jacocoExclusions list will be excluded from coverage reports.
+    jacocoToolVersion = '0.8.4'
+    // Anything in this jacocoExclusions list will be excluded from coverage reports. The format is paths to class
+    //      files, with wildcards allowed. e.g.: jacocoExclusions = [ "com/nike/Foo.class", "**/Bar*.*" ]
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']
     jacocoCoverageThresholdSetup = {
         // You can filter to only specific submodules by adjusting the code in the findAll { [condition] } code block.
-        // e.g. To have jacoco coverage only fail the build if it detects insufficient coverage in the "foo-core-code" submodule,
-        //      you could adjust the line to be: configure(subprojects.findAll { it.name == "foo-core-code" }) {
-        // You can also run the coverage checks on the combo report rather than submodule reports by removing the configure(...) block entirely,
-        //      thus putting the jacocoCoverage task at the root level.
-        configure(subprojects.findAll { !it.name.endsWith("remote-tests") }) {
-            jacocoCoverage {
-                // Enforce minimum code coverage.
-                //      See https://github.com/palantir/gradle-jacoco-coverage for the full list of options.
-                reportThreshold 0.8, INSTRUCTION
-                reportThreshold 0.8, BRANCH
+        //      (The logic is farmed out to the isSubprojectIncludedInJacocoReports(Project) function, since it is
+        //      reused in multiple places).
+        // You can also run the coverage checks on the combo report rather than submodule reports by removing the
+        //      configure(...) block entirely, thus putting the jacocoCoverage task at the root level.
+        configure(subprojects.findAll { isSubprojectIncludedInJacocoReports(it) }) {
+            // Configure the minimum code coverage rules.
+            jacocoTestCoverageVerification { JacocoCoverageVerification v ->
+                violationRules {
+                    rule { JacocoViolationRule r ->
+                        enabled = true
+                        limit {
+                            minimum = 0.8
+                            counter = "INSTRUCTION"
+                        }
+
+                    }
+
+                    rule { JacocoViolationRule r ->
+                        enabled = true
+                        limit {
+                            minimum = 0.8
+                            counter = "BRANCH"
+                        }
+                    }
+                }
             }
         }
+    }
+    // Configure which subprojects we're doing jacoco for.
+    isSubprojectIncludedInJacocoReports = { Project subProj ->
+        // For this repo we'll include everything that's not the remote-tests submodule.
+        return !subProj.getName().contains("remote-tests")
     }
 }
 

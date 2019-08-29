@@ -11,8 +11,9 @@ features baked in like distributed tracing (provided by the Zipkin-compatible
 default provided by [Backstopper](https://github.com/Nike-Inc/backstopper)), and circuit breaking (provided by 
 [Fastbreak](https://github.com/Nike-Inc/fastbreak)). 
 
-***IMPORTANT NOTE:*** Riposte uses Java 8. This project will not build or run unless you use a Java 8 JDK. Verify 
-you're using a Java 8 JDK with a simple `java -version`.
+***IMPORTANT NOTE:*** Riposte requires a minimum of Java 8. This project will not build or run unless you use a Java 8 
+or later JDK. Verify you're using a Java 8 or later JDK with a simple `java -version`. This project is also ready for
+Java 11 - if you want to use Java 11 see [this section of the readme](#java_11_ready).
 
 ## Want a Java Version of this Microservice Template?
 
@@ -70,6 +71,7 @@ test, or prod.
 * [Remote tests submodule](#remote_tests)
 * [Component tests](#component_tests)
 * [Removing the example code](#removing_example_code)
+* [Using Java 11 with this project](#java_11_ready)
 * [License](#license)
 
 <a name="how_to_generate_new_project"></a>
@@ -704,6 +706,13 @@ There are a few other things you might want to clean up depending on your needs 
 `TODO: EXAMPLE CLEANUP` in the project.
 
 [back to top](#top)
+
+<a name="java_11_ready"></a>
+## Using Java 11 with this project
+
+This project is Java 11 ready. Simply find the two references to `JavaVersion.VERSION_1_8` in 
+[build.gradle](build.gradle) and replace them with `JavaVersion.VERSION_11`. Then build and run with a Java 11
+JDK. No other changes are needed.
 
 <a name="license"></a>
 ## License

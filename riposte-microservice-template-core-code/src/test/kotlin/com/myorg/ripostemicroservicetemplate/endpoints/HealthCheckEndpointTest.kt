@@ -1,6 +1,6 @@
 package com.myorg.ripostemicroservicetemplate.endpoints
 
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -28,5 +28,4 @@ class HealthCheckEndpointTest {
         // then
         assertThat(responseInfo.httpStatusCode).isEqualTo(200)
     }
-
 }

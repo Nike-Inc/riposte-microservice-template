@@ -6,7 +6,7 @@ import com.nike.riposte.server.http.ResponseInfo
 import com.nike.riposte.server.http.StandardEndpoint
 import com.nike.riposte.util.Matcher
 import io.netty.channel.ChannelHandlerContext
-import io.netty.handler.codec.http.HttpHeaders
+import io.netty.handler.codec.http.HttpHeaderNames
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.netty.util.CharsetUtil
@@ -46,25 +46,26 @@ object ExampleBasicAuthProtectedEndpoint {
     class Get
     @Inject
     constructor(
-            @Named("exampleBasicAuth.username") basicAuthUsername: String,
-            @Named("exampleBasicAuth.password") basicAuthPassword: String
+        @Named("exampleBasicAuth.username") basicAuthUsername: String,
+        @Named("exampleBasicAuth.password") basicAuthPassword: String
     ) : StandardEndpoint<Void, Map<String, String>>() {
 
         private val matcher: Matcher = Matcher.match(MATCHING_PATH, HttpMethod.GET)
         private val basicAuthHeaderValueRequired: String =
                 "Basic " + Base64.getEncoder().encodeToString(
-                        (basicAuthUsername + ":" + basicAuthPassword).toByteArray(CharsetUtil.UTF_8)
+                        ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
                 )
 
-        override fun execute(request: RequestInfo<Void>,
-                             longRunningTaskExecutor: Executor,
-                             ctx: ChannelHandlerContext
+        override fun execute(
+            request: RequestInfo<Void>,
+            longRunningTaskExecutor: Executor,
+            ctx: ChannelHandlerContext
         ): CompletableFuture<ResponseInfo<Map<String, String>>> {
 
             val responseData = LinkedHashMap<String, String>()
             responseData["description"] = "The following Authorization header can be used to call " +
                     "POST $MATCHING_PATH without a validation error."
-            responseData[HttpHeaders.Names.AUTHORIZATION] = basicAuthHeaderValueRequired
+            responseData[HttpHeaderNames.AUTHORIZATION.toString()] = basicAuthHeaderValueRequired
 
             return CompletableFuture.completedFuture(
                     ResponseInfo.newBuilder<Map<String, String>>(responseData).build()
@@ -74,7 +75,6 @@ object ExampleBasicAuthProtectedEndpoint {
         override fun requestMatcher(): Matcher {
             return matcher
         }
-
     }
 
     /**
@@ -84,9 +84,10 @@ object ExampleBasicAuthProtectedEndpoint {
 
         private val matcher: Matcher = Matcher.match(MATCHING_PATH, HttpMethod.POST)
 
-        override fun execute(request: RequestInfo<Void>,
-                             longRunningTaskExecutor: Executor,
-                             ctx: ChannelHandlerContext
+        override fun execute(
+            request: RequestInfo<Void>,
+            longRunningTaskExecutor: Executor,
+            ctx: ChannelHandlerContext
         ): CompletableFuture<ResponseInfo<String>> {
 
             return CompletableFuture.completedFuture(
@@ -100,7 +101,5 @@ object ExampleBasicAuthProtectedEndpoint {
         override fun requestMatcher(): Matcher {
             return matcher
         }
-
     }
-
 }

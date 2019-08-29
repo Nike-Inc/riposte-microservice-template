@@ -24,24 +24,24 @@ import javax.inject.Named
 class GuiceProvidedServerConfigValues
 @Inject
 constructor(
-        @Named("endpoints.port") endpointsPort: Int?,
-        @Named("endpoints.sslPort") endpointsSslPort: Int?,
-        @Named("endpoints.useSsl") endpointsUseSsl: Boolean?,
-        @Named("netty.bossThreadCount") numBossThreads: Int?,
-        @Named("netty.workerThreadCount") numWorkerThreads: Int?,
-        @Named("netty.maxRequestSizeInBytes") maxRequestSizeInBytes: Int?,
-        @Named("appEndpoints") appEndpoints: Set<@JvmSuppressWildcards Endpoint<*>>,
-        @Named("debugActionsEnabled") debugActionsEnabled: Boolean?,
-        @Named("debugChannelLifecycleLoggingEnabled") debugChannelLifecycleLoggingEnabled: Boolean?,
-        val riposteErrorHandler: RiposteErrorHandler,
-        val riposteUnhandledErrorHandler: RiposteUnhandledErrorHandler,
-        val validationService: RequestValidator,
-        @Named("appInfoFuture") val appInfoFuture: CompletableFuture<AppInfo>,
-        @Nullable val metricsListener: CodahaleMetricsListener?,
-        // TODO: EXAMPLE CLEANUP - Do you use Eureka and/or basic auth? If not then you can delete references to them here,
-        //       remove the creation of them in `AppGuiceModule`, and fix `AppServerConfig` to not attempt to use them.
-        val eurekaServerHook: EurekaServerHook,
-        val basicAuthSecurityValidator: BasicAuthSecurityValidator
+    @Named("endpoints.port") endpointsPort: Int?,
+    @Named("endpoints.sslPort") endpointsSslPort: Int?,
+    @Named("endpoints.useSsl") endpointsUseSsl: Boolean?,
+    @Named("netty.bossThreadCount") numBossThreads: Int?,
+    @Named("netty.workerThreadCount") numWorkerThreads: Int?,
+    @Named("netty.maxRequestSizeInBytes") maxRequestSizeInBytes: Int?,
+    @Named("appEndpoints") appEndpoints: Set<@JvmSuppressWildcards Endpoint<*>>,
+    @Named("debugActionsEnabled") debugActionsEnabled: Boolean?,
+    @Named("debugChannelLifecycleLoggingEnabled") debugChannelLifecycleLoggingEnabled: Boolean?,
+    val riposteErrorHandler: RiposteErrorHandler,
+    val riposteUnhandledErrorHandler: RiposteUnhandledErrorHandler,
+    val validationService: RequestValidator,
+    @Named("appInfoFuture") val appInfoFuture: CompletableFuture<AppInfo>,
+    @Nullable val metricsListener: CodahaleMetricsListener?,
+    // TODO: EXAMPLE CLEANUP - Do you use Eureka and/or basic auth? If not then you can delete references to them here,
+    //       remove the creation of them in `AppGuiceModule`, and fix `AppServerConfig` to not attempt to use them.
+    val eurekaServerHook: EurekaServerHook,
+    val basicAuthSecurityValidator: BasicAuthSecurityValidator
 ) : DependencyInjectionProvidedServerConfigValuesBase(
         endpointsPort, endpointsSslPort, endpointsUseSsl, numBossThreads, numWorkerThreads, maxRequestSizeInBytes,
         appEndpoints, debugActionsEnabled, debugChannelLifecycleLoggingEnabled

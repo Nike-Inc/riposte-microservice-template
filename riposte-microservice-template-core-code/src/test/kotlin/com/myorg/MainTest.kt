@@ -58,7 +58,7 @@ class MainTest {
         ConfigFactory.invalidateCaches()
 
         // when
-        com.myorg.main(arrayOf())
+        main(arrayOf())
 
         // then
         val healthCheckCallResponse = given()
@@ -71,8 +71,7 @@ class MainTest {
             .then()
                 .log().all()
                 .extract()
-        
+
         assertThat(healthCheckCallResponse.statusCode()).isEqualTo(200)
     }
-
 }

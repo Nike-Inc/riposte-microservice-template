@@ -3,9 +3,6 @@ package com.myorg.ripostemicroservicetemplate.error
 import com.nike.backstopper.apierror.ApiError
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectSpecificErrorCodeRange
 import com.nike.backstopper.apierror.sample.SampleProjectApiErrorsBase
-
-import java.util.Arrays
-
 import javax.inject.Singleton
 
 /**
@@ -35,7 +32,6 @@ class ProjectApiErrorsImpl : SampleProjectApiErrorsBase() {
     }
 
     companion object {
-        private val PROJECT_SPECIFIC_API_ERRORS = Arrays.asList<ApiError>(*ProjectApiError.values())
+        private val PROJECT_SPECIFIC_API_ERRORS = listOf<ApiError>(*ProjectApiError.values())
     }
-
 }

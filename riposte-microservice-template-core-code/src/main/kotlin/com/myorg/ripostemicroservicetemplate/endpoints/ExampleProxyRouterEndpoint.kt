@@ -26,9 +26,10 @@ import javax.inject.Named
  */
 class ExampleProxyRouterEndpoint
 @Inject
-constructor(@Named("endpoints.port") httpPort: Int,
-            @Named("endpoints.sslPort") httpsPort: Int,
-            @Named("endpoints.useSsl") useSecure: Boolean
+constructor(
+    @Named("endpoints.port") httpPort: Int,
+    @Named("endpoints.sslPort") httpsPort: Int,
+    @Named("endpoints.useSsl") useSecure: Boolean
 ) : SimpleProxyRouterEndpoint(
         Matcher.match("/exampleProxy"),
         "localhost",
@@ -38,8 +39,10 @@ constructor(@Named("endpoints.port") httpPort: Int,
 ) {
 
     override fun getDownstreamRequestFirstChunkInfo(
-            request: RequestInfo<*>, longRunningTaskExecutor: Executor?, ctx: ChannelHandlerContext
-    ): CompletableFuture<ProxyRouterEndpoint.DownstreamRequestFirstChunkInfo> {
+        request: RequestInfo<*>,
+        longRunningTaskExecutor: Executor,
+        ctx: ChannelHandlerContext
+    ): CompletableFuture<DownstreamRequestFirstChunkInfo> {
 
         // Reuse the super.getDownstreamRequestFirstChunkInfo() impl since it does most of what we want.
         return super.getDownstreamRequestFirstChunkInfo(request, longRunningTaskExecutor, ctx)

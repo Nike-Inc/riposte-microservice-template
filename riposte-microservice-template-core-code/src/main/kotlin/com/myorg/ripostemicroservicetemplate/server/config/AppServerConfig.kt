@@ -22,7 +22,6 @@ import com.nike.riposte.server.http.Endpoint
 import com.nike.riposte.server.logging.AccessLogger
 import com.typesafe.config.Config
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -39,8 +38,8 @@ import java.util.concurrent.CompletableFuture
  */
 open class AppServerConfig
 protected constructor(
-        appConfig: Config?,
-        propertiesRegistrationGuiceModule: PropertiesRegistrationGuiceModule
+    appConfig: Config?,
+    propertiesRegistrationGuiceModule: PropertiesRegistrationGuiceModule
 ) : ServerConfig {
 
     /*
@@ -57,7 +56,7 @@ protected constructor(
     private val kotlinEnabledObjectMapper: ObjectMapper = ObjectMapper().registerKotlinModule()
 
     private val appConfig: Config = appConfig ?: throw IllegalArgumentException("appConfig cannot be null")
-    
+
     init {
         // Create a Guice Injector for this app.
         val appGuiceModules = ArrayList<Module>()
@@ -81,7 +80,7 @@ protected constructor(
     constructor(appConfig: Config?) : this(appConfig, TypesafeConfigPropertiesRegistrationGuiceModule(appConfig))
 
     protected open fun getAppGuiceModules(appConfig: Config): List<Module> {
-        return Arrays.asList<Module>(
+        return listOf<Module>(
                 AppGuiceModule(appConfig),
                 BackstopperRiposteConfigGuiceModule()
         )

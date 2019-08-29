@@ -25,9 +25,7 @@ import com.nike.riposte.serviceregistration.eureka.EurekaHandler
 import com.nike.riposte.serviceregistration.eureka.EurekaServerHook
 import com.nike.riposte.util.AwsUtil
 import com.typesafe.config.Config
-import org.slf4j.LoggerFactory
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.LinkedHashSet
 import java.util.concurrent.CompletableFuture
 import javax.annotation.Nullable
@@ -35,6 +33,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 import javax.validation.Validation
 import javax.validation.Validator
+import org.slf4j.LoggerFactory
 
 /**
  * The main Guice module for the application. The [validator], [projectApiErrors], [appInfoFuture], and
@@ -68,23 +67,25 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
     @Singleton
     @Named("appEndpoints")
     fun appEndpoints(
-            healthCheckEndpoint: HealthCheckEndpoint,
-            // TODO: EXAMPLE CLEANUP - Remove these example endpoints from this method's arguments and don't return them from this method.
-            exampleEndpointGet: ExampleEndpoint.Get,
-            exampleEndpointPost: ExampleEndpoint.Post,
-            exampleCassandraAsyncEndpoint: ExampleCassandraAsyncEndpoint,
-            exampleDownstreamHttpAsyncEndpoint: ExampleDownstreamHttpAsyncEndpoint,
-            exampleProxyRouterEndpoint: ExampleProxyRouterEndpoint,
-            exampleBasicAuthProtectedEndpointGet: ExampleBasicAuthProtectedEndpoint.Get,
-            exampleBasicAuthProtectedEndpointPost: ExampleBasicAuthProtectedEndpoint.Post
+        healthCheckEndpoint: HealthCheckEndpoint,
+        // TODO: EXAMPLE CLEANUP - Remove these example endpoints from this method's arguments and don't return them from this method.
+        exampleEndpointGet: ExampleEndpoint.Get,
+        exampleEndpointPost: ExampleEndpoint.Post,
+        exampleCassandraAsyncEndpoint: ExampleCassandraAsyncEndpoint,
+        exampleDownstreamHttpAsyncEndpoint: ExampleDownstreamHttpAsyncEndpoint,
+        exampleProxyRouterEndpoint: ExampleProxyRouterEndpoint,
+        exampleBasicAuthProtectedEndpointGet: ExampleBasicAuthProtectedEndpoint.Get,
+        exampleBasicAuthProtectedEndpointPost: ExampleBasicAuthProtectedEndpoint.Post
     ): Set<Endpoint<*>> {
-        return LinkedHashSet(Arrays.asList(
+        return LinkedHashSet(
+            listOf(
                 healthCheckEndpoint,
                 // Example endpoints
                 exampleEndpointGet, exampleEndpointPost, exampleCassandraAsyncEndpoint,
                 exampleDownstreamHttpAsyncEndpoint, exampleProxyRouterEndpoint,
                 exampleBasicAuthProtectedEndpointGet, exampleBasicAuthProtectedEndpointPost
-        ))
+            )
+        )
     }
 
     @Provides
@@ -117,11 +118,11 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
     @Provides
     @Singleton
     fun metricsListener(
-            @Nullable metricsCollector: CodahaleMetricsCollector?,
-            // We don't actually need the CodahaleMetricsEngine, but we ask for it here to guarantee that it is created
-            //      and started.
-            @Suppress("UNUSED_PARAMETER")
-            @Nullable engine: CodahaleMetricsEngine?
+        @Nullable metricsCollector: CodahaleMetricsCollector?,
+        // We don't actually need the CodahaleMetricsEngine, but we ask for it here to guarantee that it is created
+        //      and started.
+        @Suppress("UNUSED_PARAMETER")
+        @Nullable engine: CodahaleMetricsEngine?
     ): CodahaleMetricsListener? {
         return if (metricsCollector == null) null else CodahaleMetricsListener(metricsCollector)
     }
@@ -130,9 +131,9 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
     @Singleton
     @JvmSuppressWildcards
     fun codahaleMetricsEngine(
-            @Nullable cmc: CodahaleMetricsCollector?,
-            @Nullable reporters: List<ReporterFactory>?,
-            @Named("metrics.reportJvmMetrics") reportJvmMetrics: Boolean
+        @Nullable cmc: CodahaleMetricsCollector?,
+        @Nullable reporters: List<ReporterFactory>?,
+        @Named("metrics.reportJvmMetrics") reportJvmMetrics: Boolean
     ): CodahaleMetricsEngine? {
         if (cmc == null)
             return null
@@ -155,12 +156,12 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
     @Provides
     @Singleton
     fun metricsReporters(
-            @Named("metrics.slf4j.reporting.enabled") slf4jReportingEnabled: Boolean,
-            @Named("metrics.jmx.reporting.enabled") jmxReportingEnabled: Boolean,
-            @Named("metrics.graphite.url") graphiteUrl: String,
-            @Named("metrics.graphite.port") graphitePort: Int,
-            @Named("metrics.graphite.reporting.enabled") graphiteEnabled: Boolean,
-            @Named("appInfoFuture") appInfoFuture: CompletableFuture<AppInfo>
+        @Named("metrics.slf4j.reporting.enabled") slf4jReportingEnabled: Boolean,
+        @Named("metrics.jmx.reporting.enabled") jmxReportingEnabled: Boolean,
+        @Named("metrics.graphite.url") graphiteUrl: String,
+        @Named("metrics.graphite.port") graphitePort: Int,
+        @Named("metrics.graphite.reporting.enabled") graphiteEnabled: Boolean,
+        @Named("appInfoFuture") appInfoFuture: CompletableFuture<AppInfo>
     ): List<ReporterFactory>? {
         val reporters = ArrayList<ReporterFactory>()
 
@@ -172,8 +173,8 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
 
         if (graphiteEnabled) {
             val appInfo = appInfoFuture.join()
-            val graphitePrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment()
-                    + "." + appInfo.instanceId())
+            val graphitePrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
+                    "." + appInfo.instanceId())
             reporters.add(DefaultGraphiteReporterFactory(graphitePrefix, graphiteUrl, graphitePort))
         }
 
@@ -202,16 +203,16 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
         //      everything else should be allowed. Once you're done with the examples and ready to build your app you
         //      may want to delete the line below and uncomment the line above, or otherwise adjust the filter for your
         //      needs.
-        return endpoints.filter { it is ExampleBasicAuthProtectedEndpoint.Post }
+        return endpoints.filterIsInstance<ExampleBasicAuthProtectedEndpoint.Post>()
     }
 
     @Provides
     @Singleton
     @JvmSuppressWildcards
     fun basicAuthSecurityValidator(
-            @Named("basicAuthProtectedEndpoints") basicAuthProtectedEndpoints: List<Endpoint<*>>,
-            @Named("exampleBasicAuth.username") basicAuthUsername: String,
-            @Named("exampleBasicAuth.password") basicAuthPassword: String
+        @Named("basicAuthProtectedEndpoints") basicAuthProtectedEndpoints: List<Endpoint<*>>,
+        @Named("exampleBasicAuth.username") basicAuthUsername: String,
+        @Named("exampleBasicAuth.password") basicAuthPassword: String
     ): BasicAuthSecurityValidator {
         return BasicAuthSecurityValidator(basicAuthProtectedEndpoints, basicAuthUsername, basicAuthPassword)
     }

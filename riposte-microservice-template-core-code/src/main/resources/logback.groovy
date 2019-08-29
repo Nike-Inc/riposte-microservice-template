@@ -1,18 +1,11 @@
 import ch.qos.logback.classic.AsyncAppender
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
-import ch.qos.logback.core.Appender
-import ch.qos.logback.core.ConsoleAppender
-import ch.qos.logback.core.rolling.FixedWindowRollingPolicy
-import ch.qos.logback.core.rolling.RollingFileAppender
-import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy
-
-import static ch.qos.logback.classic.Level.*
-import static ch.qos.logback.core.spi.ContextAware.addInfo
 
 private String getEnvironmentString() {
     def environment = System.getProperty("@environment")
-    if (environment != null)
+    if (environment != null) {
         return environment
+    }
 
     return System.getProperty("archaius.deployment.environment")
 }
@@ -26,8 +19,9 @@ private boolean booleanSystemPropertyExtractionHelper(String systemPropertyToSea
     // If the property is defined then return true unless the value is explicitly false.
     def outputSystemProp = System.getProperty(systemPropertyToSearchFor)
     if (outputSystemProp != null) {
-        if (outputSystemProp.equalsIgnoreCase("false"))
+        if (outputSystemProp.equalsIgnoreCase("false")) {
             return false
+        }
 
         return true
     }
@@ -66,7 +60,7 @@ println("Processing logback.groovy, environment: " + getEnvironmentString() + ".
 
 def SERVICE_ENV_NAME = getEnvironmentString() == null? "NA" : getEnvironmentString()
 
-def encoderPattern = "traceId=%X{traceId} %date{\"yyyy-MM-dd'T'HH:mm:ss,SSSXXX\"} [%thread] appname=@@APPNAME@@ environment=${SERVICE_ENV_NAME} version=@@RELEASE@@ |-%-5level %logger{36} - %msg%n"
+def encoderPattern = "traceId=%X{traceId:-NO_TRACE_RUNNING} %date{\"yyyy-MM-dd'T'HH:mm:ss,SSSXXX\"} [%thread] appname=@@APPNAME@@ environment=${SERVICE_ENV_NAME} version=@@RELEASE@@ |-%-5level %logger{36} - %msg%n"
 def accessLogEncoderPattern = "%msg%n"
 def defaultAsyncQueueSize = 16000
 
@@ -172,6 +166,8 @@ logger("com.nike.riposte.server.handler.SecurityValidationHandler", INFO, allAsy
 
 logger("com.nike.wingtips.Tracer", INFO, allAsyncAppendersArray, false)
 logger("com.nike.wingtips.http.HttpRequestTracingUtils", INFO, allAsyncAppendersArray, false)
+logger("VALID_WINGTIPS_SPANS", INFO, allAsyncAppendersArray, false)
+logger("INVALID_WINGTIPS_SPANS", INFO, allAsyncAppendersArray, false)
 
 logger("org.hibernate.validator", INFO, allAsyncAppendersArray, false)
 logger("com.ning.http", INFO, allAsyncAppendersArray, false)

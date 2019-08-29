@@ -19,7 +19,9 @@ class HealthCheckEndpoint : StandardEndpoint<Void, Void>() {
     private val matcher = Matcher.match("/healthcheck")
 
     override fun execute(
-            request: RequestInfo<Void>, longRunningTaskExecutor: Executor, ctx: ChannelHandlerContext
+        request: RequestInfo<Void>,
+        longRunningTaskExecutor: Executor,
+        ctx: ChannelHandlerContext
     ): CompletableFuture<ResponseInfo<Void>> {
         return CompletableFuture.completedFuture(
                 ResponseInfo.newBuilder<Void>().withHttpStatusCode(200).build()
@@ -29,5 +31,4 @@ class HealthCheckEndpoint : StandardEndpoint<Void, Void>() {
     override fun requestMatcher(): Matcher {
         return matcher
     }
-
 }

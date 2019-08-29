@@ -2,7 +2,6 @@ package com.myorg.ripostemicroservicetemplate.testutils
 
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil
-
 import com.typesafe.config.Config
 
 /**
@@ -13,7 +12,8 @@ import com.typesafe.config.Config
  * @author Nic Munroe
  */
 class TypesafeConfigPropertiesRegistrationGuiceModuleForTesting(
-        private val appIdToUse: String, private val environmentToUse: String
+    private val appIdToUse: String,
+    private val environmentToUse: String
 ) : TypesafeConfigPropertiesRegistrationGuiceModule(generateConfig(appIdToUse, environmentToUse)) {
     val config: Config
 
@@ -38,5 +38,4 @@ class TypesafeConfigPropertiesRegistrationGuiceModuleForTesting(
             return tempStaticConfig!!
         }
     }
-
 }

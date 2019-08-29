@@ -12,11 +12,11 @@ import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedE
 import com.nike.backstopper.apierror.sample.SampleCoreApiError
 import com.nike.riposte.server.Server
 import io.restassured.RestAssured.given
+import java.util.UUID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import java.util.UUID
 
 /**
  * Component test that launches a test version of the application that uses a "compiletimetest" properties file for its
@@ -78,7 +78,7 @@ class VerifyExampleEndpointComponentTest {
     }
 
     @Test
-    fun example_endpoint_post_call_should_return_validation_errors_when_input_is_invalid() {
+    fun example_endpoint_post_call_should_return_validation_errors_when_input_is_empty() {
         val postBody = ErrorHandlingEndpointArgs(null, " \t\n   ", false)
 
         val response = given()
@@ -97,6 +97,36 @@ class VerifyExampleEndpointComponentTest {
                 response,
                 400,
                 listOf(ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_1, ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_2)
+        )
+    }
+
+    @Test
+    fun example_endpoint_post_call_should_return_validation_errors_when_input_is_too_long() {
+        val postBody = ErrorHandlingEndpointArgs(
+            "123456789012345678901234567890123456789012345678901", // 51 chars
+            "1234567890123456789012345678901234567890123456789012345678901", // 61 chars
+            false
+        )
+
+        val response = given()
+            .baseUri("http://localhost")
+            .port(serverConfig!!.endpointsPort())
+            .body(objectMapper.writeValueAsString(postBody))
+            .log().all()
+        .`when`()
+            .basePath(ExampleEndpoint.MATCHING_PATH)
+            .post()
+        .then()
+            .log().all()
+            .extract()
+
+        verifyExpectedErrors(
+            response,
+            400,
+            listOf(
+                ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE,
+                ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE
+            )
         )
     }
 

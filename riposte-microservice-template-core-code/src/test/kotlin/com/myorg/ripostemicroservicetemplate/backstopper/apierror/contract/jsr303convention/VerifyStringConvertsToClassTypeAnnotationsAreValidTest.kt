@@ -16,8 +16,8 @@ import com.nike.backstopper.validation.constraints.StringConvertsToClassType
  *
  * @author Nic Munroe
  */
-class VerifyStringConvertsToClassTypeAnnotationsAreValidTest
-    : VerifyEnumsReferencedByStringConvertsToClassTypeJsr303AnnotationsAreJacksonCaseInsensitiveTest() {
+class VerifyStringConvertsToClassTypeAnnotationsAreValidTest :
+    VerifyEnumsReferencedByStringConvertsToClassTypeJsr303AnnotationsAreJacksonCaseInsensitiveTest() {
 
     override fun getAnnotationTroller(): ReflectionBasedJsr303AnnotationTrollerBase {
         return ApplicationJsr303AnnotationTroller.instance

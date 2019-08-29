@@ -5,14 +5,14 @@ import com.myorg.ripostemicroservicetemplate.testutils.TestUtils
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedError
 import com.nike.backstopper.apierror.sample.SampleCoreApiError
 import com.nike.riposte.server.Server
-import io.netty.handler.codec.http.HttpHeaders.Names.AUTHORIZATION
+import io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION
 import io.netty.util.CharsetUtil
 import io.restassured.RestAssured.given
+import java.io.IOException
+import java.util.Base64
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import java.io.IOException
-import java.util.Base64
 
 /**
  * Component test that verifies the basic auth security is configured correctly on the server.
@@ -30,7 +30,7 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
         given()
                 .baseUri("http://localhost")
                 .port(serverConfig!!.endpointsPort())
-                .header(AUTHORIZATION, basicAuthHeaderValueRequired)
+                .header(AUTHORIZATION.toString(), basicAuthHeaderValueRequired)
                 .log().all()
             .`when`()
                 .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
@@ -46,7 +46,7 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
         val response = given()
                 .baseUri("http://localhost")
                 .port(serverConfig!!.endpointsPort())
-                .header(AUTHORIZATION, "foo" + basicAuthHeaderValueRequired!!)
+                .header(AUTHORIZATION.toString(), "foo" + basicAuthHeaderValueRequired!!)
                 .log().all()
             .`when`()
                 .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
@@ -91,7 +91,7 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
             val basicAuthUsername = serverConfig!!.testingAppConfig.getString("exampleBasicAuth.username")
             val basicAuthPassword = serverConfig!!.testingAppConfig.getString("exampleBasicAuth.password")
             basicAuthHeaderValueRequired = "Basic " + Base64.getEncoder().encodeToString(
-                    (basicAuthUsername + ":" + basicAuthPassword).toByteArray(CharsetUtil.UTF_8)
+                    ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
             )
         }
 
@@ -101,5 +101,4 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
             realRunningServer!!.shutdown()
         }
     }
-
 }

@@ -1,14 +1,13 @@
 package com.myorg.ripostemicroservicetemplate.server.config.guice
 
-import com.authzee.kotlinguice4.annotatedKey
-import com.authzee.kotlinguice4.getInstance
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.name.Names
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule
 import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
@@ -28,16 +27,17 @@ import com.tngtech.java.junit.dataprovider.DataProvider
 import com.tngtech.java.junit.dataprovider.DataProviderRunner
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigValueFactory
+import dev.misfitlabs.kotlinguice4.annotatedKey
+import dev.misfitlabs.kotlinguice4.getInstance
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
+import java.util.function.Supplier
+import javax.validation.Validator
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.internal.util.reflection.Whitebox
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
-import java.util.function.Supplier
-import javax.validation.Validator
 
 /**
  * Tests the functionality of [AppGuiceModule]
@@ -55,13 +55,19 @@ class AppGuiceModuleTest {
     fun beforeMethod() {
         System.setProperty("@appId", APP_ID)
         System.setProperty("@environment", "compiletimetest")
-        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(true, true, false)
+        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
+            slf4jReportingEnabled = true,
+            jmxReportingEnabled = true,
+            graphiteEnabled = false
+        )
         appGuiceModule = AppGuiceModule(configForTesting)
         injector = generateInjector(appGuiceModule, configForTesting)
     }
 
     private fun generateAppConfigWithMetricsEnabledOrDisabled(
-            slf4jReportingEnabled: Boolean, jmxReportingEnabled: Boolean, graphiteEnabled: Boolean
+        slf4jReportingEnabled: Boolean,
+        jmxReportingEnabled: Boolean,
+        graphiteEnabled: Boolean
     ): Config {
         return TypesafeConfigUtil
                 .loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
@@ -184,8 +190,11 @@ class AppGuiceModuleTest {
         "true   |   true    |   true"
     ], splitBy = "\\|")
     @Test
-    fun metricsReporters_are_added_as_expected(enableSlf4jReporter: Boolean, enableJmxReporter: Boolean,
-                                               enableGraphiteReporter: Boolean) {
+    fun metricsReporters_are_added_as_expected(
+        enableSlf4jReporter: Boolean,
+        enableJmxReporter: Boolean,
+        enableGraphiteReporter: Boolean
+    ) {
         // given
         configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
                 enableSlf4jReporter, enableJmxReporter, enableGraphiteReporter
@@ -214,8 +223,8 @@ class AppGuiceModuleTest {
             val appInfo = injector!!.getInstance(
                     annotatedKey<CompletableFuture<AppInfo>>(Names.named("appInfoFuture"))
             ).join()
-            val expectedPrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment()
-                    + "." + appInfo.instanceId())
+            val expectedPrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
+                    "." + appInfo.instanceId())
             val expectedGraphiteUrl = configForTesting!!.getString("metrics.graphite.url")
             val expectedPort = configForTesting!!.getInt("metrics.graphite.port")
             assertThat(Whitebox.getInternalState(graphiteReporter, "prefix")).isEqualTo(expectedPrefix)
@@ -228,7 +237,11 @@ class AppGuiceModuleTest {
     @Test
     fun metrics_related_objects_are_null_if_all_reporters_are_disabled() {
         // given
-        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(false, false, false)
+        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
+            slf4jReportingEnabled = false,
+            jmxReportingEnabled = false,
+            graphiteEnabled = false
+        )
         appGuiceModule = AppGuiceModule(configForTesting)
         injector = generateInjector(appGuiceModule, configForTesting)
 
@@ -252,7 +265,7 @@ class AppGuiceModuleTest {
         val cmc = CodahaleMetricsCollector()
 
         // when
-        val engine = appGuiceModule!!.codahaleMetricsEngine(cmc, null, false)
+        val engine: CodahaleMetricsEngine = appGuiceModule!!.codahaleMetricsEngine(cmc, null, false)!!
 
         // then
         assertThat(Whitebox.getInternalState(engine, "reporters") as Collection<ReporterFactory>).isEmpty()
@@ -266,8 +279,11 @@ class AppGuiceModuleTest {
     @Test
     fun codahaleMetricsEngine_is_configured_with_jvm_metrics_on_or_off_based_on_property(reportJvmMetrics: Boolean) {
         // given
-        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(true, true, false)
-                .withValue("metrics.reportJvmMetrics", ConfigValueFactory.fromAnyRef(reportJvmMetrics))
+        configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
+            slf4jReportingEnabled = true,
+            jmxReportingEnabled = true,
+            graphiteEnabled = false
+        ).withValue("metrics.reportJvmMetrics", ConfigValueFactory.fromAnyRef(reportJvmMetrics))
         appGuiceModule = AppGuiceModule(configForTesting)
         injector = generateInjector(appGuiceModule, configForTesting)
 
@@ -290,5 +306,4 @@ class AppGuiceModuleTest {
         val appInfo = appInfoFuture.get(1, TimeUnit.SECONDS)
         assertThat(appInfo).isNotNull()
     }
-
 }

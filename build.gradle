@@ -64,6 +64,8 @@ allprojects {
     }
 
     //http://www.gradle.org/docs/current/userguide/java_plugin.html
+    // Want Java 11? Then replace the JavaVersion.VERSION_1_8 references below with JavaVersion.VERSION_11, and
+    //      build and run with a Java 11 JDK. No other changes are needed - this project is Java 11 ready.
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }

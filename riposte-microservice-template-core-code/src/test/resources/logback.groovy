@@ -1,15 +1,11 @@
 import ch.qos.logback.classic.AsyncAppender
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
-import ch.qos.logback.core.Appender
-import ch.qos.logback.core.ConsoleAppender
-
-import static ch.qos.logback.classic.Level.*
-import static ch.qos.logback.core.spi.ContextAware.addInfo
 
 private String getEnvironmentString() {
     def environment = System.getProperty("@environment")
-    if (environment != null)
+    if (environment != null) {
         return environment
+    }
 
     return System.getProperty("archaius.deployment.environment")
 }
@@ -32,9 +28,7 @@ private boolean shouldOutputToLogFile() {
 addInfo("Processing logback.groovy, environment: " + getEnvironmentString() + "...")
 println("Processing logback.groovy, environment: " + getEnvironmentString() + "...")
 
-def SERVICE_ENV_NAME = getEnvironmentString() == null? "NA" : getEnvironmentString()
-
-def encoderPattern = "traceId=%X{traceId} %date{\"yyyy-MM-dd'T'HH:mm:ss,SSSXXX\"} [%thread] |-%-5level %logger{36} - %msg%n"
+def encoderPattern = "traceId=%X{traceId:-NO_TRACE_RUNNING} %date{\"yyyy-MM-dd'T'HH:mm:ss,SSSXXX\"} [%thread] |-%-5level %logger{36} - %msg%n"
 def defaultAsyncQueueSize = 16000
 
 def Appender consoleAppender = null
@@ -61,10 +55,13 @@ if (shouldOutputToConsole()) {
 }
 
 logger("org.apache.http", INFO, allAsyncAppendersArray, false)
-logger("com.jayway.restassured", INFO, allAsyncAppendersArray, false)
+logger("io.restassured", INFO, allAsyncAppendersArray, false)
 logger("com.ning.http.client", INFO, allAsyncAppendersArray, false)
 
-logger("com.nike.trace.Tracer", INFO, allAsyncAppendersArray, false)
+logger("com.nike.wingtips.Tracer", INFO, allAsyncAppendersArray, false)
+logger("com.nike.wingtips.http.HttpRequestTracingUtils", INFO, allAsyncAppendersArray, false)
+logger("VALID_WINGTIPS_SPANS", INFO, allAsyncAppendersArray, false)
+logger("INVALID_WINGTIPS_SPANS", INFO, allAsyncAppendersArray, false)
 
 logger("com.codahale.metrics.JmxReporter", INFO, allAsyncAppendersArray, false)
 

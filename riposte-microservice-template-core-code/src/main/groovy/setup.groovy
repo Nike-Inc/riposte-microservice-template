@@ -116,6 +116,13 @@ def replaceText(File it, String name, String packageName, String orgName, List<L
     it.write(text)
 }
 
+def fixLinksToTemplateProjectOnGithub(File svcReadme) {
+    String text = svcReadme.text
+    text = text.replaceAll("riposte%2Dmicroservice%2Dtemplate", "riposte-microservice-template")
+    println("\nFixing links to the Riposte Microservice Template repo on GitHub for file: " + svcReadme.getAbsolutePath())
+    svcReadme.write(text)
+}
+
 def numForwardSlashes(String line) {
     return line.length() - line.replace("/", "").length()
 }
@@ -134,8 +141,9 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 
     // Find and collect the project name package directories that need to be renamed
     rootLocationFile.eachFileRecurse {
-        if (it.isDirectory() && it.name =~ /.*ripostemicroservicetemplate*./)
+        if (it.isDirectory() && it.name =~ /.*ripostemicroservicetemplate*./) {
             projectPackageNameDirectoryRenameList.add(it)
+        }
     }
 
     // Sort the project package directory rename list based on file depth so we rename the deep ones first
@@ -148,8 +156,9 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 
     // Find and collect the org name package directories that need to be renamed
     rootLocationFile.eachFileRecurse {
-        if (it.isDirectory() && it.name =~ /.*myorg*./)
+        if (it.isDirectory() && it.name =~ /.*myorg*./) {
             orgPackageNameDirectoryRenameList.add(it)
+        }
     }
 
     // Sort the org package directory rename list based on file depth so we rename the deep ones first
@@ -162,9 +171,10 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 
     // Find and collect the non-package directories that need to be renamed
     rootLocationFile.eachFileRecurse {
-        if (it.isDirectory() && it.name =~ /.*riposte-microservice-template*./)
+        if (it.isDirectory() && it.name =~ /.*riposte-microservice-template*./) {
             normalNameDirectoryRenameList.add(it)
         }
+    }
 
     // Sort the non-package directory rename list based on file depth so we rename the deep ones first
     normalNameDirectoryRenameList.sort(fileDepthComparator)
@@ -200,3 +210,9 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 println("\nDeleting setup script groovy folder: " + (new File("${rootLocation}/${replacementName}-core-code/src/main/groovy").deleteDir()))
 println("\nDeleting bootstrap_template.sh: " + (new File("${rootLocation}/bootstrap_template.sh").delete()))
 println("\nDeleting bootstrap_template.log (if it exists): " + (new File("${rootLocation}/bootstrap_template.log").delete()))
+
+String mainReadmeFilepath = "${rootLocation}/README.md"
+File tmpltReadme = new File(mainReadmeFilepath)
+File svcReadme = new File("${rootLocation}/README_SERVICE.md")
+fixLinksToTemplateProjectOnGithub(svcReadme)
+println("\nReplacing README.md with README_SERVICE.md: " + (tmpltReadme.delete() && svcReadme.renameTo(mainReadmeFilepath)))

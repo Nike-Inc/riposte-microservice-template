@@ -17,7 +17,7 @@ import io.netty.util.CharsetUtil;
 import io.restassured.response.ExtractableResponse;
 
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedError;
-import static io.netty.handler.codec.http.HttpHeaders.Names.AUTHORIZATION;
+import static io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION;
 import static io.restassured.RestAssured.given;
 
 /**
@@ -60,7 +60,7 @@ public class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
         given()
             .baseUri("http://localhost")
             .port(serverConfig.endpointsPort())
-            .header(AUTHORIZATION, basicAuthHeaderValueRequired)
+            .header(AUTHORIZATION.toString(), basicAuthHeaderValueRequired)
             .log().all()
         .when()
             .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
@@ -76,7 +76,7 @@ public class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
             given()
                 .baseUri("http://localhost")
                 .port(serverConfig.endpointsPort())
-                .header(AUTHORIZATION, "foo" + basicAuthHeaderValueRequired)
+                .header(AUTHORIZATION.toString(), "foo" + basicAuthHeaderValueRequired)
                 .log().all()
             .when()
                 .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)

@@ -1,5 +1,6 @@
 package com.myorg.ripostemicroservicetemplate.endpoints;
 
+import com.nike.backstopper.apierror.ApiError;
 import com.nike.backstopper.apierror.sample.SampleCoreApiError;
 import com.nike.backstopper.exception.ApiException;
 import com.nike.riposte.server.http.RequestInfo;
@@ -17,6 +18,7 @@ import com.datastax.driver.core.Statement;
 import net.javacrumbs.futureconverter.java8guava.FutureConverter;
 
 import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +31,7 @@ import javax.inject.Named;
 
 import io.netty.channel.ChannelHandlerContext;
 
+import static com.myorg.ripostemicroservicetemplate.error.ProjectApiError.EXAMPLE_EMBEDDED_CASSANDRA_DISABLED;
 import static com.nike.riposte.util.AsyncNettyHelper.functionWithTracingAndMdc;
 
 /**
@@ -66,20 +69,26 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
             System.setProperty("cassandra.storagedir", "build/embeddedCassandra/storageDir");
             EmbeddedCassandraUtils.startEmbeddedCassandra(disableCassandra);
         }
-        catch (Throwable ex) {
+        catch (Exception ex) {
             // No need to prevent the entire app from starting up if there are cassandra problems
             logger.error("Error during embedded cassandra startup", ex);
         }
     }
 
     @Override
-    public CompletableFuture<ResponseInfo<String>> execute(RequestInfo<Void> request, Executor longRunningTaskExecutor,
-                                                           ChannelHandlerContext ctx) {
-
+    public @NotNull CompletableFuture<ResponseInfo<String>> execute(
+        @NotNull RequestInfo<Void> request,
+        @NotNull Executor longRunningTaskExecutor,
+        @NotNull ChannelHandlerContext ctx
+    ) {
         Session session = EmbeddedCassandraUtils.cassandraSession(disableCassandra);
         if (session == null) {
+            ApiError apiErrorToThrow = (disableCassandra)
+                                       ? EXAMPLE_EMBEDDED_CASSANDRA_DISABLED
+                                       : SampleCoreApiError.GENERIC_SERVICE_ERROR;
+
             throw ApiException.newBuilder()
-                              .withApiErrors(SampleCoreApiError.GENERIC_SERVICE_ERROR)
+                              .withApiErrors(apiErrorToThrow)
                               .withExceptionMessage("Unable to get cassandra session.")
                               .build();
         }
@@ -105,7 +114,7 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
     }
 
     @Override
-    public Matcher requestMatcher() {
+    public @NotNull Matcher requestMatcher() {
         return MATCHER;
     }
 
@@ -127,6 +136,10 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
 
         private static Session cassandraSession = null;
 
+        // All access to this class should happen through the static methods.
+        private EmbeddedCassandraUtils() { }
+        
+        @SuppressWarnings("UnusedReturnValue")
         private static Session startEmbeddedCassandra(boolean disableCassandra) {
             if (disableCassandra) {
                 logger.warn("Embedded cassandra is NOT starting up because your app configuration explicitly requests "
@@ -136,14 +149,15 @@ public class ExampleCassandraAsyncEndpoint extends StandardEndpoint<Void, String
 
             if (cassandraSession == null) {
                 File cassandraWorkDir = new File(embeddedClusterWorkDirectory);
+                String cassandraWorkDirAbsolutePath = cassandraWorkDir.getAbsolutePath();
                 if (!cassandraWorkDir.exists()) {
-                    logger.info("Creating the  embedded Cassandra folders...{}", cassandraWorkDir.getAbsolutePath());
-                    //noinspection ResultOfMethodCallIgnored
-                    cassandraWorkDir.mkdirs();
+                    logger.info("Creating the  embedded Cassandra folders...{}", cassandraWorkDirAbsolutePath);
+                    if (!cassandraWorkDir.mkdirs()) {
+                        throw new RuntimeException("Unable to create working directory " + cassandraWorkDirAbsolutePath);
+                    }
                 }
                 // Start embedded cassandra
-                logger.info("Finished Creating the  embedded Cassandra folders...{}",
-                            cassandraWorkDir.getAbsolutePath());
+                logger.info("Finished Creating the  embedded Cassandra folders...{}", cassandraWorkDirAbsolutePath);
                 logger.info("Starting embedded Cassandra");
 
                 try {

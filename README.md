@@ -11,8 +11,9 @@ features baked in like distributed tracing (provided by the Zipkin-compatible
 default provided by [Backstopper](https://github.com/Nike-Inc/backstopper)), and circuit breaking (provided by 
 [Fastbreak](https://github.com/Nike-Inc/fastbreak)). 
 
-***IMPORTANT NOTE:*** Riposte uses Java 8. This project will not build or run unless you use a Java 8 JDK. Verify 
-you're using a Java 8 JDK with a simple `java -version`.
+***IMPORTANT NOTE:*** Riposte requires a minimum of Java 8. This project will not build or run unless you use a Java 8 
+or later JDK. Verify you're using a Java 8 or later JDK with a simple `java -version`. This project is also ready for
+Java 11 - if you want to use Java 11 see [this section of the readme](#java_11_ready).
 
 ## Want a Kotlin Version of this Microservice Template?
 
@@ -52,7 +53,7 @@ test, or prod.
 	* [Setting environment-specific properties during bootstrapping](#set_env_props_during_bootstrap)
 	* [Example all-in-one curl command](#example_all_in_one_curl_command)
 * [Running the server](#running_the_server)
-    * [Disabling embedded cassandra](#disabling_embedded_cassandra)
+    * [Enabling embedded cassandra](#enabling_embedded_cassandra)
 * [Example endpoints](#example_endpoints)
     * [Other things to try](#other_things_to_try)
 * [Template Application properties and dependency injection](#app_props_and_dependency_injection)
@@ -70,6 +71,7 @@ test, or prod.
 * [Remote tests submodule](#remote_tests)
 * [Component tests](#component_tests)
 * [Removing the example code](#removing_example_code)
+* [Using Java 11 with this project](#java_11_ready)
 * [License](#license)
 
 <a name="how_to_generate_new_project"></a>
@@ -214,14 +216,14 @@ application using this shadow jar you would do something like the following:
 	There is a `debugShadowJar.sh` script at the root of the project that already contains this command and configures 
 	remote debugging on port 5005.
 
-<a name="disabling_embedded_cassandra"></a>
-### Disabling embedded Cassandra
+<a name="enabling_embedded_cassandra"></a>
+### Enabling embedded Cassandra
 
 This template microservice contains an embedded Cassandra database as an example of interacting with a database in an 
-async nonblocking way. Unfortunately this significantly increases the startup time of the application. When you're done 
-experimenting with the Cassandra endpoint you can disable embedded Cassandra so that subsequent startup times are much 
-quicker. Simply add the following line to your `[appname]-core-code/src/main/resources/[appname]-local-overrides.conf` 
-file: `disableCassandra=true`. 
+async nonblocking way. Unfortunately this significantly increases the startup time of the application, so it's 
+disabled by default. When you want to experiment with the Cassandra endpoint you can enable embedded Cassandra
+by adding the following line to your `[appname]-core-code/src/main/resources/[appname]-local-overrides.conf`
+file: `disableCassandra=false`. 
 
 [back to top](#top)
 
@@ -234,10 +236,10 @@ for making the requests so you can easily specify HTTP method, payloads, headers
 
 * `GET|POST /example` - Basic GET/POST behavior with validation. The GET call just returns an example payload. You can 
 copy/paste this payload and POST it back to explore the validation and exception behavior. The `input_val_1` and 
-`input_val_2` fields are required and validation is controlled by JSR 303 annotations - remove these fields or make 
-them blank for your `POST` call to see the validation in action. Set the `throwManualError` field to true to see the 
-result of a thrown exception from inside an endpoint. Implemented by the `ExampleEndpoint.Get` and 
-`ExampleEndpoint.Post` classes.
+`input_val_2` fields are required and have length limitations, and validation is controlled by JSR 303 annotations - 
+remove these fields or make them blank or really long (> 60 chars) for your `POST` call to see the validation in 
+action. Set the `throwManualError` field to true to see the result of a thrown exception from inside an endpoint. 
+Implemented by the `ExampleEndpoint.Get` and `ExampleEndpoint.Post` classes.
 * `ANY-METHOD /exampleDownstreamHttpAsync` - An example of performing a downstream HTTP network call using an 
 async/nonblocking NIO client to avoid using any threads for the entirety of the endpoint. Since we want the example 
 endpoints to be fully self-contained we simply make a downstream call to our own `/example` endpoint described above. 
@@ -703,6 +705,13 @@ There are a few other things you might want to clean up depending on your needs 
 `TODO: EXAMPLE CLEANUP` in the project.
 
 [back to top](#top)
+
+<a name="java_11_ready"></a>
+## Using Java 11 with this project
+
+This project is Java 11 ready. Simply find the two references to `JavaVersion.VERSION_1_8` in 
+[build.gradle](build.gradle) and replace them with `JavaVersion.VERSION_11`. Then build and run with a Java 11
+JDK. No other changes are needed.
 
 <a name="license"></a>
 ## License

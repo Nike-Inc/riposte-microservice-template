@@ -7,6 +7,8 @@ import com.nike.riposte.util.Matcher;
 
 import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,7 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
@@ -73,19 +75,21 @@ public class ExampleBasicAuthProtectedEndpoint {
         }
 
         @Override
-        public CompletableFuture<ResponseInfo<Map<String, String>>> execute(RequestInfo<Void> request,
-                                                                            Executor longRunningTaskExecutor,
-                                                                            ChannelHandlerContext ctx) {
+        public @NotNull CompletableFuture<ResponseInfo<Map<String, String>>> execute(
+            @NotNull RequestInfo<Void> request,
+            @NotNull Executor longRunningTaskExecutor,
+            @NotNull ChannelHandlerContext ctx
+        ) {
             Map<String, String> responseData = new LinkedHashMap<>();
             responseData.put("description", "The following Authorization header can be used to call POST "
                                             + MATCHING_PATH + " without a validation error.");
-            responseData.put(HttpHeaders.Names.AUTHORIZATION, basicAuthHeaderValueRequired);
+            responseData.put(HttpHeaderNames.AUTHORIZATION.toString(), basicAuthHeaderValueRequired);
 
             return CompletableFuture.completedFuture(ResponseInfo.newBuilder(responseData).build());
         }
 
         @Override
-        public Matcher requestMatcher() {
+        public @NotNull Matcher requestMatcher() {
             return MATCHER;
         }
 
@@ -99,10 +103,11 @@ public class ExampleBasicAuthProtectedEndpoint {
         private static final Matcher MATCHER = Matcher.match(MATCHING_PATH, HttpMethod.POST);
 
         @Override
-        public CompletableFuture<ResponseInfo<String>> execute(RequestInfo<Void> request,
-                                                               Executor longRunningTaskExecutor,
-                                                               ChannelHandlerContext ctx) {
-
+        public @NotNull CompletableFuture<ResponseInfo<String>> execute(
+            @NotNull RequestInfo<Void> request,
+            @NotNull Executor longRunningTaskExecutor,
+            @NotNull ChannelHandlerContext ctx
+        ) {
             return CompletableFuture.completedFuture(
                 ResponseInfo.newBuilder("Successful Basic Auth call")
                             .withHttpStatusCode(HttpResponseStatus.CREATED.code())
@@ -112,7 +117,7 @@ public class ExampleBasicAuthProtectedEndpoint {
         }
 
         @Override
-        public Matcher requestMatcher() {
+        public @NotNull Matcher requestMatcher() {
             return MATCHER;
         }
 

@@ -25,7 +25,7 @@ import java.util.List;
  */
 public final class ApplicationJsr303AnnotationTroller extends ReflectionBasedJsr303AnnotationTrollerBase {
 
-    public static final ApplicationJsr303AnnotationTroller INSTANCE = new ApplicationJsr303AnnotationTroller();
+    static final ApplicationJsr303AnnotationTroller INSTANCE = new ApplicationJsr303AnnotationTroller();
 
     // Intentionally private - use {@code getInstance()} to retrieve the singleton instance of this class.
     private ApplicationJsr303AnnotationTroller() {

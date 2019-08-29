@@ -5,6 +5,8 @@ import com.nike.riposte.server.http.RequestInfo;
 import com.nike.riposte.server.http.impl.SimpleProxyRouterEndpoint;
 import com.nike.riposte.util.Matcher;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -43,8 +45,10 @@ public class ExampleProxyRouterEndpoint extends SimpleProxyRouterEndpoint {
     }
 
     @Override
-    public CompletableFuture<DownstreamRequestFirstChunkInfo> getDownstreamRequestFirstChunkInfo(
-        RequestInfo<?> request, Executor longRunningTaskExecutor, ChannelHandlerContext ctx
+    public @NotNull CompletableFuture<DownstreamRequestFirstChunkInfo> getDownstreamRequestFirstChunkInfo(
+        @NotNull RequestInfo<?> request,
+        @NotNull Executor longRunningTaskExecutor,
+        @NotNull ChannelHandlerContext ctx
     ) {
         // Reuse the super.getDownstreamRequestFirstChunkInfo() impl since it does most of what we want.
         return super.getDownstreamRequestFirstChunkInfo(request, longRunningTaskExecutor, ctx)

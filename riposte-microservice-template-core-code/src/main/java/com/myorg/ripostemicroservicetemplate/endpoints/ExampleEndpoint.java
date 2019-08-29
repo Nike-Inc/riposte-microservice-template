@@ -12,13 +12,14 @@ import com.nike.riposte.util.Matcher;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiError;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpMethod;
@@ -60,9 +61,11 @@ public class ExampleEndpoint {
         private static final Matcher MATCHER = Matcher.match(MATCHING_PATH, HttpMethod.GET);
 
         @Override
-        public CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> execute(RequestInfo<Void> request,
-                                                                                  Executor longRunningTaskExecutor,
-                                                                                  ChannelHandlerContext ctx) {
+        public @NotNull CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> execute(
+            @NotNull RequestInfo<Void> request,
+            @NotNull Executor longRunningTaskExecutor,
+            @NotNull ChannelHandlerContext ctx
+        ) {
             // Since we're not doing anything time consuming we don't need to execute anything on another thread and we
             //      can just return an already-completed CompletableFuture.
             return CompletableFuture.completedFuture(
@@ -77,7 +80,7 @@ public class ExampleEndpoint {
         }
 
         @Override
-        public Matcher requestMatcher() {
+        public @NotNull Matcher requestMatcher() {
             return MATCHER;
         }
 
@@ -101,13 +104,16 @@ public class ExampleEndpoint {
          *     {@link ErrorHandlingEndpointArgs} class to see which are which).
          */
         @Override
-        public CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> execute(
-            RequestInfo<ErrorHandlingEndpointArgs> request, Executor longRunningTaskExecutor, ChannelHandlerContext ctx
+        public @NotNull CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> execute(
+            @NotNull RequestInfo<ErrorHandlingEndpointArgs> request,
+            @NotNull Executor longRunningTaskExecutor,
+            @NotNull ChannelHandlerContext ctx
         ) {
             // If we reach here then the request content has already been run through the JSR 303 validator and we know
             //      it's non-null (since the InputType in our StandardEndpoint<InputType, OutputType> definition is
             //      not Void).
             ErrorHandlingEndpointArgs content = request.getContent();
+            assert content != null;
 
             // Manually check the throwManualError query param (normally you'd do this with JSR 303 annotations on the
             //      object, but this shows how you can manually throw exceptions to be picked up by the error handling
@@ -134,7 +140,7 @@ public class ExampleEndpoint {
         }
 
         @Override
-        public Matcher requestMatcher() {
+        public @NotNull Matcher requestMatcher() {
             return MATCHER;
         }
 
@@ -143,12 +149,12 @@ public class ExampleEndpoint {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ErrorHandlingEndpointArgs {
 
-        @NotNull(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1")
         @NotBlank(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1")
+        @Size(max = 50, message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE")
         public final String input_val_1;
 
-        @NotNull(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2")
         @NotBlank(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2")
+        @Size(max = 60, message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE")
         public final String input_val_2;
 
         public final Boolean throwManualError;

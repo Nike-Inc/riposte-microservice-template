@@ -14,15 +14,14 @@ import com.nike.riposte.server.http.StandardEndpoint
 import com.nike.riposte.util.AsyncNettyHelper.functionWithTracingAndMdc
 import com.nike.riposte.util.Matcher
 import io.netty.channel.ChannelHandlerContext
-import net.javacrumbs.futureconverter.java8guava.FutureConverter
-import org.cassandraunit.utils.EmbeddedCassandraServerHelper
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Named
-
+import net.javacrumbs.futureconverter.java8guava.FutureConverter
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper
+import org.slf4j.LoggerFactory
 
 /**
  * Endpoint that shows how to do Cassandra calls in an async way using the async driver utilities, without creating
@@ -38,7 +37,7 @@ import javax.inject.Named
 class ExampleCassandraAsyncEndpoint
 @Inject
 constructor(
-        @Named("disableCassandra") private val disableCassandra: Boolean
+    @Named("disableCassandra") private val disableCassandra: Boolean
 ) : StandardEndpoint<Void, String>() {
 
     companion object {
@@ -64,11 +63,13 @@ constructor(
             // No need to prevent the entire app from starting up if there are cassandra problems
             logger.error("Error during embedded cassandra startup", ex)
         }
-
     }
 
-    override fun execute(request: RequestInfo<Void>, longRunningTaskExecutor: Executor,
-                         ctx: ChannelHandlerContext): CompletableFuture<ResponseInfo<String>> {
+    override fun execute(
+        request: RequestInfo<Void>,
+        longRunningTaskExecutor: Executor,
+        ctx: ChannelHandlerContext
+    ): CompletableFuture<ResponseInfo<String>> {
 
         val apiErrorToThrowIfSessionMissing: ApiError =
             if (disableCassandra)
@@ -91,7 +92,7 @@ constructor(
         //      blocking calls) you would want to do the extra work with CompletableFuture.*Async() calls.
         return FutureConverter
                 .toCompletableFuture(cassandraResultFuture)
-                .thenApply(functionWithTracingAndMdc( { this.buildResponseFromCassandraQueryResult(it) }, ctx))
+                .thenApply(functionWithTracingAndMdc({ this.buildResponseFromCassandraQueryResult(it) }, ctx))
     }
 
     private fun buildResponseFromCassandraQueryResult(result: ResultSet): ResponseInfo<String> {
@@ -171,5 +172,4 @@ constructor(
             return cassandraSession
         }
     }
-
 }

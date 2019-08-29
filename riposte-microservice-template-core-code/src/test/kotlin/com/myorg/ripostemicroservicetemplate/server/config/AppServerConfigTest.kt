@@ -15,11 +15,11 @@ import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigValueFactory
 import dev.misfitlabs.kotlinguice4.typeLiteral
+import java.util.ArrayList
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before
 import org.junit.Test
-import java.util.ArrayList
 
 /**
  * Tests the functionality of [AppServerConfig]

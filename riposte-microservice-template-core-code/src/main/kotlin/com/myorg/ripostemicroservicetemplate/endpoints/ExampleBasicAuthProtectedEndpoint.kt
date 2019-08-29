@@ -46,8 +46,8 @@ object ExampleBasicAuthProtectedEndpoint {
     class Get
     @Inject
     constructor(
-            @Named("exampleBasicAuth.username") basicAuthUsername: String,
-            @Named("exampleBasicAuth.password") basicAuthPassword: String
+        @Named("exampleBasicAuth.username") basicAuthUsername: String,
+        @Named("exampleBasicAuth.password") basicAuthPassword: String
     ) : StandardEndpoint<Void, Map<String, String>>() {
 
         private val matcher: Matcher = Matcher.match(MATCHING_PATH, HttpMethod.GET)
@@ -56,9 +56,10 @@ object ExampleBasicAuthProtectedEndpoint {
                         ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
                 )
 
-        override fun execute(request: RequestInfo<Void>,
-                             longRunningTaskExecutor: Executor,
-                             ctx: ChannelHandlerContext
+        override fun execute(
+            request: RequestInfo<Void>,
+            longRunningTaskExecutor: Executor,
+            ctx: ChannelHandlerContext
         ): CompletableFuture<ResponseInfo<Map<String, String>>> {
 
             val responseData = LinkedHashMap<String, String>()
@@ -74,7 +75,6 @@ object ExampleBasicAuthProtectedEndpoint {
         override fun requestMatcher(): Matcher {
             return matcher
         }
-
     }
 
     /**
@@ -84,9 +84,10 @@ object ExampleBasicAuthProtectedEndpoint {
 
         private val matcher: Matcher = Matcher.match(MATCHING_PATH, HttpMethod.POST)
 
-        override fun execute(request: RequestInfo<Void>,
-                             longRunningTaskExecutor: Executor,
-                             ctx: ChannelHandlerContext
+        override fun execute(
+            request: RequestInfo<Void>,
+            longRunningTaskExecutor: Executor,
+            ctx: ChannelHandlerContext
         ): CompletableFuture<ResponseInfo<String>> {
 
             return CompletableFuture.completedFuture(
@@ -100,7 +101,5 @@ object ExampleBasicAuthProtectedEndpoint {
         override fun requestMatcher(): Matcher {
             return matcher
         }
-
     }
-
 }

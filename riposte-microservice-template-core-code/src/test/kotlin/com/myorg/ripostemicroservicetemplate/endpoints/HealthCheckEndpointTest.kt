@@ -28,5 +28,4 @@ class HealthCheckEndpointTest {
         // then
         assertThat(responseInfo.httpStatusCode).isEqualTo(200)
     }
-
 }

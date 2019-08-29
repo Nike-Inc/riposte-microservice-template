@@ -12,11 +12,11 @@ import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.verifyExpectedE
 import com.nike.backstopper.apierror.sample.SampleCoreApiError
 import com.nike.riposte.server.Server
 import io.restassured.RestAssured.given
+import java.util.UUID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import java.util.UUID
 
 /**
  * Component test that launches a test version of the application that uses a "compiletimetest" properties file for its

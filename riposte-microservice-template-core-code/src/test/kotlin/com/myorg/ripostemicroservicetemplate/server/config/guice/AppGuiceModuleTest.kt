@@ -29,15 +29,15 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigValueFactory
 import dev.misfitlabs.kotlinguice4.annotatedKey
 import dev.misfitlabs.kotlinguice4.getInstance
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
+import java.util.function.Supplier
+import javax.validation.Validator
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
-import java.util.function.Supplier
-import javax.validation.Validator
 
 /**
  * Tests the functionality of [AppGuiceModule]
@@ -65,7 +65,9 @@ class AppGuiceModuleTest {
     }
 
     private fun generateAppConfigWithMetricsEnabledOrDisabled(
-            slf4jReportingEnabled: Boolean, jmxReportingEnabled: Boolean, graphiteEnabled: Boolean
+        slf4jReportingEnabled: Boolean,
+        jmxReportingEnabled: Boolean,
+        graphiteEnabled: Boolean
     ): Config {
         return TypesafeConfigUtil
                 .loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
@@ -188,8 +190,11 @@ class AppGuiceModuleTest {
         "true   |   true    |   true"
     ], splitBy = "\\|")
     @Test
-    fun metricsReporters_are_added_as_expected(enableSlf4jReporter: Boolean, enableJmxReporter: Boolean,
-                                               enableGraphiteReporter: Boolean) {
+    fun metricsReporters_are_added_as_expected(
+        enableSlf4jReporter: Boolean,
+        enableJmxReporter: Boolean,
+        enableGraphiteReporter: Boolean
+    ) {
         // given
         configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
                 enableSlf4jReporter, enableJmxReporter, enableGraphiteReporter
@@ -218,8 +223,8 @@ class AppGuiceModuleTest {
             val appInfo = injector!!.getInstance(
                     annotatedKey<CompletableFuture<AppInfo>>(Names.named("appInfoFuture"))
             ).join()
-            val expectedPrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment()
-                    + "." + appInfo.instanceId())
+            val expectedPrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
+                    "." + appInfo.instanceId())
             val expectedGraphiteUrl = configForTesting!!.getString("metrics.graphite.url")
             val expectedPort = configForTesting!!.getInt("metrics.graphite.port")
             assertThat(Whitebox.getInternalState(graphiteReporter, "prefix")).isEqualTo(expectedPrefix)
@@ -301,5 +306,4 @@ class AppGuiceModuleTest {
         val appInfo = appInfoFuture.get(1, TimeUnit.SECONDS)
         assertThat(appInfo).isNotNull()
     }
-
 }

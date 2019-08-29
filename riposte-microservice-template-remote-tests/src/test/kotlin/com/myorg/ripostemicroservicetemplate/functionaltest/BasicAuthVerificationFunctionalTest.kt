@@ -1,12 +1,12 @@
 package com.myorg.ripostemicroservicetemplate.functionaltest
 
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint
+import com.myorg.ripostemicroservicetemplate.functionaltest.PropertiesHelper.Companion.INSTANCE as props
 import com.nike.backstopper.apierror.sample.SampleCoreApiError
 import io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION
 import io.restassured.RestAssured.given
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import com.myorg.ripostemicroservicetemplate.functionaltest.PropertiesHelper.Companion.INSTANCE as props
 
 /**
  * Functional test that verifies the server is correctly restricting access via basic auth.
@@ -64,5 +64,4 @@ class BasicAuthVerificationFunctionalTest {
                 .log().all()
                 .statusCode(200)
     }
-
 }

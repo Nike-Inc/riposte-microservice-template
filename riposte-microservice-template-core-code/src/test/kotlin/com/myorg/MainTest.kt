@@ -71,8 +71,7 @@ class MainTest {
             .then()
                 .log().all()
                 .extract()
-        
+
         assertThat(healthCheckCallResponse.statusCode()).isEqualTo(200)
     }
-
 }

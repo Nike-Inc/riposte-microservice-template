@@ -8,11 +8,11 @@ import com.nike.riposte.server.Server
 import io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION
 import io.netty.util.CharsetUtil
 import io.restassured.RestAssured.given
+import java.io.IOException
+import java.util.Base64
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import java.io.IOException
-import java.util.Base64
 
 /**
  * Component test that verifies the basic auth security is configured correctly on the server.
@@ -101,5 +101,4 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
             realRunningServer!!.shutdown()
         }
     }
-
 }

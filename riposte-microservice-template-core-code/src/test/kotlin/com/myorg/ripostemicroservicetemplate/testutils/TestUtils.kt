@@ -12,10 +12,10 @@ import com.nike.riposte.server.Server
 import com.nike.riposte.server.config.ServerConfig
 import com.typesafe.config.Config
 import io.restassured.response.ExtractableResponse
-import org.assertj.core.api.Assertions.assertThat
 import java.io.IOException
 import java.lang.reflect.Field
 import java.net.ServerSocket
+import org.assertj.core.api.Assertions.assertThat
 
 /**
  * Contains static helper methods for performing some common test tasks, mainly around launching a real server to test
@@ -30,7 +30,7 @@ object TestUtils {
 
     class AppServerConfigForTesting
     constructor(
-            propertiesRegistrationModule: TypesafeConfigPropertiesRegistrationGuiceModuleForTesting
+        propertiesRegistrationModule: TypesafeConfigPropertiesRegistrationGuiceModuleForTesting
     ) : AppServerConfig(propertiesRegistrationModule.config, propertiesRegistrationModule) {
 
         val testingAppConfig: Config = propertiesRegistrationModule.config
@@ -39,7 +39,6 @@ object TestUtils {
         override fun endpointsPort(): Int {
             return portToUse
         }
-
     }
 
     /**
@@ -54,7 +53,7 @@ object TestUtils {
 
         val serverConfig = AppServerConfigForTesting(propsRegistrationModule)
         val server = Server(serverConfig)
-        
+
         return Pair.of(server, serverConfig)
     }
 
@@ -85,9 +84,11 @@ object TestUtils {
      * @param expectedHttpStatusCode The HTTP status code that the response should match.
      * @param expectedErrors The errors that the response should match.
      */
-    fun verifyExpectedErrors(response: ExtractableResponse<*>,
-                             expectedHttpStatusCode: Int,
-                             expectedErrors: Collection<ApiError>) {
+    fun verifyExpectedErrors(
+        response: ExtractableResponse<*>,
+        expectedHttpStatusCode: Int,
+        expectedErrors: Collection<ApiError>
+    ) {
         try {
             assertThat(response.statusCode()).isEqualTo(expectedHttpStatusCode)
             val errorContract = OBJECT_MAPPER.readValue<DefaultErrorContractDTO>(response.asString())
@@ -106,7 +107,6 @@ object TestUtils {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-
     }
 
     /**
@@ -147,7 +147,7 @@ object TestUtils {
                 throw RuntimeException(
                     "You want me to get this field: '" + field +
                     "' on this class: '" + clazz.getSimpleName() +
-                    "' but this field is not declared withing hierarchy of this class!");
+                    "' but this field is not declared withing hierarchy of this class!")
             }
             return f
         }

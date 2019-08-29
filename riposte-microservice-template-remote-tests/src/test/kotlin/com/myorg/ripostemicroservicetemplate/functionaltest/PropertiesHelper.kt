@@ -25,9 +25,9 @@ import javax.inject.Named
 class PropertiesHelper
 @Inject
 private constructor(
-        @Named("ripostemicroservicetemplate.host") val ripostemicroservicetemplateHost: String,
-        @Named("basicAuth.username") basicAuthUsername: String,
-        @Named("basicAuth.password") basicAuthPassword: String
+    @Named("ripostemicroservicetemplate.host") val ripostemicroservicetemplateHost: String,
+    @Named("basicAuth.username") basicAuthUsername: String,
+    @Named("basicAuth.password") basicAuthPassword: String
 ) {
 
     val basicAuthHeaderVal: String = "Basic " + Base64.getEncoder().encodeToString(
@@ -55,9 +55,11 @@ private constructor(
      * @param expectedHttpStatusCode The HTTP status code that the response should match.
      * @param expectedErrors The errors that the response should match.
      */
-    fun verifyExpectedErrors(response: ExtractableResponse<*>,
-                             expectedHttpStatusCode: Int,
-                             expectedErrors: Collection<ApiError>) {
+    fun verifyExpectedErrors(
+        response: ExtractableResponse<*>,
+        expectedHttpStatusCode: Int,
+        expectedErrors: Collection<ApiError>
+    ) {
         // No need to copy/paste - just delegate to TestUtils
         TestUtils.verifyExpectedErrors(response, expectedHttpStatusCode, expectedErrors)
     }
@@ -82,5 +84,4 @@ private constructor(
 
         private val environment: String? get() = System.getProperty("remoteTestEnv")
     }
-
 }

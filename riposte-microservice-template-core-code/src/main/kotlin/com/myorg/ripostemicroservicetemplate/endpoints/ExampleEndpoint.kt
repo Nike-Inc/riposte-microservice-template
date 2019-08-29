@@ -50,9 +50,11 @@ object ExampleEndpoint {
 
         private val matcher: Matcher = Matcher.match(MATCHING_PATH, HttpMethod.GET)
 
-        override fun execute(request: RequestInfo<Void>,
-                             longRunningTaskExecutor: Executor,
-                             ctx: ChannelHandlerContext): CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> {
+        override fun execute(
+            request: RequestInfo<Void>,
+            longRunningTaskExecutor: Executor,
+            ctx: ChannelHandlerContext
+        ): CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> {
             // Since we're not doing anything time consuming we don't need to execute anything on another thread and we
             //      can just return an already-completed CompletableFuture.
             return CompletableFuture.completedFuture(
@@ -69,7 +71,6 @@ object ExampleEndpoint {
         override fun requestMatcher(): Matcher {
             return matcher
         }
-
     }
 
     /**
@@ -90,9 +91,9 @@ object ExampleEndpoint {
          * [ErrorHandlingEndpointArgs] class to see which are which).
          */
         override fun execute(
-                request: RequestInfo<ErrorHandlingEndpointArgs>,
-                longRunningTaskExecutor: Executor,
-                ctx: ChannelHandlerContext
+            request: RequestInfo<ErrorHandlingEndpointArgs>,
+            longRunningTaskExecutor: Executor,
+            ctx: ChannelHandlerContext
         ): CompletableFuture<ResponseInfo<ErrorHandlingEndpointArgs>> {
             // If we reach here then the request content has already been run through the JSR 303 validator and we know
             //      it's non-null (since the InputType in our StandardEndpoint<InputType, OutputType> definition is
@@ -126,18 +127,17 @@ object ExampleEndpoint {
         override fun requestMatcher(): Matcher {
             return matcher
         }
-
     }
 
     class ErrorHandlingEndpointArgs(
-            @field:NotBlank(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1")
-            @field:Size(max = 50, message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE")
-            val input_val_1: String?,
+        @field:NotBlank(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1")
+        @field:Size(max = 50, message = "EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE")
+        val input_val_1: String?,
 
-            @field:NotBlank(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2")
-            @field:Size(max = 60, message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE")
-            val input_val_2: String?,
+        @field:NotBlank(message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2")
+        @field:Size(max = 60, message = "EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE")
+        val input_val_2: String?,
 
-            val throwManualError: Boolean?
+        val throwManualError: Boolean?
     )
 }

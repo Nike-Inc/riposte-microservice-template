@@ -38,8 +38,8 @@ import java.util.concurrent.CompletableFuture
  */
 open class AppServerConfig
 protected constructor(
-        appConfig: Config?,
-        propertiesRegistrationGuiceModule: PropertiesRegistrationGuiceModule
+    appConfig: Config?,
+    propertiesRegistrationGuiceModule: PropertiesRegistrationGuiceModule
 ) : ServerConfig {
 
     /*
@@ -56,7 +56,7 @@ protected constructor(
     private val kotlinEnabledObjectMapper: ObjectMapper = ObjectMapper().registerKotlinModule()
 
     private val appConfig: Config = appConfig ?: throw IllegalArgumentException("appConfig cannot be null")
-    
+
     init {
         // Create a Guice Injector for this app.
         val appGuiceModules = ArrayList<Module>()

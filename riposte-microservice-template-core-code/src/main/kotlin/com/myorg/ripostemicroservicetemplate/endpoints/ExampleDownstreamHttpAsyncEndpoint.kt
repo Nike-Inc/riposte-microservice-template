@@ -9,11 +9,11 @@ import com.nike.riposte.server.http.ResponseInfo
 import com.nike.riposte.server.http.StandardEndpoint
 import com.nike.riposte.util.Matcher
 import io.netty.channel.ChannelHandlerContext
-import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Named
+import org.slf4j.LoggerFactory
 
 /**
  * Contains an example of how to do asynchronous downstream HTTP calls so that the thread count on the server stays
@@ -28,10 +28,11 @@ import javax.inject.Named
  */
 class ExampleDownstreamHttpAsyncEndpoint
 @Inject
-constructor(private val asyncHttpClientHelper: AsyncHttpClientHelper,
-            @Named("endpoints.port") httpPort: Int,
-            @Named("endpoints.sslPort") httpsPort: Int,
-            @Named("endpoints.useSsl") useSecure: Boolean
+constructor(
+    private val asyncHttpClientHelper: AsyncHttpClientHelper,
+    @Named("endpoints.port") httpPort: Int,
+    @Named("endpoints.sslPort") httpsPort: Int,
+    @Named("endpoints.useSsl") useSecure: Boolean
 ) : StandardEndpoint<Void, Map<String, Any>>() {
 
     companion object {
@@ -53,9 +54,11 @@ constructor(private val asyncHttpClientHelper: AsyncHttpClientHelper,
         this.downstreamUrl = localServerHostAndPort + ExampleEndpoint.MATCHING_PATH
     }
 
-    override fun execute(request: RequestInfo<Void>,
-                         longRunningTaskExecutor: Executor,
-                         ctx: ChannelHandlerContext): CompletableFuture<ResponseInfo<Map<String, Any>>> {
+    override fun execute(
+        request: RequestInfo<Void>,
+        longRunningTaskExecutor: Executor,
+        ctx: ChannelHandlerContext
+    ): CompletableFuture<ResponseInfo<Map<String, Any>>> {
 
         val reqWrapper = asyncHttpClientHelper.getRequestBuilder(downstreamUrl, request.method)
         reqWrapper.requestBuilder
@@ -86,5 +89,4 @@ constructor(private val asyncHttpClientHelper: AsyncHttpClientHelper,
     override fun requestMatcher(): Matcher {
         return matcher
     }
-
 }

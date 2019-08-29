@@ -34,5 +34,4 @@ class ProjectApiErrorsImpl : SampleProjectApiErrorsBase() {
     companion object {
         private val PROJECT_SPECIFIC_API_ERRORS = listOf<ApiError>(*ProjectApiError.values())
     }
-
 }

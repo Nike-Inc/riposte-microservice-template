@@ -72,5 +72,4 @@ enum class ProjectApiError(private val delegate: ApiError) : ApiError {
     override fun getHttpStatusCode(): Int {
         return delegate.httpStatusCode
     }
-
 }

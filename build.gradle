@@ -217,6 +217,11 @@ apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/junitComboT
 //                           Individual reports for each submodule can be found at: [project_root]/[submodule]/build/reports/jacoco/test/html/index.html
 apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/jacoco.gradle')
 
+// ========== KTLINT - run ktlint via the gradle task: ktlint. Auto-format to make ktlint happy with the gradle task: ktlintFormat
+//      See the ktlint.gradle file for further configuration details and options.
+//      See the ktlint website for more: https://ktlint.github.io/
+apply from: file(rootProject.projectDir.getAbsolutePath() + '/gradle/ktlint.gradle')
+
 allprojects {
     group = groupId // Necessary for the maven install task to function correctly
 

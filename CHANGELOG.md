@@ -4,6 +4,14 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
 
+## 2019-08-29
+
+### Updated
+
+- Upgraded most libraries to the latest available.
+- Generally cleaned up, updated, and modernized the project.
+- Added ktlint as an optional gradle task.
+
 ## 2018-02-22
 
 ### `projecttemplate/kotlin` branch

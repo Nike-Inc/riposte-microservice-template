@@ -2,19 +2,22 @@ evaluationDependsOn(':')
 
 dependencies {
 
-    testCompile (
-            project(":riposte-microservice-template-core-code"),
-            project(":riposte-microservice-template-core-code").sourceSets.test.output,
-            "org.slf4j:slf4j-api:$slf4jVersion",
-            "org.slf4j:jcl-over-slf4j:$slf4jVersion",
-            "org.slf4j:log4j-over-slf4j:$slf4jVersion",
-            "ch.qos.logback:logback-classic:$logbackVersion",
-            "ch.qos.logback:logback-core:$logbackVersion",
-            "org.assertj:assertj-core:$assertJVersion",
-            "junit:junit:$junitVersion",
-            "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
-            "org.mockito:mockito-core:$mockitoVersion",
-            "io.rest-assured:rest-assured:$restAssuredVersion"
+    testImplementation (
+        project(":riposte-microservice-template-core-code"),
+        project(":riposte-microservice-template-core-code").sourceSets.test.output,
+        "org.slf4j:slf4j-api:$slf4jVersion",
+        "org.slf4j:jcl-over-slf4j:$slf4jVersion",
+        "org.slf4j:log4j-over-slf4j:$slf4jVersion",
+        "ch.qos.logback:logback-classic:$logbackVersion",
+        "ch.qos.logback:logback-core:$logbackVersion",
+        "org.assertj:assertj-core:$assertJVersion",
+        "junit:junit:$junitVersion",
+        "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
+        "org.mockito:mockito-core:$mockitoVersion",
+        "io.rest-assured:rest-assured:$restAssuredVersion",
+
+        "com.nike.riposte:riposte-typesafe-config:$riposteVersion",
+        "com.nike.riposte:riposte-guice-typesafe-config:$riposteVersion",
     )
 }
 

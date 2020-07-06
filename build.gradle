@@ -22,7 +22,6 @@ apply plugin: 'groovy'
 // All modules should apply the following bits
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'maven'
     apply plugin: 'groovy'
     apply plugin: 'project-report'
     apply plugin: 'idea'
@@ -176,7 +175,7 @@ allprojects {
 }
 
 dependencies {
-    compile(
+    implementation(
         project(':' + rootProject.name + '-core-code')
     )
 }

@@ -28,7 +28,6 @@ apply plugin: 'kotlin'
 allprojects {
     apply plugin: 'java'
     apply plugin: 'kotlin'
-    apply plugin: 'maven'
     apply plugin: 'project-report'
     apply plugin: 'idea'
 
@@ -205,7 +204,7 @@ allprojects {
 }
 
 dependencies {
-    compile(
+    implementation(
         project(':' + rootProject.name + '-core-code')
     )
 }

@@ -1,7 +1,7 @@
 evaluationDependsOn(':')
 
 dependencies {
-    compile(
+    implementation (
             "com.nike.riposte:riposte-spi:$riposteVersion",
             "com.nike.riposte:riposte-core:$riposteVersion",
             "com.nike.riposte:riposte-typesafe-config:$riposteVersion",
@@ -48,7 +48,7 @@ dependencies {
             "org.cassandraunit:cassandra-unit:$cassandraUnitVersion"
     )
 
-    testCompile (
+    testImplementation (
             "junit:junit:$junitVersion",
             "org.assertj:assertj-core:$assertJVersion",
             "net.wuerl.kotlin:assertj-core-kotlin:$assertJKotlinBridgeVersion",

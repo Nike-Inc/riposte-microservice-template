@@ -53,7 +53,6 @@ test, or prod.
 	* [Setting environment-specific properties during bootstrapping](#set_env_props_during_bootstrap)
 	* [Example all-in-one curl command](#example_all_in_one_curl_command)
 * [Running the server](#running_the_server)
-    * [Enabling embedded cassandra](#enabling_embedded_cassandra)
 * [Example endpoints](#example_endpoints)
     * [Other things to try](#other_things_to_try)
 * [Template Application properties and dependency injection](#app_props_and_dependency_injection)
@@ -217,15 +216,6 @@ application using this shadow jar you would do something like the following:
 	There is a `debugShadowJar.sh` script at the root of the project that already contains this command and configures 
 	remote debugging on port 5005.
 
-<a name="enabling_embedded_cassandra"></a>
-### Enabling embedded Cassandra
-
-This template microservice contains an embedded Cassandra database as an example of interacting with a database in an 
-async nonblocking way. Unfortunately this significantly increases the startup time of the application, so it's 
-disabled by default. When you want to experiment with the Cassandra endpoint you can enable embedded Cassandra
-by adding the following line to your `[appname]-core-code/src/main/resources/[appname]-local-overrides.conf`
-file: `disableCassandra=false`. 
-
 [back to top](#top)
 
 <a name="example_endpoints"></a>
@@ -257,8 +247,6 @@ usage static as well. In this case this proxy endpoint works similarly to `/exam
 downstream system is our own `/example` endpoint in order to keep the example project fully self-contained. You can 
 inspect the logs to see two requests to the server for each single request from an outside caller. Implemented by the 
 `ExampleProxyRouterEndpoint` class.
-* `ANY-METHOD /exampleCassandraAsync` - An example of using Cassandra's async driver to do database queries without 
-using any threads. Implemented by the `ExampleCassandraAsyncEndpoint` class.
 * `GET|POST /exampleBasicAuth` - A set of example endpoints that show Riposte's security validation system in action. 
 The `POST` endpoint is protected by basic auth, so if you call it without the proper auth header you will get a 401 
 error. The `GET` endpoint is *not* protected and you can call it without any auth header. The response you get will be 
@@ -470,8 +458,7 @@ performance!
 	1. If the task you need to do has an async non-blocking solution that doesn't eat up a bunch of threads when a lot 
 	of concurrent requests are happening, then use that.
 		* For example Cassandra has an async driver that can handle Cassandra requests concurrently with only a few 
-		threads, so if you're doing Cassandra stuff use that (see `ExampleCassandraAsyncEndpoint` for an example of 
-		using that driver).
+		threads, so if you're doing Cassandra stuff use that.
 		* Similarly if you're making downstream HTTP calls you can leverage Netty to do it in an efficient async 
 		nonblocking way without spawning a new thread to make the call (see `ExampleDownstreamHttpAsyncEndpoint` for an 
 		example of this).
@@ -700,7 +687,6 @@ and follow the instructions in each comment to remove the example stuff from tha
 * Delete the `Example*Endpoint` classes.
 * Remove references to the example endpoint classes in `AppGuiceModule`.
 * Remove the example error enum values from `ProjectApiError`.
-* Remove the Cassandra-related dependencies in the various `build.gradle` files.
 
 There are a few other things you might want to clean up depending on your needs - again just do a search for 
 `TODO: EXAMPLE CLEANUP` in the project.

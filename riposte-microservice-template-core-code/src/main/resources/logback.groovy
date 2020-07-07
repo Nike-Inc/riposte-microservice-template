@@ -175,8 +175,6 @@ logger("com.ning.http", INFO, allAsyncAppendersArray, false)
 logger("com.netflix.config.util.OverridingPropertiesConfiguration", INFO, allAsyncAppendersArray, false) // Part of Archaius - set this to debug if you want a little more info into what archaius is doing
 
 logger("org.apache.http", INFO, allAsyncAppendersArray, false)
-logger("org.apache.cassandra", INFO, allAsyncAppendersArray, false)
-logger("com.datastax.driver.core.Connection", INFO, allAsyncAppendersArray, false)
 logger("com.netflix", INFO, allAsyncAppendersArray, false)
 logger("com.newrelic", INFO, allAsyncAppendersArray, false)
 

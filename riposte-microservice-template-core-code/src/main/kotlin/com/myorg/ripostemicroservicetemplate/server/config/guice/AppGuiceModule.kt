@@ -3,7 +3,6 @@ package com.myorg.ripostemicroservicetemplate.server.config.guice
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint
-import com.myorg.ripostemicroservicetemplate.endpoints.ExampleCassandraAsyncEndpoint
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleDownstreamHttpAsyncEndpoint
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleEndpoint
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleProxyRouterEndpoint
@@ -25,6 +24,7 @@ import com.nike.riposte.serviceregistration.eureka.EurekaHandler
 import com.nike.riposte.serviceregistration.eureka.EurekaServerHook
 import com.nike.riposte.util.AwsUtil
 import com.typesafe.config.Config
+import org.slf4j.LoggerFactory
 import java.util.ArrayList
 import java.util.LinkedHashSet
 import java.util.concurrent.CompletableFuture
@@ -33,7 +33,6 @@ import javax.inject.Named
 import javax.inject.Singleton
 import javax.validation.Validation
 import javax.validation.Validator
-import org.slf4j.LoggerFactory
 
 /**
  * The main Guice module for the application. The [validator], [projectApiErrors], [appInfoFuture], and
@@ -71,7 +70,6 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
         // TODO: EXAMPLE CLEANUP - Remove these example endpoints from this method's arguments and don't return them from this method.
         exampleEndpointGet: ExampleEndpoint.Get,
         exampleEndpointPost: ExampleEndpoint.Post,
-        exampleCassandraAsyncEndpoint: ExampleCassandraAsyncEndpoint,
         exampleDownstreamHttpAsyncEndpoint: ExampleDownstreamHttpAsyncEndpoint,
         exampleProxyRouterEndpoint: ExampleProxyRouterEndpoint,
         exampleBasicAuthProtectedEndpointGet: ExampleBasicAuthProtectedEndpoint.Get,
@@ -81,7 +79,7 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
             listOf(
                 healthCheckEndpoint,
                 // Example endpoints
-                exampleEndpointGet, exampleEndpointPost, exampleCassandraAsyncEndpoint,
+                exampleEndpointGet, exampleEndpointPost,
                 exampleDownstreamHttpAsyncEndpoint, exampleProxyRouterEndpoint,
                 exampleBasicAuthProtectedEndpointGet, exampleBasicAuthProtectedEndpointPost
             )

@@ -2,13 +2,6 @@ package com.myorg.ripostemicroservicetemplate.server.config.guice;
 
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors;
 import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper;
-import com.nike.riposte.metrics.codahale.CodahaleMetricsCollector;
-import com.nike.riposte.metrics.codahale.CodahaleMetricsEngine;
-import com.nike.riposte.metrics.codahale.CodahaleMetricsListener;
-import com.nike.riposte.metrics.codahale.ReporterFactory;
-import com.nike.riposte.metrics.codahale.contrib.DefaultGraphiteReporterFactory;
-import com.nike.riposte.metrics.codahale.contrib.DefaultJMXReporterFactory;
-import com.nike.riposte.metrics.codahale.contrib.DefaultSLF4jReporterFactory;
 import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator;
 import com.nike.riposte.server.http.Endpoint;
@@ -29,16 +22,13 @@ import com.typesafe.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.validation.Validation;
@@ -47,9 +37,9 @@ import javax.validation.Validator;
 /**
  * The main Guice module for the application. The {@link #validator()}, {@link #projectApiErrors()}, {@link
  * #appInfoFuture(AsyncHttpClientHelper)}, and {@code appEndpoints(...)} methods are required for the application to
- * function at a basic level. {@link #eurekaServerHook()}, metrics related methods, and {@link
- * #basicAuthSecurityValidator(List, String, String)} are used to enable Eureka registration, metrics gathering and
- * reporting, and basic auth endpoint protection features respectively.
+ * function at a basic level. This class will install {@link AppMetricsGuiceModule} to initialize metrics gathering
+ * and reporting. {@link #eurekaServerHook()} and {@link #basicAuthSecurityValidator(List, String, String)} are used
+ * to enable Eureka registration and basic auth endpoint protection features respectively.
  *
  * <p>You can put anything else in this class that you want to be available for injection in your {@link Endpoint}s. As
  * you add endpoints just add them to the {@code appEndpoints(...)} argument list and return them from that method.
@@ -81,6 +71,7 @@ public class AppGuiceModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        install(new AppMetricsGuiceModule());
     }
 
     @Provides
@@ -130,91 +121,6 @@ public class AppGuiceModule extends AbstractModule {
             () -> appConfig.getBoolean(EurekaHandler.DISABLE_EUREKA_INTEGRATION),
             () -> appConfig.getString(EurekaHandler.EUREKA_DATACENTER_TYPE_PROP_NAME)
         );
-    }
-
-    @Provides
-    @Singleton
-    public CodahaleMetricsListener metricsListener(@Nullable CodahaleMetricsCollector metricsCollector,
-                                                   @Nullable CodahaleMetricsEngine engine) {
-        if (metricsCollector == null) {
-            return null;
-        }
-
-        // We don't actually need the CodahaleMetricsEngine, but we ask for it here to guarantee that it is created and
-        //      started.
-
-        return new CodahaleMetricsListener(metricsCollector);
-    }
-
-    @Provides
-    @Singleton
-    public CodahaleMetricsEngine codahaleMetricsEngine(@Nullable CodahaleMetricsCollector cmc,
-                                                       @Nullable List<ReporterFactory> reporters,
-                                                       @Named("metrics.reportJvmMetrics") boolean reportJvmMetrics) {
-        if (cmc == null) {
-            return null;
-        }
-
-        if (reporters == null) {
-            reporters = Collections.emptyList();
-        }
-
-        CodahaleMetricsEngine engine = new CodahaleMetricsEngine(cmc, reporters);
-        if (reportJvmMetrics) {
-            engine.reportJvmMetrics();
-        }
-        engine.start();
-        return engine;
-    }
-
-    @Provides
-    @Singleton
-    public CodahaleMetricsCollector codahaleMetricsCollector(@Nullable List<ReporterFactory> reporters) {
-        if (reporters == null) {
-            return null;
-        }
-
-        return new CodahaleMetricsCollector();
-    }
-
-    @Provides
-    @Singleton
-    public List<ReporterFactory> metricsReporters(
-        @Named("metrics.slf4j.reporting.enabled") boolean slf4jReportingEnabled,
-        @Named("metrics.jmx.reporting.enabled") boolean jmxReportingEnabled,
-        @Named("metrics.graphite.url") String graphiteUrl,
-        @Named("metrics.graphite.port") int graphitePort,
-        @Named("metrics.graphite.reporting.enabled") boolean graphiteEnabled,
-        @Named("appInfoFuture") CompletableFuture<AppInfo> appInfoFuture
-    ) {
-        List<ReporterFactory> reporters = new ArrayList<>();
-
-        if (slf4jReportingEnabled) {
-            reporters.add(new DefaultSLF4jReporterFactory());
-        }
-
-        if (jmxReportingEnabled) {
-            reporters.add(new DefaultJMXReporterFactory());
-        }
-
-        if (graphiteEnabled) {
-            AppInfo appInfo = appInfoFuture.join();
-            String graphitePrefix = appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment()
-                                    + "." + appInfo.instanceId();
-            reporters.add(new DefaultGraphiteReporterFactory(graphitePrefix, graphiteUrl, graphitePort));
-        }
-
-        if (reporters.isEmpty()) {
-            logger.info("No metrics reporters enabled - disabling metrics entirely.");
-            return null;
-        }
-
-        String metricReporterTypes = reporters.stream()
-                                              .map(rf -> rf.getClass().getSimpleName())
-                                              .collect(Collectors.joining(",", "[", "]"));
-        logger.info("Metrics reporters enabled. metric_reporter_types={}", metricReporterTypes);
-
-        return reporters;
     }
 
     @Provides

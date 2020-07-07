@@ -7,7 +7,7 @@
     <logger name="com.nike.wingtips.http.HttpRequestTracingUtils" level="INFO" />
     <logger name="VALID_WINGTIPS_SPANS" level="INFO" />
     <logger name="INVALID_WINGTIPS_SPANS" level="INFO" />
-    <logger name="com.codahale.metrics.JmxReporter" level="INFO" />
+    <logger name="com.codahale.metrics.jmx.JmxReporter" level="INFO" />
     <logger name="org.reflections.Reflections" level="INFO" />
     
     <appender name="AppLogsConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">

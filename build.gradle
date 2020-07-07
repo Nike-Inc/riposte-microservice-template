@@ -5,19 +5,17 @@ buildscript {
     }
     dependencies {
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
     }
 }
 
 apply plugin: 'application'
-
-// Define args for the application plugin so that `./gradlew run` launches the app with the correct system properties.
-//      NOTE: We have to define these here, between the application and shadow plugins, due to: https://github.com/johnrengelman/shadow/issues/336
-mainClassName = "com.myorg.Main"
-applicationDefaultJvmArgs = [ "-D@appId=" + project.name , "-D@environment=local" ]
-
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'groovy'
+
+// Define args for the application plugin so that `./gradlew run` launches the app with the correct system properties.
+mainClassName = "com.myorg.Main"
+applicationDefaultJvmArgs = [ "-D@appId=" + project.name , "-D@environment=local" ]
 
 // All modules should apply the following bits
 allprojects {
@@ -80,30 +78,29 @@ artifacts {
 // ========== PROPERTIES AND DEPENDENCIES
 ext {
     // DEPENDENCY VERSIONS
-    riposteVersion = '0.18.0'
-    backstopperVersion = '0.12.0'
-    slf4jVersion = '1.7.28'
+    riposteVersion = '0.19.1'
+    backstopperVersion = '0.13.0'
+    slf4jVersion = '1.7.30'
     logbackVersion = '1.2.3'
     janinoVersion = '3.1.2'
-    jacksonVersion = '2.9.9'
-    jacksonDatabindVersion = '2.9.9.3'
+    jacksonVersion = '2.11.1'
     googleFindbugsJsr305Version = '3.0.2'
-    jetbrainsAnnotationsVersion = '17.0.0'
+    jetbrainsAnnotationsVersion = '19.0.0'
 
     validationApiVersion = '2.0.1.Final'
-    hibernateValidatorVersion = '6.0.17.Final'
+    hibernateValidatorVersion = '6.1.5.Final'
     elApiVersion = '3.0.1-b06'
     elImplVersion = '3.0.1-b11'
     jaxbApiVersion = '2.4.0-b180830.0359'
 
-    junitVersion = '4.12'
-    mockitoVersion = '3.0.0'
-    assertJVersion = '3.13.2'
+    junitVersion = '4.13'
+    mockitoVersion = '3.3.3'
+    assertJVersion = '3.16.1'
     junitDataproviderVersion = '1.13.1'
-    restAssuredVersion = '4.0.0'
+    restAssuredVersion = '4.3.1'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.8.4'
+    jacocoToolVersion = '0.8.5'
     // Anything in this jacocoExclusions list will be excluded from coverage reports. The format is paths to class
     //      files, with wildcards allowed. e.g.: jacocoExclusions = [ "com/nike/Foo.class", "**/Bar*.*" ]
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']

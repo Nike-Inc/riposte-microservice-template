@@ -106,7 +106,7 @@ public class AppMetricsGuiceModuleTest {
         assertThat(engine).isNotNull();
         assertThat(TestUtils.Whitebox.getInternalState(engine, "metricsCollector")).isSameAs(cmc);
         assertThat((Collection<ReporterFactory>) TestUtils.Whitebox.getInternalState(engine, "reporters"))
-            .containsOnlyElementsOf(reporters);
+            .containsExactlyInAnyOrderElementsOf(reporters);
         assertThat(TestUtils.Whitebox.getInternalState(engine, "started")).isEqualTo(true);
 
         // CodahaleMetricsListener uses the same CodahaleMetricsCollector

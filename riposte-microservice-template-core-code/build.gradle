@@ -19,6 +19,8 @@ dependencies {
             "ch.qos.logback:logback-classic:$logbackVersion",
             "ch.qos.logback:logback-core:$logbackVersion",
             "org.codehaus.janino:janino:$janinoVersion", // For conditional processing in logback config XML
+            "org.slf4j:jcl-over-slf4j:$slf4jVersion",
+            "org.slf4j:log4j-over-slf4j:$slf4jVersion",
 
             "javax.validation:validation-api:$validationApiVersion",
             "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
@@ -29,7 +31,7 @@ dependencies {
             "javax.xml.bind:jaxb-api:$jaxbApiVersion",
 
             // Define the Jackson modules we depend on explicitly to guarantee the same version is used
-            "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabindVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
     )

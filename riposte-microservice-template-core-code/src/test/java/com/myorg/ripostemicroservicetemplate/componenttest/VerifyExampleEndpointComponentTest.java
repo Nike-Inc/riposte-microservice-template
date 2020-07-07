@@ -104,7 +104,7 @@ public class VerifyExampleEndpointComponentTest {
     }
 
     @Test
-    public void example_endpoint_post_call_should_return_validation_errors_when_input_is_invalid() throws IOException {
+    public void example_endpoint_post_call_should_return_validation_errors_when_input_is_empty() throws IOException {
         ErrorHandlingEndpointArgs postBody = new ErrorHandlingEndpointArgs(null, " \t\n   ", false);
 
         ExtractableResponse response =
@@ -120,8 +120,45 @@ public class VerifyExampleEndpointComponentTest {
                 .log().all()
                 .extract();
 
-        verifyExpectedErrors(response, 400, Arrays.asList(ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_1,
-                                                          ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_2));
+        verifyExpectedErrors(
+            response,
+            400,
+            Arrays.asList(
+                ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_1,
+                ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_2
+            )
+        );
+    }
+
+    @Test
+    public void example_endpoint_post_call_should_return_validation_errors_when_input_is_too_long() throws IOException {
+        ErrorHandlingEndpointArgs postBody = new ErrorHandlingEndpointArgs(
+            "123456789012345678901234567890123456789012345678901", // 51 chars
+            "1234567890123456789012345678901234567890123456789012345678901", // 61 chars
+            false
+        );
+
+        ExtractableResponse response =
+            given()
+                .baseUri("http://localhost")
+                .port(serverConfig.endpointsPort())
+                .body(objectMapper.writeValueAsString(postBody))
+                .log().all()
+            .when()
+                .basePath(ExampleEndpoint.MATCHING_PATH)
+                .post()
+            .then()
+                .log().all()
+                .extract();
+
+        verifyExpectedErrors(
+            response,
+            400,
+            Arrays.asList(
+                ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE,
+                ProjectApiError.EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE
+            )
+        );
     }
 
     @Test

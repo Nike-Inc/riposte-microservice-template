@@ -19,7 +19,6 @@ import com.nike.riposte.util.AwsUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint;
-import com.myorg.ripostemicroservicetemplate.endpoints.ExampleCassandraAsyncEndpoint;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleDownstreamHttpAsyncEndpoint;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleEndpoint;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleProxyRouterEndpoint;
@@ -92,7 +91,6 @@ public class AppGuiceModule extends AbstractModule {
         // TODO: EXAMPLE CLEANUP - Remove these example endpoints from this method's arguments and don't return them from this method.
         ExampleEndpoint.Get exampleEndpointGet,
         ExampleEndpoint.Post exampleEndpointPost,
-        ExampleCassandraAsyncEndpoint exampleCassandraAsyncEndpoint,
         ExampleDownstreamHttpAsyncEndpoint exampleDownstreamHttpAsyncEndpoint,
         ExampleProxyRouterEndpoint exampleProxyRouterEndpoint,
         ExampleBasicAuthProtectedEndpoint.Get exampleBasicAuthProtectedEndpointGet,
@@ -101,7 +99,7 @@ public class AppGuiceModule extends AbstractModule {
         return new LinkedHashSet<>(Arrays.<Endpoint<?>>asList(
             healthCheckEndpoint,
             // Example endpoints
-            exampleEndpointGet, exampleEndpointPost, exampleCassandraAsyncEndpoint,
+            exampleEndpointGet, exampleEndpointPost,
             exampleDownstreamHttpAsyncEndpoint, exampleProxyRouterEndpoint,
             exampleBasicAuthProtectedEndpointGet, exampleBasicAuthProtectedEndpointPost
         ));

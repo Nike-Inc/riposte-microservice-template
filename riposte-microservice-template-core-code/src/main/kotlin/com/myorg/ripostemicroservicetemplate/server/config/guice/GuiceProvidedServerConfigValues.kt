@@ -7,7 +7,7 @@ import com.nike.riposte.server.config.AppInfo
 import com.nike.riposte.server.config.impl.DependencyInjectionProvidedServerConfigValuesBase
 import com.nike.riposte.server.error.handler.RiposteErrorHandler
 import com.nike.riposte.server.error.handler.RiposteUnhandledErrorHandler
-import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator
+import com.nike.riposte.server.error.validation.RequestSecurityValidator
 import com.nike.riposte.server.error.validation.RequestValidator
 import com.nike.riposte.server.http.Endpoint
 import java.util.concurrent.CompletableFuture
@@ -41,7 +41,7 @@ constructor(
     // TODO: EXAMPLE CLEANUP - Do you use Eureka and/or basic auth? If not then you can delete references to them here,
     //       remove the creation of them in `AppGuiceModule`, and fix `AppServerConfig` to not attempt to use them.
     val eurekaServerHooks: EurekaServerHooks,
-    val basicAuthSecurityValidator: BasicAuthSecurityValidator
+    @Nullable val authSecurityValidator: RequestSecurityValidator
 ) : DependencyInjectionProvidedServerConfigValuesBase(
         endpointsPort, endpointsSslPort, endpointsUseSsl, numBossThreads, numWorkerThreads, maxRequestSizeInBytes,
         appEndpoints, debugActionsEnabled, debugChannelLifecycleLoggingEnabled

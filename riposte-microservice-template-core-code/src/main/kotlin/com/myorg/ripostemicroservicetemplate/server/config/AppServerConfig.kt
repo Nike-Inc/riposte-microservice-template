@@ -99,7 +99,7 @@ protected constructor(
     }
 
     override fun requestSecurityValidator(): RequestSecurityValidator? {
-        return guiceValues.basicAuthSecurityValidator
+        return guiceValues.authSecurityValidator
     }
 
     override fun postServerStartupHooks(): List<PostServerStartupHook>? {

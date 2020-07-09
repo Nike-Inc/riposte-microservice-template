@@ -1,6 +1,6 @@
 package com.myorg.ripostemicroservicetemplate.endpoints
 
-import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule
+import com.myorg.ripostemicroservicetemplate.server.config.guice.AppSecurityGuiceModule
 import com.nike.riposte.server.http.RequestInfo
 import com.nike.riposte.server.http.ResponseInfo
 import com.nike.riposte.server.http.StandardEndpoint
@@ -30,7 +30,7 @@ import javax.inject.Named
  *
  * In a real production application you may want to protect all endpoints except `/healthcheck`. For the examples
  * only `POST /exampleBasicAuth` is protected. See the comments and implementation of
- * [AppGuiceModule.basicAuthProtectedEndpoints] to see how to switch to protect all endpoints except `/healthcheck`.
+ * [AppSecurityGuiceModule.authProtectedEndpoints] to see how to switch to protect all endpoints except `/healthcheck`.
  *
  * TODO: EXAMPLE CLEANUP - Delete this class.
  *

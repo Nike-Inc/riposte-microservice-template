@@ -256,7 +256,7 @@ a JSON object with a description of the auth header you can add in order to succ
 
 Note that in a real production application you might want to protect all endpoints except `/healthcheck`. For the 
 examples above only `POST /exampleBasicAuth` is protected. See the comments and implementation of 
-`AppGuiceModule.basicAuthProtectedEndpoints(Set)` to see how to switch to protect all endpoints except `/healthcheck`.
+`AppSecurityGuiceModule.authProtectedEndpoints(Set)` to see how to switch to protect all endpoints except `/healthcheck`.
 
 <a name="other_things_to_try"></a>
 ### Other things to try

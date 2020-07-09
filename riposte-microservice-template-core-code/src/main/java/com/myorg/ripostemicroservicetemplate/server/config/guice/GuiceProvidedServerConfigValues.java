@@ -5,7 +5,7 @@ import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.config.impl.DependencyInjectionProvidedServerConfigValuesBase;
 import com.nike.riposte.server.error.handler.RiposteErrorHandler;
 import com.nike.riposte.server.error.handler.RiposteUnhandledErrorHandler;
-import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator;
+import com.nike.riposte.server.error.validation.RequestSecurityValidator;
 import com.nike.riposte.server.error.validation.RequestValidator;
 import com.nike.riposte.server.http.Endpoint;
 
@@ -35,7 +35,7 @@ public class GuiceProvidedServerConfigValues extends DependencyInjectionProvided
     // TODO: EXAMPLE CLEANUP - Do you use Eureka and/or basic auth? If not then you can delete references to them here,
     //       remove the creation of them in `AppGuiceModule`, and fix `AppServerConfig` to not attempt to use them.
     public final EurekaServerHooks eurekaServerHooks;
-    public final BasicAuthSecurityValidator basicAuthSecurityValidator;
+    public final @Nullable RequestSecurityValidator authSecurityValidator;
 
     @Inject
     public GuiceProvidedServerConfigValues(
@@ -54,7 +54,7 @@ public class GuiceProvidedServerConfigValues extends DependencyInjectionProvided
         @Named("appInfoFuture") CompletableFuture<AppInfo> appInfoFuture,
         @Nullable CodahaleMetricsListener metricsListener,
         EurekaServerHooks eurekaServerHooks,
-        BasicAuthSecurityValidator basicAuthSecurityValidator
+        @Nullable RequestSecurityValidator authSecurityValidator
     ) {
         super(
             endpointsPort, endpointsSslPort, endpointsUseSsl, numBossThreads, numWorkerThreads, maxRequestSizeInBytes,
@@ -67,6 +67,6 @@ public class GuiceProvidedServerConfigValues extends DependencyInjectionProvided
         this.eurekaServerHooks = eurekaServerHooks;
         this.metricsListener = metricsListener;
         this.appInfoFuture = appInfoFuture;
-        this.basicAuthSecurityValidator = basicAuthSecurityValidator;
+        this.authSecurityValidator = authSecurityValidator;
     }
 }

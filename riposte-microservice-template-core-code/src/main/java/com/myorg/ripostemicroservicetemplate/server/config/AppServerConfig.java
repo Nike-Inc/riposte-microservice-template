@@ -114,7 +114,7 @@ public class AppServerConfig implements ServerConfig {
 
     @Override
     public @Nullable RequestSecurityValidator requestSecurityValidator() {
-        return guiceValues.basicAuthSecurityValidator;
+        return guiceValues.authSecurityValidator;
     }
 
     @Override

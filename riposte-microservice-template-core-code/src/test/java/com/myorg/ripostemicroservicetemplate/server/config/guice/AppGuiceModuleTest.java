@@ -5,8 +5,6 @@ import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceMo
 import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper;
 import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.http.Endpoint;
-import com.nike.riposte.serviceregistration.eureka.EurekaHandler;
-import com.nike.riposte.serviceregistration.eureka.EurekaServerHook;
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil;
 
 import com.google.inject.Guice;
@@ -15,7 +13,6 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl;
-import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
@@ -27,15 +24,12 @@ import org.junit.runner.RunWith;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 import javax.validation.Validator;
 
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests the functionality of {@link AppGuiceModule}
@@ -111,38 +105,6 @@ public class AppGuiceModuleTest {
     public void asyncHttpClientHelper_returns_non_null_object() {
         AsyncHttpClientHelper obj = injector.getInstance(AsyncHttpClientHelper.class);
         assertThat(obj).isNotNull();
-    }
-
-    @Test
-    public void eurekaServerHook_returns_non_null_object() {
-        EurekaServerHook obj = injector.getInstance(EurekaServerHook.class);
-        assertThat(obj).isNotNull();
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void eurekaServerHook_uses_config_for_suppliers() {
-        // given
-        Config configMock = mock(Config.class);
-        AppGuiceModule agm = new AppGuiceModule(configMock);
-        EurekaServerHook eurekaServerHook = agm.eurekaServerHook();
-        EurekaHandler eurekaHandler = eurekaServerHook.eurekaHandler;
-        Supplier<Boolean> eurekaIsDisabledPropertySupplier =
-            (Supplier<Boolean>) Whitebox.getInternalState(eurekaHandler, "eurekaIsDisabledPropertySupplier");
-        Supplier<String> datacenterTypePropertySupplier =
-            (Supplier<String>) Whitebox.getInternalState(eurekaHandler, "datacenterTypePropertySupplier");
-
-        // when
-        eurekaIsDisabledPropertySupplier.get();
-
-        // then
-        verify(configMock).getBoolean(EurekaHandler.DISABLE_EUREKA_INTEGRATION);
-
-        // and when
-        datacenterTypePropertySupplier.get();
-
-        // then
-        verify(configMock).getString(EurekaHandler.EUREKA_DATACENTER_TYPE_PROP_NAME);
     }
 
     @Test

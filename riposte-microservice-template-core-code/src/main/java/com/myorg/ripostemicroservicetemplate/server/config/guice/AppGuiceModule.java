@@ -5,8 +5,6 @@ import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper;
 import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator;
 import com.nike.riposte.server.http.Endpoint;
-import com.nike.riposte.serviceregistration.eureka.EurekaHandler;
-import com.nike.riposte.serviceregistration.eureka.EurekaServerHook;
 import com.nike.riposte.util.AwsUtil;
 
 import com.google.inject.AbstractModule;
@@ -38,8 +36,9 @@ import javax.validation.Validator;
  * The main Guice module for the application. The {@link #validator()}, {@link #projectApiErrors()}, {@link
  * #appInfoFuture(AsyncHttpClientHelper)}, and {@code appEndpoints(...)} methods are required for the application to
  * function at a basic level. This class will install {@link AppMetricsGuiceModule} to initialize metrics gathering
- * and reporting. {@link #eurekaServerHook()} and {@link #basicAuthSecurityValidator(List, String, String)} are used
- * to enable Eureka registration and basic auth endpoint protection features respectively.
+ * and reporting, it will install {@link AppEurekaGuiceModule} to initialize Eureka registration if you're using Eureka,
+ * and {@link #basicAuthSecurityValidator(List, String, String)} is used
+ * to enable basic auth endpoint protection features.
  *
  * <p>You can put anything else in this class that you want to be available for injection in your {@link Endpoint}s. As
  * you add endpoints just add them to the {@code appEndpoints(...)} argument list and return them from that method.
@@ -72,6 +71,7 @@ public class AppGuiceModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new AppMetricsGuiceModule());
+        install(new AppEurekaGuiceModule(appConfig));
     }
 
     @Provides
@@ -112,15 +112,6 @@ public class AppGuiceModule extends AbstractModule {
     @Singleton
     public AsyncHttpClientHelper asyncHttpClientHelper() {
         return new AsyncHttpClientHelper();
-    }
-
-    @Provides
-    @Singleton
-    public EurekaServerHook eurekaServerHook() {
-        return new EurekaServerHook(
-            () -> appConfig.getBoolean(EurekaHandler.DISABLE_EUREKA_INTEGRATION),
-            () -> appConfig.getString(EurekaHandler.EUREKA_DATACENTER_TYPE_PROP_NAME)
-        );
     }
 
     @Provides

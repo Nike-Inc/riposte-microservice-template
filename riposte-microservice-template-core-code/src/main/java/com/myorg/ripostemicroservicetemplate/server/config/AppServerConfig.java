@@ -119,12 +119,14 @@ public class AppServerConfig implements ServerConfig {
 
     @Override
     public @Nullable List<@NotNull PostServerStartupHook> postServerStartupHooks() {
-        return Collections.singletonList(guiceValues.eurekaServerHook);
+        PostServerStartupHook eurekaStartupHook = guiceValues.eurekaServerHooks.eurekaStartupHook;
+        return (eurekaStartupHook == null) ? null : Collections.singletonList(eurekaStartupHook);
     }
 
     @Override
     public @Nullable List<@NotNull ServerShutdownHook> serverShutdownHooks() {
-        return Collections.singletonList(guiceValues.eurekaServerHook);
+        ServerShutdownHook eurekaShutdownHook = guiceValues.eurekaServerHooks.eurekaShutdownHook;
+        return (eurekaShutdownHook == null) ? null : Collections.singletonList(eurekaShutdownHook);
     }
 
     @Override

@@ -8,8 +8,8 @@ dependencies {
             "com.nike.riposte:riposte-guice:$riposteVersion",
             "com.nike.riposte:riposte-guice-typesafe-config:$riposteVersion",
             "com.nike.riposte:riposte-async-http-client:$riposteVersion",
-            // TODO: EXAMPLE CLEANUP - Remove the riposte-service-registration-eureka dependency below unless you use Eureka for service registration
-            "com.nike.riposte:riposte-service-registration-eureka:$riposteVersion",
+            // TODO: EXAMPLE CLEANUP - Uncomment the riposte-service-registration-eureka dependency below if you need Eureka for service registration, otherwise delete it.
+//            "com.nike.riposte:riposte-service-registration-eureka:$riposteVersion",
             "com.nike.riposte:riposte-metrics-codahale:$riposteVersion",
             "com.nike.riposte:riposte-auth:$riposteVersion",
 

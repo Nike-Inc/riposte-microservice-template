@@ -86,11 +86,11 @@ protected constructor(
         )
     }
 
-    override fun accessLogger(): AccessLogger {
+    override fun accessLogger(): AccessLogger? {
         return accessLogger
     }
 
-    override fun appInfo(): CompletableFuture<AppInfo> {
+    override fun appInfo(): CompletableFuture<AppInfo>? {
         return guiceValues.appInfoFuture
     }
 
@@ -98,16 +98,20 @@ protected constructor(
         return guiceValues.metricsListener
     }
 
-    override fun requestSecurityValidator(): RequestSecurityValidator {
+    override fun requestSecurityValidator(): RequestSecurityValidator? {
         return guiceValues.basicAuthSecurityValidator
     }
 
-    override fun postServerStartupHooks(): List<PostServerStartupHook> {
-        return listOf<PostServerStartupHook>(guiceValues.eurekaServerHook)
+    override fun postServerStartupHooks(): List<PostServerStartupHook>? {
+        return guiceValues.eurekaServerHooks.eurekaStartupHook?.let {
+            listOf(it)
+        }
     }
 
-    override fun serverShutdownHooks(): List<ServerShutdownHook> {
-        return listOf<ServerShutdownHook>(guiceValues.eurekaServerHook)
+    override fun serverShutdownHooks(): List<ServerShutdownHook>? {
+        return guiceValues.eurekaServerHooks.eurekaShutdownHook?.let {
+            listOf(it)
+        }
     }
 
     override fun appEndpoints(): Collection<Endpoint<*>> {
@@ -122,7 +126,7 @@ protected constructor(
         return guiceValues.riposteUnhandledErrorHandler
     }
 
-    override fun requestContentValidationService(): RequestValidator {
+    override fun requestContentValidationService(): RequestValidator? {
         return guiceValues.validationService
     }
 
@@ -158,11 +162,11 @@ protected constructor(
         return guiceValues.maxRequestSizeInBytes
     }
 
-    override fun defaultRequestContentDeserializer(): ObjectMapper {
+    override fun defaultRequestContentDeserializer(): ObjectMapper? {
         return kotlinEnabledObjectMapper
     }
 
-    override fun defaultResponseContentSerializer(): ObjectMapper {
+    override fun defaultResponseContentSerializer(): ObjectMapper? {
         return kotlinEnabledObjectMapper
     }
 }

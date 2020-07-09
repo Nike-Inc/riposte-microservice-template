@@ -1,6 +1,7 @@
 package com.myorg.ripostemicroservicetemplate.server.config.guice
 
 import com.myorg.ripostemicroservicetemplate.server.config.AppServerConfig
+import com.myorg.ripostemicroservicetemplate.server.config.guice.AppEurekaGuiceModule.EurekaServerHooks
 import com.nike.riposte.metrics.codahale.CodahaleMetricsListener
 import com.nike.riposte.server.config.AppInfo
 import com.nike.riposte.server.config.impl.DependencyInjectionProvidedServerConfigValuesBase
@@ -9,7 +10,6 @@ import com.nike.riposte.server.error.handler.RiposteUnhandledErrorHandler
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator
 import com.nike.riposte.server.error.validation.RequestValidator
 import com.nike.riposte.server.http.Endpoint
-import com.nike.riposte.serviceregistration.eureka.EurekaServerHook
 import java.util.concurrent.CompletableFuture
 import javax.annotation.Nullable
 import javax.inject.Inject
@@ -40,7 +40,7 @@ constructor(
     @Nullable val metricsListener: CodahaleMetricsListener?,
     // TODO: EXAMPLE CLEANUP - Do you use Eureka and/or basic auth? If not then you can delete references to them here,
     //       remove the creation of them in `AppGuiceModule`, and fix `AppServerConfig` to not attempt to use them.
-    val eurekaServerHook: EurekaServerHook,
+    val eurekaServerHooks: EurekaServerHooks,
     val basicAuthSecurityValidator: BasicAuthSecurityValidator
 ) : DependencyInjectionProvidedServerConfigValuesBase(
         endpointsPort, endpointsSslPort, endpointsUseSsl, numBossThreads, numWorkerThreads, maxRequestSizeInBytes,

@@ -5,16 +5,11 @@ import com.google.inject.Injector
 import com.google.inject.name.Names
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID
-import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule
 import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
 import com.nike.riposte.server.config.AppInfo
 import com.nike.riposte.server.http.Endpoint
-import com.nike.riposte.serviceregistration.eureka.EurekaHandler
-import com.nike.riposte.serviceregistration.eureka.EurekaServerHook
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil
 import com.tngtech.java.junit.dataprovider.DataProviderRunner
 import com.typesafe.config.Config
@@ -28,7 +23,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
-import java.util.function.Supplier
 import javax.validation.Validator
 
 /**
@@ -113,38 +107,6 @@ class AppGuiceModuleTest {
     fun asyncHttpClientHelper_returns_non_null_object() {
         val obj = injector!!.getInstance<AsyncHttpClientHelper>()
         assertThat(obj).isNotNull()
-    }
-
-    @Test
-    fun eurekaServerHook_returns_non_null_object() {
-        val obj = injector!!.getInstance<EurekaServerHook>()
-        assertThat(obj).isNotNull()
-    }
-
-    @Test
-    @Suppress("UNCHECKED_CAST")
-    fun eurekaServerHook_uses_config_for_suppliers() {
-        // given
-        val configMock: Config = mock()
-        val agm = AppGuiceModule(configMock)
-        val eurekaServerHook = agm.eurekaServerHook()
-        val eurekaHandler = eurekaServerHook.eurekaHandler
-        val eurekaIsDisabledPropertySupplier =
-                Whitebox.getInternalState(eurekaHandler, "eurekaIsDisabledPropertySupplier") as Supplier<Boolean>
-        val datacenterTypePropertySupplier =
-                Whitebox.getInternalState(eurekaHandler, "datacenterTypePropertySupplier") as Supplier<String>
-
-        // when
-        eurekaIsDisabledPropertySupplier.get()
-
-        // then
-        verify(configMock).getBoolean(EurekaHandler.DISABLE_EUREKA_INTEGRATION)
-
-        // and when
-        datacenterTypePropertySupplier.get()
-
-        // then
-        verify(configMock).getString(EurekaHandler.EUREKA_DATACENTER_TYPE_PROP_NAME)
     }
 
     @Test

@@ -113,7 +113,7 @@ object TestUtils {
      * A copy of the Mockito 1.x Whitebox class - needed because they dropped this class in Mockito 2.x.
      */
     object Whitebox {
-        fun getInternalState(target: Any, field: String): Any {
+        fun getInternalState(target: Any, field: String): Any? {
             val c: Class<*> = target.javaClass
             try {
                 val f: Field = getFieldFromHierarchy(c, field)
@@ -124,7 +124,7 @@ object TestUtils {
             }
         }
 
-        fun setInternalState(target: Any, field: String, value: Any) {
+        fun setInternalState(target: Any, field: String, value: Any?) {
             val c: Class<*> = target.javaClass
             try {
                 val f: Field = getFieldFromHierarchy(c, field)

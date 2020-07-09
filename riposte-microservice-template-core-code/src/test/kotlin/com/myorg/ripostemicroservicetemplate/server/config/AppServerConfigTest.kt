@@ -4,28 +4,37 @@ import com.google.inject.Module
 import com.google.inject.util.Modules
 import com.google.inject.util.Providers
 import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule
+import com.myorg.ripostemicroservicetemplate.server.config.guice.GuiceProvidedServerConfigValues
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox
+import com.nhaarman.mockitokotlin2.mock
 import com.nike.backstopper.handler.riposte.RiposteApiExceptionHandler
 import com.nike.backstopper.handler.riposte.RiposteUnhandledExceptionHandler
 import com.nike.backstopper.service.riposte.BackstopperRiposteValidatorAdapter
 import com.nike.riposte.metrics.codahale.CodahaleMetricsListener
 import com.nike.riposte.metrics.codahale.impl.EndpointMetricsHandlerDefaultImpl
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator
+import com.nike.riposte.server.hooks.PostServerStartupHook
+import com.nike.riposte.server.hooks.ServerShutdownHook
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil
+import com.tngtech.java.junit.dataprovider.DataProvider
+import com.tngtech.java.junit.dataprovider.DataProviderRunner
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigValueFactory
 import dev.misfitlabs.kotlinguice4.typeLiteral
-import java.util.ArrayList
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import java.util.ArrayList
 
 /**
  * Tests the functionality of [AppServerConfig]
  *
  * @author Nic Munroe
  */
+@RunWith(DataProviderRunner::class)
 class AppServerConfigTest {
 
     private var configForTesting: Config? = null
@@ -120,7 +129,7 @@ class AppServerConfigTest {
 
         // then
         assertThat(obj).isNotNull
-        assertThat(obj.join()).isNotNull()
+        assertThat(obj!!.join()).isNotNull()
     }
 
     @Test
@@ -176,5 +185,59 @@ class AppServerConfigTest {
     fun endpointsSslPort_comes_from_config() {
         // expect
         assertThat(appServerConfig!!.endpointsSslPort()).isEqualTo(configForTesting!!.getInt("endpoints.sslPort"))
+    }
+
+    @DataProvider(value = [
+        "true",
+        "false"
+    ])
+    @Test
+    fun postServerStartupHooks_works_as_expected(eurekaStartupHookIsNull: Boolean) {
+        // given
+        val eurekaStartupHook: PostServerStartupHook? = if (eurekaStartupHookIsNull) null else mock()
+        val guiceValues: GuiceProvidedServerConfigValues =
+            Whitebox.getInternalState(appServerConfig!!, "guiceValues") as GuiceProvidedServerConfigValues
+        Whitebox.setInternalState(
+            guiceValues.eurekaServerHooks, "eurekaStartupHook", eurekaStartupHook
+        )
+
+        // when
+        val result: List<PostServerStartupHook>? = appServerConfig!!.postServerStartupHooks()
+
+        // then
+        if (eurekaStartupHookIsNull) {
+            assertThat(result).isNull()
+        } else {
+            assertThat(result)
+                .isNotNull
+                .containsExactly(eurekaStartupHook)
+        }
+    }
+
+    @DataProvider(value = [
+        "true",
+        "false"
+    ])
+    @Test
+    fun serverShutdownHooks_works_as_expected(eurekaShutdownHookIsNull: Boolean) {
+        // given
+        val eurekaShutdownHook: ServerShutdownHook? = if (eurekaShutdownHookIsNull) null else mock()
+        val guiceValues: GuiceProvidedServerConfigValues =
+            Whitebox.getInternalState(appServerConfig!!, "guiceValues") as GuiceProvidedServerConfigValues
+        Whitebox.setInternalState(
+            guiceValues.eurekaServerHooks, "eurekaShutdownHook", eurekaShutdownHook
+        )
+
+        // when
+        val result: List<ServerShutdownHook>? = appServerConfig!!.serverShutdownHooks()
+
+        // then
+        if (eurekaShutdownHookIsNull) {
+            assertThat(result).isNull()
+        } else {
+            assertThat(result)
+                .isNotNull
+                .containsExactly(eurekaShutdownHook)
+        }
     }
 }

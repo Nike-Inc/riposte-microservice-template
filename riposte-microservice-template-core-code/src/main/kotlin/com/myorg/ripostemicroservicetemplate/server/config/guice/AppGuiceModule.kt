@@ -13,8 +13,6 @@ import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
 import com.nike.riposte.server.config.AppInfo
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator
 import com.nike.riposte.server.http.Endpoint
-import com.nike.riposte.serviceregistration.eureka.EurekaHandler
-import com.nike.riposte.serviceregistration.eureka.EurekaServerHook
 import com.nike.riposte.util.AwsUtil
 import com.typesafe.config.Config
 import org.slf4j.LoggerFactory
@@ -28,9 +26,9 @@ import javax.validation.Validator
 /**
  * The main Guice module for the application. The [validator], [projectApiErrors], [appInfoFuture], and
  * [appEndpoints] methods are required for the application to function at a basic level. This class will install
- * [AppMetricsGuiceModule] to initialize metrics gathering and reporting. [eurekaServerHook] and
- * [basicAuthSecurityValidator] are used to enable Eureka registration and basic auth endpoint protection
- * features respectively.
+ * [AppMetricsGuiceModule] to initialize metrics gathering and reporting, it will install [AppEurekaGuiceModule]
+ * to initialize Eureka registration if you're using Eureka, and [basicAuthSecurityValidator] is used to enable
+ * basic auth endpoint protection features.
  *
  * You can put anything else in this class that you want to be available for injection in your [Endpoint]s. As
  * you add endpoints just add them to the [appEndpoints] argument list and return them from that method.
@@ -54,6 +52,7 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
 
     override fun configure() {
         install(AppMetricsGuiceModule())
+        install(AppEurekaGuiceModule(appConfig))
     }
 
     @Provides
@@ -96,15 +95,6 @@ class AppGuiceModule(appConfig: Config?) : AbstractModule() {
     @Singleton
     fun asyncHttpClientHelper(): AsyncHttpClientHelper {
         return AsyncHttpClientHelper()
-    }
-
-    @Provides
-    @Singleton
-    fun eurekaServerHook(): EurekaServerHook {
-        return EurekaServerHook(
-                { appConfig.getBoolean(EurekaHandler.DISABLE_EUREKA_INTEGRATION) },
-                { appConfig.getString(EurekaHandler.EUREKA_DATACENTER_TYPE_PROP_NAME) }
-        )
     }
 
     @Provides

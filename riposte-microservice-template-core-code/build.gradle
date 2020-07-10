@@ -16,9 +16,9 @@ dependencies {
             "com.google.code.findbugs:jsr305:$googleFindbugsJsr305Version", // So Guice can pick up @Nullable
             "org.jetbrains:annotations:$jetbrainsAnnotationsVersion",
 
-            "org.codehaus.groovy:groovy-all:$groovyVersion", // For logback groovy config processing
             "ch.qos.logback:logback-classic:$logbackVersion",
             "ch.qos.logback:logback-core:$logbackVersion",
+            "org.codehaus.janino:janino:$janinoVersion", // For conditional processing in logback config XML
 
             "javax.validation:validation-api:$validationApiVersion",
             "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
@@ -90,8 +90,8 @@ jar {
         // Add version information to the app's main properties file
         ant.replace(file: "$buildDir/resources/main/${rootProject.name}.conf", token: "@@RELEASE@@", value: archiveVersion.get())
 
-        // Replace version and appname info in logback.groovy so that log messages will be tagged with the correct values.
-        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@RELEASE@@", value: archiveVersion.get())
-        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@APPNAME@@", value: artifactId)
+        // Replace version and appname info in logback.xml so that log messages will be tagged with the correct values.
+        ant.replace(file: "$buildDir/resources/main/logback.xml", token: "@@RELEASE@@", value: archiveVersion.get())
+        ant.replace(file: "$buildDir/resources/main/logback.xml", token: "@@APPNAME@@", value: artifactId)
     }
 }

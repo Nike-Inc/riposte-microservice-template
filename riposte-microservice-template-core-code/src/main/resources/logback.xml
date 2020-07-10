@@ -1,0 +1,158 @@
+<configuration>
+    <!--
+        NOTE: All the complexity in this file is to enable intelligently defaulting logging to console vs. file
+        depending on local vs. non-local environment. If you don't need that intelligent defaulting behavior, then you
+        can split up local vs. non-local into separate logback config files and choose them using the
+        logback.configurationFile System property. See http://logback.qos.ch/manual/configuration.html#configFileProperty
+        for details.
+    -->
+
+    <variable name="ROOT_LOGGER_LEVEL" value="INFO" scope="local" />
+
+    <!-- CUSTOM LOGGER SETTINGS GO HERE (setting specific output levels for various classes) -->
+    <!-- <logger name="com.foo.bar.SomeClass" level="WARN" /> -->
+
+    <!--
+        Variables for appname and release version. These @@...@@ placeholders should be replaced by the jar task
+        resource processing in the build.gradle for the core-code module.
+    -->
+    <variable name="APPNAME" value="@@APPNAME@@" scope="local" />
+    <variable name="RELEASE" value="@@RELEASE@@" scope="local" />
+
+    <!-- Figure out what environment we're in (local vs. non-local). This will determine how we setup console vs. file-based logging. -->
+    <variable name="APP_ENV" value="${@environment:-${archaius.deployment.environment:-UNSPECIFIED_ENVIRONMENT}}" scope="local" />
+    <if condition='p("APP_ENV").equals("local") || p("APP_ENV").equals("UNSPECIFIED_ENVIRONMENT")'>
+        <then>
+            <variable name="IS_LOCAL" value="true" scope="local" />
+            <variable name="IS_NOT_LOCAL" value="false" scope="local" />
+        </then>
+        <else>
+            <variable name="IS_LOCAL" value="false" scope="local" />
+            <variable name="IS_NOT_LOCAL" value="true" scope="local" />
+        </else>
+    </if>
+
+    <!--
+        Honor specific requests to log to console and/or to file for app logs and access logs.
+        Otherwise, we default to console output only for local environment, and to file only for non-local environment.
+    -->
+    <variable name="OUTPUT_APP_LOGS_TO_CONSOLE" value="${logToConsole:-${IS_LOCAL}}" scope="local" />
+    <variable name="OUTPUT_APP_LOGS_TO_FILE" value="${logToLocalFile:-${IS_NOT_LOCAL}}" scope="local" />
+    <variable name="OUTPUT_ACCESS_LOGS_TO_CONSOLE" value="${logAccessLogToConsole:-${IS_LOCAL}}" scope="local" />
+    <variable name="OUTPUT_ACCESS_LOGS_TO_FILE" value="${logAccessLogToLocalFile:-${IS_NOT_LOCAL}}" scope="local" />
+
+    <!-- Define some common variables for configuring encoders and appenders. -->
+    <variable name="APP_LOGS_ENCODER_PATTERN"
+              value="traceId=%X{traceId:-NO_TRACE_RUNNING} %date{&quot;yyyy-MM-dd'T'HH:mm:ss,SSSXXX&quot;} [%thread] appname=${APPNAME} environment=${APP_ENV} version=${RELEASE} |-%-5level %logger{36} - %msg%n"
+              scope="local" />
+    <variable name="ACCESS_LOGS_ENCODER_PATTERN" value="%msg%n" scope="local" />
+    <variable name="ASYNC_QUEUE_SIZE" value="16000" scope="local" />
+    <if condition='${IS_LOCAL}'>
+        <then><variable name="LOG_FILE_DIRECTORY_PATH" value="logs" scope="local" /></then>
+        <else><variable name="LOG_FILE_DIRECTORY_PATH" value="/var/log/${APPNAME}" scope="local" /></else>
+    </if>
+
+    <!-- Setup the appenders for normal app logs, depending on what's desired. -->
+    <if condition='${OUTPUT_APP_LOGS_TO_CONSOLE}'>
+        <then>
+            <appender name="AppLogsConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                    <pattern>${APP_LOGS_ENCODER_PATTERN}</pattern>
+                </encoder>
+            </appender>
+
+            <appender name="AsyncAppLogsConsoleAppender" class="ch.qos.logback.classic.AsyncAppender">
+                <appender-ref ref="AppLogsConsoleAppender" />
+                <queueSize>${ASYNC_QUEUE_SIZE}</queueSize>
+            </appender>
+        </then>
+    </if>
+
+    <if condition='${OUTPUT_APP_LOGS_TO_FILE}'>
+        <then>
+            <appender name="AppLogsFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${LOG_FILE_DIRECTORY_PATH}/${APPNAME}.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                    <fileNamePattern>${LOG_FILE_DIRECTORY_PATH}/${APPNAME}.%i.log.zip</fileNamePattern>
+                    <minIndex>1</minIndex>
+                    <maxIndex>10</maxIndex>
+                </rollingPolicy>
+                <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                    <maxFileSize>500MB</maxFileSize>
+                </triggeringPolicy>
+                <encoder>
+                    <pattern>${APP_LOGS_ENCODER_PATTERN}</pattern>
+                </encoder>
+            </appender>
+
+            <appender name="AsyncAppLogsFileAppender" class="ch.qos.logback.classic.AsyncAppender">
+                <appender-ref ref="AppLogsFileAppender" />
+                <queueSize>${ASYNC_QUEUE_SIZE}</queueSize>
+            </appender>
+        </then>
+    </if>
+
+    <!-- Setup the appenders for access logs, depending on what's desired. -->
+    <if condition='${OUTPUT_ACCESS_LOGS_TO_CONSOLE}'>
+        <then>
+            <appender name="AccessLogsConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                    <pattern>${ACCESS_LOGS_ENCODER_PATTERN}</pattern>
+                </encoder>
+            </appender>
+
+            <appender name="AsyncAccessLogsConsoleAppender" class="ch.qos.logback.classic.AsyncAppender">
+                <appender-ref ref="AccessLogsConsoleAppender" />
+                <queueSize>${ASYNC_QUEUE_SIZE}</queueSize>
+            </appender>
+        </then>
+    </if>
+
+    <if condition='${OUTPUT_ACCESS_LOGS_TO_FILE}'>
+        <then>
+            <appender name="AccessLogsFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${LOG_FILE_DIRECTORY_PATH}/${APPNAME}-access.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                    <fileNamePattern>${LOG_FILE_DIRECTORY_PATH}/${APPNAME}-access.%i.log.zip</fileNamePattern>
+                    <minIndex>1</minIndex>
+                    <maxIndex>10</maxIndex>
+                </rollingPolicy>
+                <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                    <maxFileSize>50MB</maxFileSize>
+                </triggeringPolicy>
+                <encoder>
+                    <pattern>${ACCESS_LOGS_ENCODER_PATTERN}</pattern>
+                </encoder>
+            </appender>
+
+            <appender name="AsyncAccessLogsFileAppender" class="ch.qos.logback.classic.AsyncAppender">
+                <appender-ref ref="AccessLogsFileAppender" />
+                <queueSize>${ASYNC_QUEUE_SIZE}</queueSize>
+            </appender>
+        </then>
+    </if>
+
+    <!-- Setup the access logger to handle access log messages, and don't let access log messages filter through to the root logger. -->
+    <if condition='"true".equals(p("disableAccessLog"))'>
+        <then><variable name="ACCESS_LOG_LEVEL" value="OFF" scope="local" /></then>
+        <else><variable name="ACCESS_LOG_LEVEL" value="INFO" scope="local" /></else>
+    </if>
+    <logger name="ACCESS_LOG" level="${ACCESS_LOG_LEVEL}" additivity="false">
+        <if condition='${OUTPUT_ACCESS_LOGS_TO_CONSOLE}'>
+            <then><appender-ref ref="AsyncAccessLogsConsoleAppender" /></then>
+        </if>
+        <if condition='${OUTPUT_ACCESS_LOGS_TO_FILE}'>
+            <then><appender-ref ref="AsyncAccessLogsFileAppender" /></then>
+        </if>
+    </logger>
+
+    <!-- Setup the root logger for all other messages. -->
+    <root level="${ROOT_LOGGER_LEVEL}">
+        <if condition='${OUTPUT_APP_LOGS_TO_CONSOLE}'>
+            <then><appender-ref ref="AsyncAppLogsConsoleAppender" /></then>
+        </if>
+        <if condition='${OUTPUT_APP_LOGS_TO_FILE}'>
+            <then><appender-ref ref="AsyncAppLogsFileAppender" /></then>
+        </if>
+    </root>
+</configuration>

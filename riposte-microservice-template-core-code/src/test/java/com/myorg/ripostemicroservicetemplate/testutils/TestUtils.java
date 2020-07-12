@@ -65,7 +65,7 @@ public class TestUtils {
      * @param response The response to check.
      * @param expectedError The error that the response should match.
      */
-    public static void verifyExpectedError(ExtractableResponse response, ApiError expectedError) {
+    public static void verifyExpectedError(ExtractableResponse<?> response, ApiError expectedError) {
         verifyExpectedErrors(response, expectedError.getHttpStatusCode(), Collections.singleton(expectedError));
     }
 
@@ -78,7 +78,7 @@ public class TestUtils {
      * @param expectedHttpStatusCode The HTTP status code that the response should match.
      * @param expectedErrors The errors that the response should match.
      */
-    public static void verifyExpectedErrors(ExtractableResponse response, int expectedHttpStatusCode,
+    public static void verifyExpectedErrors(ExtractableResponse<?> response, int expectedHttpStatusCode,
                                             Collection<ApiError> expectedErrors) {
         try {
             assertThat(response.statusCode()).isEqualTo(expectedHttpStatusCode);

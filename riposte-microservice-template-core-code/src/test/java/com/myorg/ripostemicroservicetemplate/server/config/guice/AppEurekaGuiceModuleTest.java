@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests the functionality of {@link AppEurekaGuiceModule}.
@@ -63,14 +62,14 @@ public class AppEurekaGuiceModuleTest {
 //        eurekaIsDisabledPropertySupplier.get();
 //
 //        // then
-//        verify(configMock)
+//        Mockito.verify(configMock)
 //            .getBoolean(com.nike.riposte.serviceregistration.eureka.EurekaHandler.DISABLE_EUREKA_INTEGRATION);
 //
 //        // and when
 //        datacenterTypePropertySupplier.get();
 //
 //        // then
-//        verify(configMock)
+//        Mockito.verify(configMock)
 //            .getString(com.nike.riposte.serviceregistration.eureka.EurekaHandler.EUREKA_DATACENTER_TYPE_PROP_NAME);
 //    }
 }

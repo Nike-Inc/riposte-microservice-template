@@ -79,7 +79,7 @@ public class PropertiesHelper {
      * @param response The response to check.
      * @param expectedError The error that the response should match.
      */
-    public void verifyExpectedError(ExtractableResponse response, ApiError expectedError) {
+    public void verifyExpectedError(ExtractableResponse<?> response, ApiError expectedError) {
         // No need to copy/paste - just delegate to TestUtils
         TestUtils.verifyExpectedError(response, expectedError);
     }
@@ -93,7 +93,7 @@ public class PropertiesHelper {
      * @param expectedHttpStatusCode The HTTP status code that the response should match.
      * @param expectedErrors The errors that the response should match.
      */
-    public void verifyExpectedErrors(ExtractableResponse response, int expectedHttpStatusCode,
+    public void verifyExpectedErrors(ExtractableResponse<?> response, int expectedHttpStatusCode,
                                      Collection<ApiError> expectedErrors) {
         // No need to copy/paste - just delegate to TestUtils
         TestUtils.verifyExpectedErrors(response, expectedHttpStatusCode, expectedErrors);

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
  */
 public class HealthCheckEndpointTest {
 
-    private HealthCheckEndpoint healthCheckEndpoint = new HealthCheckEndpoint();
+    private final HealthCheckEndpoint healthCheckEndpoint = new HealthCheckEndpoint();
 
     @Test
     public void healthCheckEndpoint_should_match_all_http_methods() {

@@ -111,7 +111,10 @@ ext {
         //      reused in multiple places).
         // You can also run the coverage checks on the combo report rather than submodule reports by removing the
         //      configure(...) block entirely, thus putting the jacocoCoverage task at the root level.
-        configure(subprojects.findAll { isSubprojectIncludedInJacocoReports(it) }) {
+        configure(subprojects.findAll {
+            //noinspection GroovyAssignabilityCheck
+            isSubprojectIncludedInJacocoReports(it)
+        }) {
             // Configure the minimum code coverage rules.
             jacocoTestCoverageVerification { JacocoCoverageVerification v ->
                 violationRules {

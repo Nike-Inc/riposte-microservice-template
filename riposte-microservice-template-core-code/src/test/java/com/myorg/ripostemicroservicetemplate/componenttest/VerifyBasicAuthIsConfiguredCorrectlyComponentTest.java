@@ -72,7 +72,7 @@ public class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
 
     @Test
     public void endpoint_call_should_fail_with_invalid_basic_auth_header() {
-        ExtractableResponse response =
+        ExtractableResponse<?> response =
             given()
                 .baseUri("http://localhost")
                 .port(serverConfig.endpointsPort())

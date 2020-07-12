@@ -29,7 +29,7 @@ public class BasicAuthVerificationFunctionalTest {
     public void verify_call_works_with_valid_basic_auth_header() {
         String fullUrl = props.ripostemicroservicetemplateHost + ExampleBasicAuthProtectedEndpoint.MATCHING_PATH;
 
-        ExtractableResponse response =
+        ExtractableResponse<?> response =
             given()
                 .header(AUTHORIZATION.toString(), props.basicAuthHeaderVal)
                 .log().all()
@@ -47,7 +47,7 @@ public class BasicAuthVerificationFunctionalTest {
     public void verify_call_fails_with_invalid_basic_auth_header() {
         String fullUrl = props.ripostemicroservicetemplateHost + ExampleBasicAuthProtectedEndpoint.MATCHING_PATH;
 
-        ExtractableResponse response =
+        ExtractableResponse<?> response =
             given()
                 .header(AUTHORIZATION.toString(), "foo" + props.basicAuthHeaderVal)
                 .log().all()

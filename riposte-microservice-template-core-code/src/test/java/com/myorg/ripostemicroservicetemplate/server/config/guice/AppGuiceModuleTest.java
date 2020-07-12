@@ -2,7 +2,7 @@ package com.myorg.ripostemicroservicetemplate.server.config.guice;
 
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors;
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule;
-import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper;
+import com.nike.riposte.client.asynchttp.AsyncHttpClientHelper;
 import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.http.Endpoint;
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil;

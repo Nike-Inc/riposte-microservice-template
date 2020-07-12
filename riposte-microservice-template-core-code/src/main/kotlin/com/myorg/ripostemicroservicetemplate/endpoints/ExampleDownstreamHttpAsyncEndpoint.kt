@@ -3,17 +3,17 @@ package com.myorg.ripostemicroservicetemplate.endpoints
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
+import com.nike.riposte.client.asynchttp.AsyncHttpClientHelper
 import com.nike.riposte.server.http.RequestInfo
 import com.nike.riposte.server.http.ResponseInfo
 import com.nike.riposte.server.http.StandardEndpoint
 import com.nike.riposte.util.Matcher
 import io.netty.channel.ChannelHandlerContext
+import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Named
-import org.slf4j.LoggerFactory
 
 /**
  * Contains an example of how to do asynchronous downstream HTTP calls so that the thread count on the server stays

@@ -7,7 +7,7 @@ import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule
-import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
+import com.nike.riposte.client.asynchttp.AsyncHttpClientHelper
 import com.nike.riposte.server.config.AppInfo
 import com.nike.riposte.server.http.Endpoint
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil

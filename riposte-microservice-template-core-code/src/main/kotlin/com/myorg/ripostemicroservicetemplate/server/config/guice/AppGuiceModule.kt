@@ -9,10 +9,10 @@ import com.myorg.ripostemicroservicetemplate.endpoints.ExampleProxyRouterEndpoin
 import com.myorg.ripostemicroservicetemplate.endpoints.HealthCheckEndpoint
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors
-import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
+import com.nike.riposte.client.asynchttp.AsyncHttpClientHelper
+import com.nike.riposte.client.asynchttp.util.AwsUtil
 import com.nike.riposte.server.config.AppInfo
 import com.nike.riposte.server.http.Endpoint
-import com.nike.riposte.util.AwsUtil
 import com.typesafe.config.Config
 import org.slf4j.LoggerFactory
 import java.util.LinkedHashSet

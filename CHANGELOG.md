@@ -4,6 +4,31 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 and is not available via typical artifact repositories (JCenter, Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
 
+## 2020-07-13
+
+### Updated
+
+- Upgraded most libraries to the latest available.
+
+### Removed
+
+- Removed all cassandra-related example stuff, as it caused the project to be excessively bloated.
+- Removed the Eureka dependency by default because it pulls in a lot of dependencies, and many projects don't need it.
+You can re-enable Eureka by searching the project for the `TODO: EXAMPLE CLEANUP` markers and following instructions.
+- Removed the groovy dependency after migrating to XML-based logback configuration.
+- All of the above dependency removals and cleanup resulted in the application fat jar dropping from 78 MB 
+down to 19 MB, and reduced build time by about 50-60%.
+
+### Changed
+
+- Changed from groovy-based to XML-based logback config. This made it possible to remove the groovy dependency entirely,
+and improves app startup time.
+- Moved metrics, security, and eureka initialization to their own guice modules.
+- Changed the `debugActionsEnabled` property to false for local config. This removes logging for all the System and 
+application properties on startup.
+- Changed the unit test gradle output to only log skipped or failed test events.
+- Cleaned up miscellaneous code warnings.
+
 ## 2019-08-29
 
 ### Updated

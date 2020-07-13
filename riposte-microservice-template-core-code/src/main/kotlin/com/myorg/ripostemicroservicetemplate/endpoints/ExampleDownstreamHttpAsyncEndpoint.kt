@@ -47,10 +47,10 @@ constructor(
 
     init {
         val localServerHostAndPort =
-                if (useSecure)
-                    "https://localhost:$httpsPort"
-                else
-                    "http://localhost:$httpPort"
+            if (useSecure)
+                "https://localhost:$httpsPort"
+            else
+                "http://localhost:$httpPort"
         this.downstreamUrl = localServerHostAndPort + ExampleEndpoint.MATCHING_PATH
     }
 
@@ -62,8 +62,8 @@ constructor(
 
         val reqWrapper = asyncHttpClientHelper.getRequestBuilder(downstreamUrl, request.method)
         reqWrapper.requestBuilder
-                .addQueryParam("some_query_param", "foo")
-                .addHeader("Accept", "application/json")
+            .addQueryParam("some_query_param", "foo")
+            .addHeader("Accept", "application/json")
 
         if (request.rawContentLengthInBytes > 0)
             reqWrapper.requestBuilder.setBody(request.rawContent)
@@ -71,13 +71,17 @@ constructor(
         logger.info("About to make async library call")
         val startTime = System.currentTimeMillis()
 
-        return asyncHttpClientHelper.executeAsyncHttpRequest(reqWrapper, { asyncResponse ->
-            logger.info(
+        return asyncHttpClientHelper.executeAsyncHttpRequest(
+            reqWrapper,
+            { asyncResponse ->
+                logger.info(
                     "In async response handler. Total time spent millis: {}",
                     (System.currentTimeMillis() - startTime)
-            )
-            ResponseInfo.newBuilder(modifyResponseBody(asyncResponse.responseBody)).build()
-        }, ctx)
+                )
+                ResponseInfo.newBuilder(modifyResponseBody(asyncResponse.responseBody)).build()
+            },
+            ctx
+        )
     }
 
     private fun modifyResponseBody(rawDownstreamResponse: String): Map<String, Any> {

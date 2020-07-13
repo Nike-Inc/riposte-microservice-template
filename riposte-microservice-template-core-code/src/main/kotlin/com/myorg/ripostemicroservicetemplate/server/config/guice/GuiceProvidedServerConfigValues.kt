@@ -43,6 +43,6 @@ constructor(
     val eurekaServerHooks: EurekaServerHooks,
     @Nullable val authSecurityValidator: RequestSecurityValidator
 ) : DependencyInjectionProvidedServerConfigValuesBase(
-        endpointsPort, endpointsSslPort, endpointsUseSsl, numBossThreads, numWorkerThreads, maxRequestSizeInBytes,
-        appEndpoints, debugActionsEnabled, debugChannelLifecycleLoggingEnabled
+    endpointsPort, endpointsSslPort, endpointsUseSsl, numBossThreads, numWorkerThreads, maxRequestSizeInBytes,
+    appEndpoints, debugActionsEnabled, debugChannelLifecycleLoggingEnabled
 )

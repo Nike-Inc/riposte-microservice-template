@@ -81,8 +81,8 @@ protected constructor(
 
     protected open fun getAppGuiceModules(appConfig: Config): List<Module> {
         return listOf<Module>(
-                AppGuiceModule(appConfig),
-                BackstopperRiposteConfigGuiceModule()
+            AppGuiceModule(appConfig),
+            BackstopperRiposteConfigGuiceModule()
         )
     }
 

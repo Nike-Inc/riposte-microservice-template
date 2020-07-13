@@ -31,7 +31,7 @@ private constructor(
 ) {
 
     val basicAuthHeaderVal: String = "Basic " + Base64.getEncoder().encodeToString(
-            (basicAuthUsername + ":" + basicAuthPassword).toByteArray(CharsetUtil.UTF_8)
+        (basicAuthUsername + ":" + basicAuthPassword).toByteArray(CharsetUtil.UTF_8)
     )
 
     /**
@@ -71,13 +71,13 @@ private constructor(
         private fun generateInstance(): PropertiesHelper {
             val appId = "riposte-microservice-template-functionaltest"
             val environment = environment ?: throw IllegalStateException(
-                    "ERROR: You must specify the remoteTestEnv System property when running functional tests. " +
-                            "Valid options are: local, test, or prod. e.g. -DremoteTestEnv=test"
+                "ERROR: You must specify the remoteTestEnv System property when running functional tests. " +
+                    "Valid options are: local, test, or prod. e.g. -DremoteTestEnv=test"
             )
 
             val functionalTestConfig = TypesafeConfigUtil.loadConfigForAppIdAndEnvironment(appId, environment)
             val injector = Guice.createInjector(
-                    TypesafeConfigPropertiesRegistrationGuiceModule(functionalTestConfig)
+                TypesafeConfigPropertiesRegistrationGuiceModule(functionalTestConfig)
             )
             return injector.getInstance(PropertiesHelper::class.java)
         }

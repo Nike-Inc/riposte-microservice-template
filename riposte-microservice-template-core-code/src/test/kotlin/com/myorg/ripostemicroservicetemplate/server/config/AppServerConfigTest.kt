@@ -55,8 +55,8 @@ class AppServerConfigTest {
 
         // then
         assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException::class.java)
-                .hasMessageContaining("appConfig")
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContaining("appConfig")
     }
 
     @Test
@@ -79,14 +79,14 @@ class AppServerConfigTest {
                 val appModule = getModuleOfType(modules, AppGuiceModule::class.java)
                 modules.remove(appModule)
                 modules.add(
-                        Modules.override(AppGuiceModule(configForTesting))
-                                .with(
-                                        Module {
-                                            binder ->
-                                            binder.bind(typeLiteral<CodahaleMetricsListener>())
-                                                    .toProvider(Providers.of<CodahaleMetricsListener>(null))
-                                        }
-                                )
+                    Modules.override(AppGuiceModule(configForTesting))
+                        .with(
+                            Module {
+                                binder ->
+                                binder.bind(typeLiteral<CodahaleMetricsListener>())
+                                    .toProvider(Providers.of<CodahaleMetricsListener>(null))
+                            }
+                        )
                 )
 
                 return modules
@@ -106,11 +106,11 @@ class AppServerConfigTest {
     fun a_BackstopperRiposteConfigGuiceModule_is_used_to_setup_error_handlers_and_validators() {
         // expect
         assertThat(appServerConfig!!.riposteErrorHandler())
-                .isInstanceOf(RiposteApiExceptionHandler::class.java)
+            .isInstanceOf(RiposteApiExceptionHandler::class.java)
         assertThat(appServerConfig!!.riposteUnhandledErrorHandler())
-                .isInstanceOf(RiposteUnhandledExceptionHandler::class.java)
+            .isInstanceOf(RiposteUnhandledExceptionHandler::class.java)
         assertThat(appServerConfig!!.requestContentValidationService())
-                .isInstanceOf(BackstopperRiposteValidatorAdapter::class.java)
+            .isInstanceOf(BackstopperRiposteValidatorAdapter::class.java)
     }
 
     @Test
@@ -145,9 +145,9 @@ class AppServerConfigTest {
     fun metricsListener_returns_null_object_if_no_metrics_reporters_are_enabled() {
         // given
         val configNoReporters = TypesafeConfigUtil.loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
-                .withValue("metrics.slf4j.reporting.enabled", ConfigValueFactory.fromAnyRef(false))
-                .withValue("metrics.graphite.reporting.enabled", ConfigValueFactory.fromAnyRef(false))
-                .withValue("metrics.jmx.reporting.enabled", ConfigValueFactory.fromAnyRef(false))
+            .withValue("metrics.slf4j.reporting.enabled", ConfigValueFactory.fromAnyRef(false))
+            .withValue("metrics.graphite.reporting.enabled", ConfigValueFactory.fromAnyRef(false))
+            .withValue("metrics.jmx.reporting.enabled", ConfigValueFactory.fromAnyRef(false))
         val asc = AppServerConfig(configNoReporters)
 
         // when
@@ -164,15 +164,15 @@ class AppServerConfigTest {
 
         // expect
         assertThat(asc.requestSecurityValidator())
-                .isNotNull()
-                .isInstanceOf(BasicAuthSecurityValidator::class.java)
+            .isNotNull()
+            .isInstanceOf(BasicAuthSecurityValidator::class.java)
     }
 
     @Test
     fun isDebugActionsEnabled_comes_from_config() {
         // expect
         assertThat(appServerConfig!!.isDebugActionsEnabled)
-                .isEqualTo(configForTesting!!.getBoolean("debugActionsEnabled"))
+            .isEqualTo(configForTesting!!.getBoolean("debugActionsEnabled"))
     }
 
     @Test
@@ -187,10 +187,12 @@ class AppServerConfigTest {
         assertThat(appServerConfig!!.endpointsSslPort()).isEqualTo(configForTesting!!.getInt("endpoints.sslPort"))
     }
 
-    @DataProvider(value = [
-        "true",
-        "false"
-    ])
+    @DataProvider(
+        value = [
+            "true",
+            "false"
+        ]
+    )
     @Test
     fun postServerStartupHooks_works_as_expected(eurekaStartupHookIsNull: Boolean) {
         // given
@@ -214,10 +216,12 @@ class AppServerConfigTest {
         }
     }
 
-    @DataProvider(value = [
-        "true",
-        "false"
-    ])
+    @DataProvider(
+        value = [
+            "true",
+            "false"
+        ]
+    )
     @Test
     fun serverShutdownHooks_works_as_expected(eurekaShutdownHookIsNull: Boolean) {
         // given

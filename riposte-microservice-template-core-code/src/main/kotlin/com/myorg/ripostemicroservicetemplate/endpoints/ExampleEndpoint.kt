@@ -58,13 +58,13 @@ object ExampleEndpoint {
             // Since we're not doing anything time consuming we don't need to execute anything on another thread and we
             //      can just return an already-completed CompletableFuture.
             return CompletableFuture.completedFuture(
-                    ResponseInfo.newBuilder(
-                            ErrorHandlingEndpointArgs(
-                                    "some-val1-" + UUID.randomUUID().toString(),
-                                    "some-val2-" + UUID.randomUUID().toString(),
-                                    false
-                            )
-                    ).build()
+                ResponseInfo.newBuilder(
+                    ErrorHandlingEndpointArgs(
+                        "some-val1-" + UUID.randomUUID().toString(),
+                        "some-val2-" + UUID.randomUUID().toString(),
+                        false
+                    )
+                ).build()
             )
         }
 
@@ -105,22 +105,24 @@ object ExampleEndpoint {
             //      system).
             if (java.lang.Boolean.TRUE == content.throwManualError) {
                 throw ApiException.newBuilder()
-                        .withExceptionMessage("Manual error throw was requested")
-                        .withApiErrors(ApiErrorWithMetadata(
-                                ProjectApiError.EXAMPLE_ERROR_MANUALLY_THROWN,
-                                Pair.of("dynamic_metadata", System.currentTimeMillis() as Any)
-                        ))
-                        .withExtraDetailsForLogging(Pair.of("some_important_log_info", "foo"))
-                        .withExtraResponseHeaders(
-                                Pair.of("useful-error-related-response-header", listOf("foo"))
+                    .withExceptionMessage("Manual error throw was requested")
+                    .withApiErrors(
+                        ApiErrorWithMetadata(
+                            ProjectApiError.EXAMPLE_ERROR_MANUALLY_THROWN,
+                            Pair.of("dynamic_metadata", System.currentTimeMillis() as Any)
                         )
-                        .build()
+                    )
+                    .withExtraDetailsForLogging(Pair.of("some_important_log_info", "foo"))
+                    .withExtraResponseHeaders(
+                        Pair.of("useful-error-related-response-header", listOf("foo"))
+                    )
+                    .build()
             }
 
             // Since we're not doing anything time consuming we don't need to execute anything on another thread and we
             //      can just return an already-completed CompletableFuture.
             return CompletableFuture.completedFuture(
-                    ResponseInfo.newBuilder(content).withHttpStatusCode(HttpResponseStatus.CREATED.code()).build()
+                ResponseInfo.newBuilder(content).withHttpStatusCode(HttpResponseStatus.CREATED.code()).build()
             )
         }
 

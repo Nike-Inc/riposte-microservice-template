@@ -57,16 +57,16 @@ class AppGuiceModuleTest {
         graphiteEnabled: Boolean
     ): Config {
         return TypesafeConfigUtil
-                .loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
-                .withValue("metrics.slf4j.reporting.enabled", ConfigValueFactory.fromAnyRef(slf4jReportingEnabled))
-                .withValue("metrics.jmx.reporting.enabled", ConfigValueFactory.fromAnyRef(jmxReportingEnabled))
-                .withValue("metrics.graphite.reporting.enabled", ConfigValueFactory.fromAnyRef(graphiteEnabled))
+            .loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
+            .withValue("metrics.slf4j.reporting.enabled", ConfigValueFactory.fromAnyRef(slf4jReportingEnabled))
+            .withValue("metrics.jmx.reporting.enabled", ConfigValueFactory.fromAnyRef(jmxReportingEnabled))
+            .withValue("metrics.graphite.reporting.enabled", ConfigValueFactory.fromAnyRef(graphiteEnabled))
     }
 
     private fun generateInjector(guiceModule: AppGuiceModule?, config: Config?): Injector {
         return Guice.createInjector(
-                guiceModule,
-                TypesafeConfigPropertiesRegistrationGuiceModule(config)
+            guiceModule,
+            TypesafeConfigPropertiesRegistrationGuiceModule(config)
         )
     }
 
@@ -77,14 +77,14 @@ class AppGuiceModuleTest {
 
         // then
         assertThat(thrown)
-                .isInstanceOf(IllegalArgumentException::class.java)
-                .hasMessageContaining("appConfig")
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContaining("appConfig")
     }
 
     @Test
     fun appEndpoints_returns_non_empty_set() {
         val endpointsSet = injector!!.getInstance(
-                annotatedKey<Set<@JvmSuppressWildcards Endpoint<*>>>(Names.named("appEndpoints"))
+            annotatedKey<Set<@JvmSuppressWildcards Endpoint<*>>>(Names.named("appEndpoints"))
         )
         assertThat(endpointsSet).isNotEmpty
     }
@@ -99,8 +99,8 @@ class AppGuiceModuleTest {
     fun projectApiErrors_returns_ProjectApiErrorsImpl() {
         val projectApiErrors = injector!!.getInstance<ProjectApiErrors>()
         assertThat(projectApiErrors)
-                .isNotNull()
-                .isInstanceOf(ProjectApiErrorsImpl::class.java)
+            .isNotNull()
+            .isInstanceOf(ProjectApiErrorsImpl::class.java)
     }
 
     @Test
@@ -113,7 +113,7 @@ class AppGuiceModuleTest {
     fun appInfoFuture_returns_non_null_object() {
         // when
         val appInfoFuture = injector!!.getInstance(
-                annotatedKey<CompletableFuture<AppInfo>>(Names.named("appInfoFuture"))
+            annotatedKey<CompletableFuture<AppInfo>>(Names.named("appInfoFuture"))
         )
 
         // then

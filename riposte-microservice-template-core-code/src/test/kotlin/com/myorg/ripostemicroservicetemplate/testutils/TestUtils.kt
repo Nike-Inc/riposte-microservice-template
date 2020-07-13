@@ -12,10 +12,10 @@ import com.nike.riposte.server.Server
 import com.nike.riposte.server.config.ServerConfig
 import com.typesafe.config.Config
 import io.restassured.response.ExtractableResponse
+import org.assertj.core.api.Assertions.assertThat
 import java.io.IOException
 import java.lang.reflect.Field
 import java.net.ServerSocket
-import org.assertj.core.api.Assertions.assertThat
 
 /**
  * Contains static helper methods for performing some common test tasks, mainly around launching a real server to test
@@ -95,14 +95,16 @@ object TestUtils {
             assertThat(errorContract.errors).hasSameSizeAs(expectedErrors)
             for (expectedError in expectedErrors) {
                 val matchingError = errorContract.errors.find {
-                    error -> error.code == expectedError.errorCode && error.message == expectedError.message
+                    error ->
+                    (error.code == expectedError.errorCode) && (error.message == expectedError.message)
                 }
 
                 assertThat(matchingError)
-                        .overridingErrorMessage(
-                                "Unable to find an error in the response contract that matches: " +
-                                        "${expectedError.name}. Actual response payload: ${response.asString()}")
-                        .isNotNull()
+                    .overridingErrorMessage(
+                        "Unable to find an error in the response contract that matches: " +
+                            "${expectedError.name}. Actual response payload: ${response.asString()}"
+                    )
+                    .isNotNull()
             }
         } catch (e: IOException) {
             throw RuntimeException(e)
@@ -146,8 +148,9 @@ object TestUtils {
             if (f == null) {
                 throw RuntimeException(
                     "You want me to get this field: '" + field +
-                    "' on this class: '" + clazz.getSimpleName() +
-                    "' but this field is not declared withing hierarchy of this class!")
+                        "' on this class: '" + clazz.getSimpleName() +
+                        "' but this field is not declared withing hierarchy of this class!"
+                )
             }
             return f
         }

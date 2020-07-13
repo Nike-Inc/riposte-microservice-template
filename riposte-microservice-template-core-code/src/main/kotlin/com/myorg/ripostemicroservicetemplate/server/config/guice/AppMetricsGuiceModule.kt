@@ -53,8 +53,8 @@ class AppMetricsGuiceModule : AbstractModule() {
 
         if (graphiteEnabled) {
             val appInfo = appInfoFuture.join()
-            val graphitePrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
-                    "." + appInfo.instanceId())
+            val graphitePrefix = appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
+                "." + appInfo.instanceId()
             reporters.add(DefaultGraphiteReporterFactory(graphitePrefix, graphiteUrl, graphitePort))
         }
 

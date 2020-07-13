@@ -52,9 +52,9 @@ object ExampleBasicAuthProtectedEndpoint {
 
         private val matcher: Matcher = Matcher.match(MATCHING_PATH, HttpMethod.GET)
         private val basicAuthHeaderValueRequired: String =
-                "Basic " + Base64.getEncoder().encodeToString(
-                        ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
-                )
+            "Basic " + Base64.getEncoder().encodeToString(
+                ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
+            )
 
         override fun execute(
             request: RequestInfo<Void>,
@@ -64,11 +64,11 @@ object ExampleBasicAuthProtectedEndpoint {
 
             val responseData = LinkedHashMap<String, String>()
             responseData["description"] = "The following Authorization header can be used to call " +
-                    "POST $MATCHING_PATH without a validation error."
+                "POST $MATCHING_PATH without a validation error."
             responseData[HttpHeaderNames.AUTHORIZATION.toString()] = basicAuthHeaderValueRequired
 
             return CompletableFuture.completedFuture(
-                    ResponseInfo.newBuilder<Map<String, String>>(responseData).build()
+                ResponseInfo.newBuilder<Map<String, String>>(responseData).build()
             )
         }
 
@@ -91,10 +91,10 @@ object ExampleBasicAuthProtectedEndpoint {
         ): CompletableFuture<ResponseInfo<String>> {
 
             return CompletableFuture.completedFuture(
-                    ResponseInfo.newBuilder("Successful Basic Auth call")
-                            .withHttpStatusCode(HttpResponseStatus.CREATED.code())
-                            .withDesiredContentWriterMimeType("text/plain")
-                            .build()
+                ResponseInfo.newBuilder("Successful Basic Auth call")
+                    .withHttpStatusCode(HttpResponseStatus.CREATED.code())
+                    .withDesiredContentWriterMimeType("text/plain")
+                    .build()
             )
         }
 

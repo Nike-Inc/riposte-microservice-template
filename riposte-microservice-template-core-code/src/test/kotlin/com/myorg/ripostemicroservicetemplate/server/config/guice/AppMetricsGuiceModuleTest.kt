@@ -61,10 +61,10 @@ class AppMetricsGuiceModuleTest {
         graphiteEnabled: Boolean
     ): Config {
         return TypesafeConfigUtil
-                .loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
-                .withValue("metrics.slf4j.reporting.enabled", ConfigValueFactory.fromAnyRef(slf4jReportingEnabled))
-                .withValue("metrics.jmx.reporting.enabled", ConfigValueFactory.fromAnyRef(jmxReportingEnabled))
-                .withValue("metrics.graphite.reporting.enabled", ConfigValueFactory.fromAnyRef(graphiteEnabled))
+            .loadConfigForAppIdAndEnvironment(APP_ID, "compiletimetest")
+            .withValue("metrics.slf4j.reporting.enabled", ConfigValueFactory.fromAnyRef(slf4jReportingEnabled))
+            .withValue("metrics.jmx.reporting.enabled", ConfigValueFactory.fromAnyRef(jmxReportingEnabled))
+            .withValue("metrics.graphite.reporting.enabled", ConfigValueFactory.fromAnyRef(graphiteEnabled))
     }
 
     private fun generateInjector(guiceModule: AppMetricsGuiceModule?, config: Config?): Injector {
@@ -104,7 +104,7 @@ class AppMetricsGuiceModuleTest {
         assertThat(engine).isNotNull()
         assertThat(Whitebox.getInternalState(engine, "metricsCollector")).isSameAs(cmc)
         assertThat(Whitebox.getInternalState(engine, "reporters") as Collection<ReporterFactory>)
-                .containsExactlyInAnyOrderElementsOf(reporters)
+            .containsExactlyInAnyOrderElementsOf(reporters)
         assertThat(Whitebox.getInternalState(engine, "started")).isEqualTo(true)
 
         // CodahaleMetricsListener uses the same CodahaleMetricsCollector
@@ -112,12 +112,15 @@ class AppMetricsGuiceModuleTest {
         assertThat(Whitebox.getInternalState(listener, "metricsCollector")).isSameAs(cmc)
     }
 
-    @DataProvider(value = [
-        "true   |   false   |   false",
-        "false  |   true    |   false",
-        "false  |   false   |   true",
-        "true   |   true    |   true"
-    ], splitBy = "\\|")
+    @DataProvider(
+        value = [
+            "true   |   false   |   false",
+            "false  |   true    |   false",
+            "false  |   false   |   true",
+            "true   |   true    |   true"
+        ],
+        splitBy = "\\|"
+    )
     @Test
     fun metricsReporters_are_added_as_expected(
         enableSlf4jReporter: Boolean,
@@ -126,7 +129,7 @@ class AppMetricsGuiceModuleTest {
     ) {
         // given
         configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(
-                enableSlf4jReporter, enableJmxReporter, enableGraphiteReporter
+            enableSlf4jReporter, enableJmxReporter, enableGraphiteReporter
         )
         appGuiceModule = AppMetricsGuiceModule()
         injector = generateInjector(appGuiceModule, configForTesting)
@@ -150,10 +153,10 @@ class AppMetricsGuiceModuleTest {
             assertThat(reporterClasses).contains(DefaultGraphiteReporterFactory::class.java)
             val graphiteReporter = reporters.first { r -> r is DefaultGraphiteReporterFactory }
             val appInfo = injector!!.getInstance(
-                    annotatedKey<CompletableFuture<AppInfo>>(Names.named("appInfoFuture"))
+                annotatedKey<CompletableFuture<AppInfo>>(Names.named("appInfoFuture"))
             ).join()
-            val expectedPrefix = (appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
-                    "." + appInfo.instanceId())
+            val expectedPrefix = appInfo.appId() + "." + appInfo.dataCenter() + "." + appInfo.environment() +
+                "." + appInfo.instanceId()
             val expectedGraphiteUrl = configForTesting!!.getString("metrics.graphite.url")
             val expectedPort = configForTesting!!.getInt("metrics.graphite.port")
             assertThat(Whitebox.getInternalState(graphiteReporter, "prefix")).isEqualTo(expectedPrefix)
@@ -201,10 +204,12 @@ class AppMetricsGuiceModuleTest {
         assertThat(Whitebox.getInternalState(engine, "started")).isEqualTo(true)
     }
 
-    @DataProvider(value = [
-        "true",
-        "false"
-    ])
+    @DataProvider(
+        value = [
+            "true",
+            "false"
+        ]
+    )
     @Test
     fun codahaleMetricsEngine_is_configured_with_jvm_metrics_on_or_off_based_on_property(reportJvmMetrics: Boolean) {
         // given

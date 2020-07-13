@@ -8,11 +8,11 @@ import com.nike.riposte.server.Server
 import io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION
 import io.netty.util.CharsetUtil
 import io.restassured.RestAssured.given
-import java.io.IOException
-import java.util.Base64
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
+import java.io.IOException
+import java.util.Base64
 
 /**
  * Component test that verifies the basic auth security is configured correctly on the server.
@@ -28,32 +28,32 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
     @Test
     fun endpoint_call_should_work_with_valid_basic_auth_header() {
         given()
-                .baseUri("http://localhost")
-                .port(serverConfig!!.endpointsPort())
-                .header(AUTHORIZATION.toString(), basicAuthHeaderValueRequired)
-                .log().all()
+            .baseUri("http://localhost")
+            .port(serverConfig!!.endpointsPort())
+            .header(AUTHORIZATION.toString(), basicAuthHeaderValueRequired)
+            .log().all()
             .`when`()
-                .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
-                .post()
+            .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
+            .post()
             .then()
-                .log().all()
-                .statusCode(201)
+            .log().all()
+            .statusCode(201)
     }
 
     @Test
     @Throws(IOException::class)
     fun endpoint_call_should_fail_with_invalid_basic_auth_header() {
         val response = given()
-                .baseUri("http://localhost")
-                .port(serverConfig!!.endpointsPort())
-                .header(AUTHORIZATION.toString(), "foo" + basicAuthHeaderValueRequired!!)
-                .log().all()
+            .baseUri("http://localhost")
+            .port(serverConfig!!.endpointsPort())
+            .header(AUTHORIZATION.toString(), "foo" + basicAuthHeaderValueRequired!!)
+            .log().all()
             .`when`()
-                .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
-                .post()
+            .basePath(ExampleBasicAuthProtectedEndpoint.MATCHING_PATH)
+            .post()
             .then()
-                .log().all()
-                .extract()
+            .log().all()
+            .extract()
 
         verifyExpectedError(response, SampleCoreApiError.UNAUTHORIZED)
     }
@@ -61,16 +61,16 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
     @Test
     fun healthcheck_call_should_not_require_basic_auth() {
         given()
-                .baseUri("http://localhost")
-                .port(serverConfig!!.endpointsPort())
-                .log().all()
+            .baseUri("http://localhost")
+            .port(serverConfig!!.endpointsPort())
+            .log().all()
             .`when`()
-                .basePath("/healthcheck")
-                .get()
+            .basePath("/healthcheck")
+            .get()
             .then()
-                .log().all()
-                .statusCode(200)
-                .extract().asString()
+            .log().all()
+            .statusCode(200)
+            .extract().asString()
     }
 
     companion object {
@@ -91,7 +91,7 @@ class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
             val basicAuthUsername = serverConfig!!.testingAppConfig.getString("exampleBasicAuth.username")
             val basicAuthPassword = serverConfig!!.testingAppConfig.getString("exampleBasicAuth.password")
             basicAuthHeaderValueRequired = "Basic " + Base64.getEncoder().encodeToString(
-                    ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
+                ("$basicAuthUsername:$basicAuthPassword").toByteArray(CharsetUtil.UTF_8)
             )
         }
 

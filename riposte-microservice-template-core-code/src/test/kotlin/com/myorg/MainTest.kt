@@ -42,8 +42,8 @@ class MainTest {
 
         // then
         assertThat(serverConfig)
-                .isNotNull()
-                .isInstanceOf(AppServerConfig::class.java)
+            .isNotNull()
+            .isInstanceOf(AppServerConfig::class.java)
     }
 
     @Test
@@ -62,15 +62,15 @@ class MainTest {
 
         // then
         val healthCheckCallResponse = given()
-                .baseUri("http://localhost")
-                .port(serverPort)
-                .log().all()
+            .baseUri("http://localhost")
+            .port(serverPort)
+            .log().all()
             .`when`()
-                .basePath("/healthcheck")
-                .get()
+            .basePath("/healthcheck")
+            .get()
             .then()
-                .log().all()
-                .extract()
+            .log().all()
+            .extract()
 
         assertThat(healthCheckCallResponse.statusCode()).isEqualTo(200)
     }

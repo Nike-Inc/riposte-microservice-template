@@ -32,21 +32,22 @@ enum class ProjectApiError(private val delegate: ApiError) : ApiError {
     EXAMPLE_ERROR_BAD_INPUT_VAL_2(99151, "Bad request body - null/empty input_val_2", BAD_REQUEST.code()),
     EXAMPLE_ERROR_BAD_INPUT_VAL_1_TOO_LARGE(99152, "Bad request body - input_val_1 cannot be larger than 50 chars", BAD_REQUEST.code()),
     EXAMPLE_ERROR_BAD_INPUT_VAL_2_TOO_LARGE(99153, "Bad request body - input_val_2 cannot be larger than 60 chars", BAD_REQUEST.code()),
-    EXAMPLE_ERROR_MANUALLY_THROWN(99154, "You asked for an error to be thrown", INTERNAL_SERVER_ERROR.code(),
-            mapOf(
-                    "static_metadata_1" to "foo",
-                    "static_metadata_2" to 42
-            )
+    EXAMPLE_ERROR_MANUALLY_THROWN(
+        99154, "You asked for an error to be thrown", INTERNAL_SERVER_ERROR.code(),
+        mapOf(
+            "static_metadata_1" to "foo",
+            "static_metadata_2" to 42
+        )
     );
 
     @Suppress("unused")
     constructor(errorCode: Int, message: String, httpStatusCode: Int, metadata: Map<String, Any>? = null) :
-            this(
-                    ApiErrorBase(
-                            "delegated-to-enum-wrapper-" + UUID.randomUUID().toString(), errorCode, message,
-                            httpStatusCode, metadata
-                    )
+        this(
+            ApiErrorBase(
+                "delegated-to-enum-wrapper-" + UUID.randomUUID().toString(), errorCode, message,
+                httpStatusCode, metadata
             )
+        )
 
     override fun getName(): String {
         return this.name

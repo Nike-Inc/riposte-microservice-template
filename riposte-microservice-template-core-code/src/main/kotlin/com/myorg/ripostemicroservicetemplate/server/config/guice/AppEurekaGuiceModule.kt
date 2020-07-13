@@ -56,5 +56,4 @@ class AppEurekaGuiceModule(private val appConfig: Config) : AbstractModule() {
          */
         val eurekaShutdownHook: ServerShutdownHook?
     )
-
 }

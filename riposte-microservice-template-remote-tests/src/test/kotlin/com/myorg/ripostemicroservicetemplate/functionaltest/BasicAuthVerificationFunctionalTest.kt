@@ -1,12 +1,12 @@
 package com.myorg.ripostemicroservicetemplate.functionaltest
 
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint
-import com.myorg.ripostemicroservicetemplate.functionaltest.PropertiesHelper.Companion.INSTANCE as props
 import com.nike.backstopper.apierror.sample.SampleCoreApiError
 import io.netty.handler.codec.http.HttpHeaderNames.AUTHORIZATION
 import io.restassured.RestAssured.given
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import com.myorg.ripostemicroservicetemplate.functionaltest.PropertiesHelper.Companion.INSTANCE as props
 
 /**
  * Functional test that verifies the server is correctly restricting access via basic auth.
@@ -24,13 +24,13 @@ class BasicAuthVerificationFunctionalTest {
         val fullUrl = props.ripostemicroservicetemplateHost + ExampleBasicAuthProtectedEndpoint.MATCHING_PATH
 
         val response = given()
-                .header(AUTHORIZATION.toString(), props.basicAuthHeaderVal)
-                .log().all()
+            .header(AUTHORIZATION.toString(), props.basicAuthHeaderVal)
+            .log().all()
             .`when`()
-                .post(fullUrl)
+            .post(fullUrl)
             .then()
-                .log().all()
-                .extract()
+            .log().all()
+            .extract()
 
         val responseCode = response.statusCode()
         assertThat(responseCode).isEqualTo(201)
@@ -41,13 +41,13 @@ class BasicAuthVerificationFunctionalTest {
         val fullUrl = props.ripostemicroservicetemplateHost + ExampleBasicAuthProtectedEndpoint.MATCHING_PATH
 
         val response = given()
-                .header(AUTHORIZATION.toString(), "foo" + props.basicAuthHeaderVal)
-                .log().all()
+            .header(AUTHORIZATION.toString(), "foo" + props.basicAuthHeaderVal)
+            .log().all()
             .`when`()
-                .post(fullUrl)
+            .post(fullUrl)
             .then()
-                .log().all()
-                .extract()
+            .log().all()
+            .extract()
 
         props.verifyExpectedError(response, SampleCoreApiError.UNAUTHORIZED)
     }
@@ -57,11 +57,11 @@ class BasicAuthVerificationFunctionalTest {
         val fullUrl = props.ripostemicroservicetemplateHost + "/healthcheck"
 
         given()
-                .log().all()
+            .log().all()
             .`when`()
-                .get(fullUrl)
+            .get(fullUrl)
             .then()
-                .log().all()
-                .statusCode(200)
+            .log().all()
+            .statusCode(200)
     }
 }

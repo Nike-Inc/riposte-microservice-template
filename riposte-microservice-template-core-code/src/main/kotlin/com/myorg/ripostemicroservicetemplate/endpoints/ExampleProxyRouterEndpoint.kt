@@ -31,11 +31,11 @@ constructor(
     @Named("endpoints.sslPort") httpsPort: Int,
     @Named("endpoints.useSsl") useSecure: Boolean
 ) : SimpleProxyRouterEndpoint(
-        Matcher.match("/exampleProxy"),
-        "localhost",
-        if (useSecure) httpsPort else httpPort,
-        ExampleEndpoint.MATCHING_PATH,
-        useSecure
+    Matcher.match("/exampleProxy"),
+    "localhost",
+    if (useSecure) httpsPort else httpPort,
+    ExampleEndpoint.MATCHING_PATH,
+    useSecure
 ) {
 
     override fun getDownstreamRequestFirstChunkInfo(
@@ -46,9 +46,9 @@ constructor(
 
         // Reuse the super.getDownstreamRequestFirstChunkInfo() impl since it does most of what we want.
         return super.getDownstreamRequestFirstChunkInfo(request, longRunningTaskExecutor, ctx)
-                // Relax HTTPS handshake validation requirements since it'll probably be a self-signed cert.
-                .thenApply { dsFirstChunk -> dsFirstChunk.withRelaxedHttpsValidation(true) }
-                // This is one way you could adjust the downstream request first chunk (headers, etc).
-                .whenComplete { dsFirstChunk, _ -> dsFirstChunk.firstChunk.headers().set("foobar", "baz") }
+            // Relax HTTPS handshake validation requirements since it'll probably be a self-signed cert.
+            .thenApply { dsFirstChunk -> dsFirstChunk.withRelaxedHttpsValidation(true) }
+            // This is one way you could adjust the downstream request first chunk (headers, etc).
+            .whenComplete { dsFirstChunk, _ -> dsFirstChunk.firstChunk.headers().set("foobar", "baz") }
     }
 }

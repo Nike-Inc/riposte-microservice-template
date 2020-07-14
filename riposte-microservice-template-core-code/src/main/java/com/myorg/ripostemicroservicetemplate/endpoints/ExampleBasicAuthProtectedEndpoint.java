@@ -5,7 +5,7 @@ import com.nike.riposte.server.http.ResponseInfo;
 import com.nike.riposte.server.http.StandardEndpoint;
 import com.nike.riposte.util.Matcher;
 
-import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule;
+import com.myorg.ripostemicroservicetemplate.server.config.guice.AppSecurityGuiceModule;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +45,7 @@ import io.netty.util.CharsetUtil;
  *
  * <p>In a real production application you may want to protect all endpoints except /healthcheck. For the examples only
  * POST /exampleBasicAuth is protected. See the comments and implementation of {@link
- * AppGuiceModule#basicAuthProtectedEndpoints(Set)} to see how to switch to protect all endpoints except /healthcheck.
+ * AppSecurityGuiceModule#authProtectedEndpoints(Set)} to see how to switch to protect all endpoints except /healthcheck.
  *
  * <p>TODO: EXAMPLE CLEANUP - Delete this class.
  *

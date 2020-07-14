@@ -64,7 +64,7 @@ public class MainTest {
         Main.main(new String[]{});
 
         // then
-        ExtractableResponse healthCheckCallResponse =
+        ExtractableResponse<?> healthCheckCallResponse =
             given()
                 .baseUri("http://localhost")
                 .port(serverPort)

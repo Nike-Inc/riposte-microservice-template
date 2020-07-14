@@ -1,24 +1,26 @@
 evaluationDependsOn(':')
 
 dependencies {
-    compile(
+    implementation (
             "com.nike.riposte:riposte-spi:$riposteVersion",
             "com.nike.riposte:riposte-core:$riposteVersion",
             "com.nike.riposte:riposte-typesafe-config:$riposteVersion",
             "com.nike.riposte:riposte-guice:$riposteVersion",
             "com.nike.riposte:riposte-guice-typesafe-config:$riposteVersion",
-            "com.nike.riposte:riposte-async-http-client:$riposteVersion",
-            // TODO: EXAMPLE CLEANUP - Remove the riposte-service-registration-eureka dependency below unless you use Eureka for service registration
-            "com.nike.riposte:riposte-service-registration-eureka:$riposteVersion",
+            "com.nike.riposte:riposte-async-http-client2:$riposteVersion",
+            // TODO: EXAMPLE CLEANUP - Uncomment the riposte-service-registration-eureka dependency below if you need Eureka for service registration, otherwise delete it.
+//            "com.nike.riposte:riposte-service-registration-eureka:$riposteVersion",
             "com.nike.riposte:riposte-metrics-codahale:$riposteVersion",
             "com.nike.riposte:riposte-auth:$riposteVersion",
 
             "com.google.code.findbugs:jsr305:$googleFindbugsJsr305Version", // So Guice can pick up @Nullable
             "org.jetbrains:annotations:$jetbrainsAnnotationsVersion",
 
-            "org.codehaus.groovy:groovy-all:$groovyVersion", // For logback groovy config processing
             "ch.qos.logback:logback-classic:$logbackVersion",
             "ch.qos.logback:logback-core:$logbackVersion",
+            "org.codehaus.janino:janino:$janinoVersion", // For conditional processing in logback config XML
+            "org.slf4j:jcl-over-slf4j:$slf4jVersion",
+            "org.slf4j:log4j-over-slf4j:$slf4jVersion",
 
             "javax.validation:validation-api:$validationApiVersion",
             "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
@@ -29,20 +31,12 @@ dependencies {
             "javax.xml.bind:jaxb-api:$jaxbApiVersion",
 
             // Define the Jackson modules we depend on explicitly to guarantee the same version is used
-            "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabindVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion",
             "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
-
-            // TODO: EXAMPLE CLEANUP - Remove the future-converter-java8-guava dependency below unless you need it in your app
-            "net.javacrumbs.future-converter:future-converter-java8-guava:$futureConverterJava8GuavaVersion",
-            // TODO: EXAMPLE CLEANUP - Remove the cassandra related dependencies below unless you need them in your app
-            "org.apache.cassandra:cassandra-all:$apacheCassandraVersion",
-            "com.datastax.cassandra:cassandra-driver-core:$datastaxCassandraDriverVersion",
-            // TODO: EXAMPLE CLEANUP - Remove the embedded cassandra dependency below
-            "org.cassandraunit:cassandra-unit:$cassandraUnitVersion"
     )
 
-    testCompile (
+    testImplementation (
             "junit:junit:$junitVersion",
             "org.assertj:assertj-core:$assertJVersion",
             "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
@@ -98,8 +92,8 @@ jar {
         // Add version information to the app's main properties file
         ant.replace(file: "$buildDir/resources/main/${rootProject.name}.conf", token: "@@RELEASE@@", value: archiveVersion.get())
 
-        // Replace version and appname info in logback.groovy so that log messages will be tagged with the correct values.
-        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@RELEASE@@", value: archiveVersion.get())
-        ant.replace(file: "$buildDir/resources/main/logback.groovy", token: "@@APPNAME@@", value: artifactId)
+        // Replace version and appname info in logback.xml so that log messages will be tagged with the correct values.
+        ant.replace(file: "$buildDir/resources/main/logback.xml", token: "@@RELEASE@@", value: archiveVersion.get())
+        ant.replace(file: "$buildDir/resources/main/logback.xml", token: "@@APPNAME@@", value: artifactId)
     }
 }

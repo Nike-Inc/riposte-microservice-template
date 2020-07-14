@@ -1,0 +1,27 @@
+<configuration>
+
+    <logger name="org.apache.http" level="INFO" />
+    <logger name="io.restassured" level="INFO" />
+    <logger name="com.ning.http.client" level="INFO" />
+    <logger name="com.nike.wingtips.Tracer" level="INFO" />
+    <logger name="com.nike.wingtips.http.HttpRequestTracingUtils" level="INFO" />
+    <logger name="VALID_WINGTIPS_SPANS" level="INFO" />
+    <logger name="INVALID_WINGTIPS_SPANS" level="INFO" />
+    <logger name="com.codahale.metrics.jmx.JmxReporter" level="INFO" />
+    <logger name="org.reflections.Reflections" level="INFO" />
+    
+    <appender name="AppLogsConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>traceId=%X{traceId:-NO_TRACE_RUNNING} %date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX"} [%thread] |-%-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="AsyncAppLogsConsoleAppender" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="AppLogsConsoleAppender" />
+        <queueSize>16000</queueSize>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="AsyncAppLogsConsoleAppender" />
+    </root>
+</configuration>

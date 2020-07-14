@@ -10,6 +10,8 @@ import com.nike.riposte.metrics.codahale.EndpointMetricsHandler;
 import com.nike.riposte.metrics.codahale.impl.EndpointMetricsHandlerDefaultImpl;
 import com.nike.riposte.server.config.AppInfo;
 import com.nike.riposte.server.error.validation.BasicAuthSecurityValidator;
+import com.nike.riposte.server.hooks.PostServerStartupHook;
+import com.nike.riposte.server.hooks.ServerShutdownHook;
 import com.nike.riposte.server.logging.AccessLogger;
 import com.nike.riposte.typesafeconfig.util.TypesafeConfigUtil;
 
@@ -18,11 +20,15 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import com.google.inject.util.Providers;
 import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule;
+import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +37,14 @@ import java.util.concurrent.CompletableFuture;
 import static com.myorg.ripostemicroservicetemplate.testutils.TestUtils.APP_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests the functionality of {@link AppServerConfig}
  *
  * @author Nic Munroe
  */
+@RunWith(DataProviderRunner.class)
 public class AppServerConfigTest {
 
     private Config configForTesting;
@@ -176,5 +184,57 @@ public class AppServerConfigTest {
     public void endpointsSslPort_comes_from_config() {
         // expect
         assertThat(appServerConfig.endpointsSslPort()).isEqualTo(configForTesting.getInt("endpoints.sslPort"));
+    }
+
+    @DataProvider(value = {
+        "true",
+        "false"
+    })
+    @Test
+    public void postServerStartupHooks_works_as_expected(boolean eurekaStartupHookIsNull) {
+        // given
+        PostServerStartupHook eurekaStartupHook = (eurekaStartupHookIsNull) ? null : mock(PostServerStartupHook.class);
+        Whitebox.setInternalState(
+            appServerConfig.guiceValues.eurekaServerHooks, "eurekaStartupHook", eurekaStartupHook
+        );
+
+        // when
+        List<PostServerStartupHook> result = appServerConfig.postServerStartupHooks();
+
+        // then
+        if (eurekaStartupHookIsNull) {
+            assertThat(result).isNull();
+        }
+        else {
+            assertThat(result)
+                .isNotNull()
+                .containsExactly(eurekaStartupHook);
+        }
+    }
+
+    @DataProvider(value = {
+        "true",
+        "false"
+    })
+    @Test
+    public void serverShutdownHooks_works_as_expected(boolean eurekaShutdownHookIsNull) {
+        // given
+        ServerShutdownHook eurekaShutdownHook = (eurekaShutdownHookIsNull) ? null : mock(ServerShutdownHook.class);
+        Whitebox.setInternalState(
+            appServerConfig.guiceValues.eurekaServerHooks, "eurekaShutdownHook", eurekaShutdownHook
+        );
+
+        // when
+        List<ServerShutdownHook> result = appServerConfig.serverShutdownHooks();
+
+        // then
+        if (eurekaShutdownHookIsNull) {
+            assertThat(result).isNull();
+        }
+        else {
+            assertThat(result)
+                .isNotNull()
+                .containsExactly(eurekaShutdownHook);
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.myorg.ripostemicroservicetemplate.endpoints;
 
-import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper;
-import com.nike.riposte.client.asynchttp.ning.RequestBuilderWrapper;
+import com.nike.riposte.client.asynchttp.AsyncHttpClientHelper;
+import com.nike.riposte.client.asynchttp.RequestBuilderWrapper;
 import com.nike.riposte.server.http.RequestInfo;
 import com.nike.riposte.server.http.ResponseInfo;
 import com.nike.riposte.server.http.StandardEndpoint;

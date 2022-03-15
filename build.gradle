@@ -1,7 +1,8 @@
 // ========== GRADLE PLUGINS / REPOSITORIES SETUP
 buildscript {
     repositories {
-        jcenter()
+        gradlePluginPortal()
+        mavenCentral()
     }
     dependencies {
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
@@ -42,7 +43,7 @@ allprojects {
 
     // Define the repos used for finding dependencies.
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     test {

@@ -3,6 +3,8 @@ evaluationDependsOn(':')
 dependencies {
 
     testImplementation (
+        // TODO: Get rid of this explicit fastbreak dependency once we've updated riposte versions.
+        "com.nike.fastbreak:fastbreak:0.10.3",
         project(":riposte-microservice-template-core-code"),
         project(":riposte-microservice-template-core-code").sourceSets.test.output,
         "org.slf4j:slf4j-api:$slf4jVersion",

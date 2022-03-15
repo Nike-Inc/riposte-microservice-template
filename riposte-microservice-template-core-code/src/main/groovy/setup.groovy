@@ -208,6 +208,7 @@ printDots("Updating files with project name: $replacementName, and org name: $my
 })
 
 println("\nDeleting setup script groovy folder: " + (new File("${rootLocation}/${replacementName}-core-code/src/main/groovy").deleteDir()))
+println("\nDeleting .github folder: " + (new File("${rootLocation}/.github").deleteDir()))
 println("\nDeleting bootstrap_template.sh: " + (new File("${rootLocation}/bootstrap_template.sh").delete()))
 println("\nDeleting bootstrap_template.log (if it exists): " + (new File("${rootLocation}/bootstrap_template.log").delete()))
 

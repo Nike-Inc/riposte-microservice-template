@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+        classpath 'gradle.plugin.com.github.johnrengelman:shadow:7.1.2'
     }
 }
 
@@ -183,7 +183,9 @@ allprojects {
 
     task versionInfo {
         doLast {
+            new File("$buildDir").mkdirs()
             def versionfile = new File("$buildDir/version.properties")
+            versionfile.createNewFile()
             versionfile << "release.version=$artifactId-$version"
         }
     }
@@ -201,6 +203,9 @@ shadowJar {
     //      If you'd prefer the default shadow jar name then you can remove this line.
     archiveClassifier.set('')
 }
+
+// This fixes shadow jar gradle warnings. See: https://github.com/johnrengelman/shadow/issues/713
+shadowJar.dependsOn("distTar", "distZip", "startScripts")
 
 // The root level shouldn't generate the normal jar and source jars, just the shadow jar. Disable the jar and source jar
 //      tasks for the root level project (this won't affect submodules, where we *do* want jars created)

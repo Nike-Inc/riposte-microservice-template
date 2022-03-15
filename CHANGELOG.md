@@ -72,8 +72,8 @@ response headers when throwing an `ApiException`.
 ### Updated
 
 - Updated various libraries:
-    - Riposte libraries from `0.10.0` to `0.12.0` ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
-    - Backstopper libraries from `0.11.1` to `0.11.4` ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/master/CHANGELOG.md)).
+    - Riposte libraries from `0.10.0` to `0.12.0` ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/main/CHANGELOG.md)).
+    - Backstopper libraries from `0.11.1` to `0.11.4` ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/main/CHANGELOG.md)).
     - SLF4J libraries from `1.7.21` to `1.7.25` ([SLF4J changelog](https://www.slf4j.org/news.html)).
     - Logback libraries from `1.1.7` to `1.2.3` ([Logback changelog](https://logback.qos.ch/news.html)).
     - AssertJ libraries from `3.5.2` to `3.9.0` ([AssertJ changelog](http://joel-costigliola.github.io/assertj/assertj-core-news.html)).
@@ -101,29 +101,29 @@ response headers when throwing an `ApiException`.
 
 ### Updated
 
-- Updated Riposte libraries to 0.10.0 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
+- Updated Riposte libraries to 0.10.0 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/main/CHANGELOG.md)).
     - Updated by [Nic Munroe][contrib_nicmunroe].
 
 ## 2017-04-28
 
 ### Updated
 
-- Updated Riposte libraries to 0.9.4 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
+- Updated Riposte libraries to 0.9.4 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/main/CHANGELOG.md)).
     - Updated by [Nic Munroe][contrib_nicmunroe].
 
 ## 2017-04-20
 
 ### Updated
 
-- Updated Riposte libraries to 0.9.3 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
+- Updated Riposte libraries to 0.9.3 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/main/CHANGELOG.md)).
     - Updated by [Nic Munroe][contrib_nicmunroe].
 
 ## 2017-02-28
 
 ### Updated
 
-- Updated Riposte libraries to 0.9.0 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
-- Updated Backstopper libraries to 0.11.1 ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/master/CHANGELOG.md)).
+- Updated Riposte libraries to 0.9.0 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/main/CHANGELOG.md)).
+- Updated Backstopper libraries to 0.11.1 ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/main/CHANGELOG.md)).
     - Updated by [Nic Munroe][contrib_nicmunroe].
 
 ## 2017-01-17
@@ -137,8 +137,8 @@ response headers when throwing an `ApiException`.
 
 ### Updated
 
-- Updated Riposte libraries to 0.8.2 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/master/CHANGELOG.md)).
-- Updated Backstopper libraries to 0.11.0 ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/master/CHANGELOG.md)).
+- Updated Riposte libraries to 0.8.2 ([Riposte changelog](https://github.com/Nike-Inc/riposte/blob/main/CHANGELOG.md)).
+- Updated Backstopper libraries to 0.11.0 ([Backstopper changelog](https://github.com/Nike-Inc/backstopper/blob/main/CHANGELOG.md)).
     - Updated by [Nic Munroe][contrib_nicmunroe].
 
 ## 2016-11-08

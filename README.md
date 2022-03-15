@@ -1,8 +1,8 @@
 # Riposte Microservice Template - Java
 
-[![][travis img]][travis]
-[![Code Coverage](https://img.shields.io/codecov/c/github/Nike-Inc/riposte-microservice-template/master.svg)](https://codecov.io/github/Nike-Inc/riposte-microservice-template?branch=master)
-[![][license img]][license]
+[![Build][gh_action_build_img]][gh_action_build]
+[![Code Coverage][codecov_img]][codecov]
+[![License][license img]][license]
 
 **This is an example template for quickly creating a new Java-based [Riposte](https://github.com/Nike-Inc/riposte) project.** 
 Riposte is a Netty-based microservice framework for rapid development of production-ready HTTP APIs. It includes robust 
@@ -28,7 +28,7 @@ want to create a Kotlin-native Riposte project please see the
 * Run the following bootstrapping `curl` command, replacing `newprojectname` with the new project name you want, and 
 replacing `myorgname` with the name of your company/org (this is used for package names, i.e. `com.myorgname`):
 ``` shell
-curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/master/bootstrap_template.sh' \
+curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/main/bootstrap_template.sh' \
 | bash /dev/stdin newprojectname myorgname
 ```
 * `cd` into the `newprojectname` folder.
@@ -88,7 +88,7 @@ Just run the following `curl` command in a command line shell, replacing and/or 
 options explained [below](#bootstrap_command_args)):
 
 ``` shell
-curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/master/bootstrap_template.sh' \
+curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/main/bootstrap_template.sh' \
 | bash /dev/stdin <newprojectname> <myorgname> </optional/target/dir> <-DoptionalSystemProps=stuff>
 ```
 
@@ -100,7 +100,7 @@ After you execute the `curl` command your new project will be setup and ready to
 If the `curl` command above doesn't work for you then you will need to perform a few more steps to setup your project:
 
 * Download the following archive of this template project repository: 
-[https://github.com/Nike-Inc/riposte-microservice-template/archive/master.zip](https://github.com/Nike-Inc/riposte-microservice-template/archive/master.zip)
+[https://github.com/Nike-Inc/riposte-microservice-template/archive/main.zip](https://github.com/Nike-Inc/riposte-microservice-template/archive/main.zip)
 * Unpack this zipped archive wherever you want your project to live.
 * Open a command line shell and `cd` into the new project folder that was just unpacked.
 * Execute the following gradle wrapper command, replacing and/or removing the `<newprojectname>`, `<myorgname>`, and 
@@ -155,7 +155,7 @@ ability to explore, build, or run your project locally.
 The following `curl` command is an example for a project named `example-riposte-project`:
 
 ``` shell
-curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/master/bootstrap_template.sh' \
+curl -s 'https://raw.githubusercontent.com/Nike-Inc/riposte-microservice-template/main/bootstrap_template.sh' \
 | bash /dev/stdin example-riposte-project someorg \
 -Dfixme_project_remotetest_url_test=https://exampleriposteproject.test.someorg.com \
 -Dfixme_project_remotetest_url_prod=https://exampleriposteproject.someorg.com \
@@ -705,8 +705,11 @@ JDK. No other changes are needed.
 This Riposte microservice template is released under the 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-[travis]:https://travis-ci.org/Nike-Inc/riposte-microservice-template
-[travis img]:https://api.travis-ci.org/Nike-Inc/riposte-microservice-template.svg?branch=master
+[gh_action_build]:https://github.com/Nike-Inc/riposte/actions/workflows/build.yml
+[gh_action_build_img]:https://github.com/Nike-Inc/riposte/actions/workflows/build.yml/badge.svg
+
+[codecov]:https://codecov.io/github/Nike-Inc/riposte-microservice-template?branch=main
+[codecov_img]:https://img.shields.io/codecov/c/github/Nike-Inc/riposte-microservice-template/main.svg
 
 [license]:LICENSE.txt
 [license img]:https://img.shields.io/badge/License-Apache%202-blue.svg

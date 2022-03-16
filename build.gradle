@@ -80,29 +80,29 @@ artifacts {
 // ========== PROPERTIES AND DEPENDENCIES
 ext {
     // DEPENDENCY VERSIONS
-    riposteVersion = '0.19.1'
-    backstopperVersion = '0.13.0'
-    slf4jVersion = '1.7.30'
-    logbackVersion = '1.2.3'
-    janinoVersion = '3.1.2'
-    jacksonVersion = '2.11.1'
+    riposteVersion = '0.20.0'
+    backstopperVersion = '0.14.1'
+    slf4jVersion = '1.7.36'
+    logbackVersion = '1.2.11'
+    janinoVersion = '3.1.6'
+    jacksonVersion = '2.13.2'
     googleFindbugsJsr305Version = '3.0.2'
-    jetbrainsAnnotationsVersion = '19.0.0'
+    jetbrainsAnnotationsVersion = '23.0.0'
 
     validationApiVersion = '2.0.1.Final'
-    hibernateValidatorVersion = '6.1.5.Final'
+    hibernateValidatorVersion = '6.2.3.Final'
     elApiVersion = '3.0.1-b06'
-    elImplVersion = '3.0.1-b11'
+    elImplVersion = '3.0.1-b12'
     jaxbApiVersion = '2.4.0-b180830.0359'
 
-    junitVersion = '4.13'
-    mockitoVersion = '3.3.3'
-    assertJVersion = '3.16.1'
+    junitVersion = '4.13.2'
+    mockitoVersion = '4.4.0'
+    assertJVersion = '3.22.0'
     junitDataproviderVersion = '1.13.1'
-    restAssuredVersion = '4.3.1'
+    restAssuredVersion = '4.5.1'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.8.5'
+    jacocoToolVersion = '0.8.7'
     // Anything in this jacocoExclusions list will be excluded from coverage reports. The format is paths to class
     //      files, with wildcards allowed. e.g.: jacocoExclusions = [ "com/nike/Foo.class", "**/Bar*.*" ]
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']

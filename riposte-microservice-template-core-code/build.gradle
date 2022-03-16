@@ -2,8 +2,6 @@ evaluationDependsOn(':')
 
 dependencies {
     implementation (
-            // TODO: Get rid of this explicit fastbreak dependency once we've updated riposte versions.
-            "com.nike.fastbreak:fastbreak:0.10.3",
             "com.nike.riposte:riposte-spi:$riposteVersion",
             "com.nike.riposte:riposte-core:$riposteVersion",
             "com.nike.riposte:riposte-typesafe-config:$riposteVersion",

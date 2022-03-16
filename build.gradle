@@ -1,11 +1,12 @@
 // ========== GRADLE PLUGINS / REPOSITORIES SETUP
 buildscript {
     repositories {
-        jcenter()
+        gradlePluginPortal()
+        mavenCentral()
     }
     dependencies {
         // STUFF FOR SHADOW JAR - this builds the fat jar that contains the final application for deployment
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+        classpath 'gradle.plugin.com.github.johnrengelman:shadow:7.1.2'
     }
 }
 
@@ -42,10 +43,12 @@ allprojects {
 
     // Define the repos used for finding dependencies.
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     test {
+        useJUnitPlatform()
+
         // Minimize console spam while running tests without swallowing critical debugging info.
         testLogging {
             exceptionFormat "FULL"
@@ -79,29 +82,28 @@ artifacts {
 // ========== PROPERTIES AND DEPENDENCIES
 ext {
     // DEPENDENCY VERSIONS
-    riposteVersion = '0.19.1'
-    backstopperVersion = '0.13.0'
-    slf4jVersion = '1.7.30'
-    logbackVersion = '1.2.3'
-    janinoVersion = '3.1.2'
-    jacksonVersion = '2.11.1'
+    riposteVersion = '0.20.0'
+    backstopperVersion = '0.14.1'
+    slf4jVersion = '1.7.36'
+    logbackVersion = '1.2.11'
+    janinoVersion = '3.1.6'
+    jacksonVersion = '2.13.2'
     googleFindbugsJsr305Version = '3.0.2'
-    jetbrainsAnnotationsVersion = '19.0.0'
+    jetbrainsAnnotationsVersion = '23.0.0'
 
     validationApiVersion = '2.0.1.Final'
-    hibernateValidatorVersion = '6.1.5.Final'
+    hibernateValidatorVersion = '6.2.3.Final'
     elApiVersion = '3.0.1-b06'
-    elImplVersion = '3.0.1-b11'
+    elImplVersion = '3.0.1-b12'
     jaxbApiVersion = '2.4.0-b180830.0359'
 
-    junitVersion = '4.13'
-    mockitoVersion = '3.3.3'
-    assertJVersion = '3.16.1'
-    junitDataproviderVersion = '1.13.1'
-    restAssuredVersion = '4.3.1'
+    junit5Version = '5.8.2'
+    mockitoVersion = '4.4.0'
+    assertJVersion = '3.22.0'
+    restAssuredVersion = '4.5.1'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.8.5'
+    jacocoToolVersion = '0.8.7'
     // Anything in this jacocoExclusions list will be excluded from coverage reports. The format is paths to class
     //      files, with wildcards allowed. e.g.: jacocoExclusions = [ "com/nike/Foo.class", "**/Bar*.*" ]
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']
@@ -147,8 +149,7 @@ ext {
 
 allprojects {
     configurations.all {
-        // Other libraries like to include random versions of junit and mockito. Make sure we force the versions we want.
-        resolutionStrategy.force "junit:junit:$junitVersion"
+        // Other libraries like to include random versions of mockito. Make sure we force the version we want.
         resolutionStrategy.force "org.mockito:mockito-core:$mockitoVersion"
 
         // Don't accidentally transitively pull in SLF4J implementations we don't want to use from other libraries.
@@ -182,7 +183,9 @@ allprojects {
 
     task versionInfo {
         doLast {
+            new File("$buildDir").mkdirs()
             def versionfile = new File("$buildDir/version.properties")
+            versionfile.createNewFile()
             versionfile << "release.version=$artifactId-$version"
         }
     }
@@ -200,6 +203,9 @@ shadowJar {
     //      If you'd prefer the default shadow jar name then you can remove this line.
     archiveClassifier.set('')
 }
+
+// This fixes shadow jar gradle warnings. See: https://github.com/johnrengelman/shadow/issues/713
+shadowJar.dependsOn("distTar", "distZip", "startScripts")
 
 // The root level shouldn't generate the normal jar and source jars, just the shadow jar. Disable the jar and source jar
 //      tasks for the root level project (this won't affect submodules, where we *do* want jars created)

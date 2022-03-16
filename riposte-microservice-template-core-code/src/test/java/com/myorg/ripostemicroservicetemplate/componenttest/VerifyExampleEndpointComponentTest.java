@@ -10,9 +10,9 @@ import com.myorg.ripostemicroservicetemplate.endpoints.ExampleEndpoint.ErrorHand
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiError;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -41,7 +41,7 @@ public class VerifyExampleEndpointComponentTest {
     private static TestUtils.AppServerConfigForTesting serverConfig;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() throws Exception {
         Pair<Server, TestUtils.AppServerConfigForTesting> serverAndConfigPair = TestUtils.createServerForTesting();
         serverConfig = serverAndConfigPair.getRight();
@@ -49,7 +49,7 @@ public class VerifyExampleEndpointComponentTest {
         realRunningServer.startup();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws Exception {
         realRunningServer.shutdown();
     }

@@ -37,12 +37,16 @@ dependencies {
     )
 
     testImplementation (
-            "junit:junit:$junitVersion",
+            "org.junit.jupiter:junit-jupiter-api:$junit5Version",
+            "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
+            "org.junit.jupiter:junit-jupiter-params:$junit5Version",
+            // junit-vintage-engine is for running junit 4 tests alongside junit 5.
+            //      This is necessary for the backstopper reusable tests, since they rely on junit 4.
+            "org.junit.vintage:junit-vintage-engine:$junit5Version",
             "org.assertj:assertj-core:$assertJVersion",
-            "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
             "org.mockito:mockito-core:$mockitoVersion",
             "com.nike.backstopper:backstopper-reusable-tests:$backstopperVersion",
-            "io.rest-assured:rest-assured:$restAssuredVersion"
+            "io.rest-assured:rest-assured:$restAssuredVersion",
     )
 }
 

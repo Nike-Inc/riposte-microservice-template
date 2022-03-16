@@ -8,8 +8,8 @@ import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 
 import io.restassured.response.ExtractableResponse;
 
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class MainTest {
 
-    @AfterClass
+    @AfterAll
     public static void afterClass() {
         System.clearProperty("@appId");
         System.clearProperty("@environment");

@@ -11,8 +11,9 @@ dependencies {
         "ch.qos.logback:logback-classic:$logbackVersion",
         "ch.qos.logback:logback-core:$logbackVersion",
         "org.assertj:assertj-core:$assertJVersion",
-        "junit:junit:$junitVersion",
-        "com.tngtech.java:junit-dataprovider:$junitDataproviderVersion",
+        "org.junit.jupiter:junit-jupiter-api:$junit5Version",
+        "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
+        "org.junit.jupiter:junit-jupiter-params:$junit5Version",
         "org.mockito:mockito-core:$mockitoVersion",
         "io.rest-assured:rest-assured:$restAssuredVersion",
 

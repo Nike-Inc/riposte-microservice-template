@@ -7,9 +7,9 @@ import com.nike.riposte.server.Server;
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Base64;
 
@@ -36,7 +36,7 @@ public class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
 
     private static String basicAuthHeaderValueRequired;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() throws Exception {
         Pair<Server, TestUtils.AppServerConfigForTesting> serverAndConfigPair = TestUtils.createServerForTesting();
         serverConfig = serverAndConfigPair.getRight();
@@ -50,7 +50,7 @@ public class VerifyBasicAuthIsConfiguredCorrectlyComponentTest {
         );
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws Exception {
         realRunningServer.shutdown();
     }

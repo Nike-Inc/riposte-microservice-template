@@ -13,6 +13,9 @@ dependencies {
             "com.nike.riposte:riposte-metrics-codahale:$riposteVersion",
             "com.nike.riposte:riposte-auth:$riposteVersion",
 
+            // Guice 5.1.0 or later required for Java 17 support.
+            "com.google.inject:guice:$guiceVersion",
+
             "com.google.code.findbugs:jsr305:$googleFindbugsJsr305Version", // So Guice can pick up @Nullable
             "org.jetbrains:annotations:$jetbrainsAnnotationsVersion",
 

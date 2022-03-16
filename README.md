@@ -11,9 +11,10 @@ features baked in like distributed tracing (provided by the Zipkin-compatible
 default provided by [Backstopper](https://github.com/Nike-Inc/backstopper)), and circuit breaking (provided by 
 [Fastbreak](https://github.com/Nike-Inc/fastbreak)). 
 
-***IMPORTANT NOTE:*** Riposte requires a minimum of Java 8. This project will not build or run unless you use a Java 8 
-or later JDK. Verify you're using a Java 8 or later JDK with a simple `java -version`. This project is also ready for
-Java 11 - if you want to use Java 11 see [this section of the readme](#java_11_ready).
+***IMPORTANT NOTE:*** Riposte requires a minimum of Java 8, and this template project is configured for Java 11. 
+This project will not build or run unless you use a Java 11 or later JDK. Verify you're using a Java 11 or later JDK 
+with a simple `java -version`. This project is also ready for Java 17 - if you want to use Java 17 see 
+[this section of the readme](#java_17_ready).
 
 ## Want a Kotlin Version of this Microservice Template?
 
@@ -70,7 +71,7 @@ test, or prod.
 * [Remote tests submodule](#remote_tests)
 * [Component tests](#component_tests)
 * [Removing the example code](#removing_example_code)
-* [Using Java 11 with this project](#java_11_ready)
+* [Using Java 17 with this project](#java_17_ready)
 * [License](#license)
 
 <a name="how_to_generate_new_project"></a>
@@ -692,11 +693,11 @@ There are a few other things you might want to clean up depending on your needs 
 
 [back to top](#top)
 
-<a name="java_11_ready"></a>
-## Using Java 11 with this project
+<a name="java_17_ready"></a>
+## Using Java 17 with this project
 
-This project is Java 11 ready. Simply find the two references to `JavaVersion.VERSION_1_8` in 
-[build.gradle](build.gradle) and replace them with `JavaVersion.VERSION_11`. Then build and run with a Java 11
+This project is Java 17 ready. Simply find the two references to `JavaVersion.VERSION_11` in 
+[build.gradle](build.gradle) and replace them with `JavaVersion.VERSION_17`. Then build and run with a Java 17
 JDK. No other changes are needed.
 
 <a name="license"></a>

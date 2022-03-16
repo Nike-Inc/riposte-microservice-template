@@ -6,7 +6,7 @@ import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrorsTestBas
 
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

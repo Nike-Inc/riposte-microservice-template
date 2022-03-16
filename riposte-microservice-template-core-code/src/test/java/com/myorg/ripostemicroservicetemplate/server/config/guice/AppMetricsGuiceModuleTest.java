@@ -20,14 +20,14 @@ import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,14 +45,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Nic Munroe
  */
-@RunWith(DataProviderRunner.class)
 public class AppMetricsGuiceModuleTest {
 
     private Config configForTesting;
     private AppMetricsGuiceModule appGuiceModule;
     private Injector injector;
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         System.setProperty("@appId", APP_ID);
         System.setProperty("@environment", "compiletimetest");
@@ -114,13 +113,16 @@ public class AppMetricsGuiceModuleTest {
         assertThat(TestUtils.Whitebox.getInternalState(listener, "metricsCollector")).isSameAs(cmc);
     }
 
-    @DataProvider(value = {
-        "true   |   false   |   false",
-        "false  |   true    |   false",
-        "false  |   false   |   true",
-        "true   |   true    |   true",
-    }, splitBy = "\\|")
-    @Test
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+            "true   |   false   |   false",
+            "false  |   true    |   false",
+            "false  |   false   |   true",
+            "true   |   true    |   true",
+        },
+        delimiter = '|'
+    )
     public void metricsReporters_are_added_as_expected(boolean enableSlf4jReporter, boolean enableJmxReporter,
                                                        boolean enableGraphiteReporter) {
         // given
@@ -205,11 +207,11 @@ public class AppMetricsGuiceModuleTest {
         assertThat(TestUtils.Whitebox.getInternalState(engine, "started")).isEqualTo(true);
     }
 
-    @DataProvider(value = {
-        "true",
-        "false"
+    @ParameterizedTest
+    @ValueSource(booleans = {
+        true,
+        false
     })
-    @Test
     public void codahaleMetricsEngine_is_configured_with_jvm_metrics_on_or_off_based_on_property(boolean reportJvmMetrics) {
         // given
         configForTesting = generateAppConfigWithMetricsEnabledOrDisabled(true, true, false)

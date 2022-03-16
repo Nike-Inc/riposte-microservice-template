@@ -3,7 +3,7 @@ package com.myorg.ripostemicroservicetemplate.server.config.guice;
 import com.myorg.ripostemicroservicetemplate.server.config.guice.AppEurekaGuiceModule.EurekaServerHooks;
 import com.typesafe.config.Config;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

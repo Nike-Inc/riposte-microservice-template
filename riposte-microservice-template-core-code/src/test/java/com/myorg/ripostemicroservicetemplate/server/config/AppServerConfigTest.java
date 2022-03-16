@@ -21,14 +21,13 @@ import com.google.inject.util.Modules;
 import com.google.inject.util.Providers;
 import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule;
 import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,13 +43,12 @@ import static org.mockito.Mockito.mock;
  *
  * @author Nic Munroe
  */
-@RunWith(DataProviderRunner.class)
 public class AppServerConfigTest {
 
     private Config configForTesting;
     private AppServerConfig appServerConfig;
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         System.setProperty("@appId", APP_ID);
         System.setProperty("@environment", "compiletimetest");
@@ -186,11 +184,11 @@ public class AppServerConfigTest {
         assertThat(appServerConfig.endpointsSslPort()).isEqualTo(configForTesting.getInt("endpoints.sslPort"));
     }
 
-    @DataProvider(value = {
-        "true",
-        "false"
+    @ParameterizedTest
+    @ValueSource(booleans = {
+        true,
+        false
     })
-    @Test
     public void postServerStartupHooks_works_as_expected(boolean eurekaStartupHookIsNull) {
         // given
         PostServerStartupHook eurekaStartupHook = (eurekaStartupHookIsNull) ? null : mock(PostServerStartupHook.class);
@@ -212,11 +210,11 @@ public class AppServerConfigTest {
         }
     }
 
-    @DataProvider(value = {
-        "true",
-        "false"
+    @ParameterizedTest
+    @ValueSource(booleans = {
+        true,
+        false
     })
-    @Test
     public void serverShutdownHooks_works_as_expected(boolean eurekaShutdownHookIsNull) {
         // given
         ServerShutdownHook eurekaShutdownHook = (eurekaShutdownHookIsNull) ? null : mock(ServerShutdownHook.class);

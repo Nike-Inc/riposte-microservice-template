@@ -47,6 +47,8 @@ allprojects {
     }
 
     test {
+        useJUnitPlatform()
+
         // Minimize console spam while running tests without swallowing critical debugging info.
         testLogging {
             exceptionFormat "FULL"
@@ -95,10 +97,9 @@ ext {
     elImplVersion = '3.0.1-b12'
     jaxbApiVersion = '2.4.0-b180830.0359'
 
-    junitVersion = '4.13.2'
+    junit5Version = '5.8.2'
     mockitoVersion = '4.4.0'
     assertJVersion = '3.22.0'
-    junitDataproviderVersion = '1.13.1'
     restAssuredVersion = '4.5.1'
 
     // JACOCO PROPERTIES
@@ -148,8 +149,7 @@ ext {
 
 allprojects {
     configurations.all {
-        // Other libraries like to include random versions of junit and mockito. Make sure we force the versions we want.
-        resolutionStrategy.force "junit:junit:$junitVersion"
+        // Other libraries like to include random versions of mockito. Make sure we force the version we want.
         resolutionStrategy.force "org.mockito:mockito-core:$mockitoVersion"
 
         // Don't accidentally transitively pull in SLF4J implementations we don't want to use from other libraries.

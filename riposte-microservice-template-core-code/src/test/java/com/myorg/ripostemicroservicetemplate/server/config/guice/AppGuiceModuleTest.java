@@ -13,13 +13,11 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -36,7 +34,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
  *
  * @author Nic Munroe
  */
-@RunWith(DataProviderRunner.class)
 public class AppGuiceModuleTest {
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -45,7 +42,7 @@ public class AppGuiceModuleTest {
     private AppGuiceModule appGuiceModule;
     private Injector injector;
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         System.setProperty("@appId", APP_ID);
         System.setProperty("@environment", "compiletimetest");

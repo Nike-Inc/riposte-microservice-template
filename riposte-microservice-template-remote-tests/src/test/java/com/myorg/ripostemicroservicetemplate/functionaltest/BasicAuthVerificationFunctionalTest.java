@@ -4,7 +4,7 @@ import com.nike.backstopper.apierror.sample.SampleCoreApiError;
 
 import com.myorg.ripostemicroservicetemplate.endpoints.ExampleBasicAuthProtectedEndpoint;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.restassured.response.ExtractableResponse;
 

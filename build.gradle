@@ -64,10 +64,10 @@ allprojects {
     }
 
     //http://www.gradle.org/docs/current/userguide/java_plugin.html
-    // Want Java 11? Then replace the JavaVersion.VERSION_1_8 references below with JavaVersion.VERSION_11, and
-    //      build and run with a Java 11 JDK. No other changes are needed - this project is Java 11 ready.
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    // Want Java 17? Then replace the JavaVersion.VERSION_11 references below with JavaVersion.VERSION_17, and
+    //      build and run with a Java 17 JDK. No other changes are needed - this project is Java 17 ready.
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 run {
@@ -90,6 +90,8 @@ ext {
     jacksonVersion = '2.13.2'
     googleFindbugsJsr305Version = '3.0.2'
     jetbrainsAnnotationsVersion = '23.0.0'
+    // Guice 5.1.0 or later required for Java 17 support.
+    guiceVersion = '5.1.0'
 
     validationApiVersion = '2.0.1.Final'
     hibernateValidatorVersion = '6.2.3.Final'

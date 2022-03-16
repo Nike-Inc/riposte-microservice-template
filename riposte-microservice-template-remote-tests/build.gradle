@@ -30,6 +30,7 @@ test {
 task functionalTest(type: Test, dependsOn: "testClasses") {
     description = "This is a task to run Functional Tests"
     include '**/functionaltest/**'
+    useJUnitPlatform()
 
     testLogging {
         exceptionFormat "FULL"

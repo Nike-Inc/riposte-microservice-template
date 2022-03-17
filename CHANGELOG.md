@@ -4,6 +4,13 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 and is not available via typical artifact repositories (Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
 
+## 2022-03-16
+
+### Updated
+
+- Forced Guice dependency to upgrade to 5.1.0. This allows the project to be Java 17 ready.
+- Changed to Java 11 for project build by default.
+
 ## 2022-03-15
 
 ### Updated

@@ -4,6 +4,14 @@ All notable changes to the `Riposte Microservice Template` will be documented in
 and is not available via typical artifact repositories (Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
 
+## 2022-05-31
+
+### Updated
+
+- Upgraded most libraries to the latest available.
+- Upgraded to gradle 7.4.2.
+- Minor IDE warnings cleanup.
+
 ## 2022-03-16
 
 ### Updated

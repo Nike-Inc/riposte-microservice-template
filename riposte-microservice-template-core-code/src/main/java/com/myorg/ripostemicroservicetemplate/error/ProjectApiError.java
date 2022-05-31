@@ -55,7 +55,7 @@ public enum ProjectApiError implements ApiError {
 
     ProjectApiError(int errorCode, String message, int httpStatusCode, Map<String, Object> metadata) {
         this(new ApiErrorBase(
-            "delegated-to-enum-wrapper-" + UUID.randomUUID().toString(), errorCode, message, httpStatusCode, metadata
+            "delegated-to-enum-wrapper-" + UUID.randomUUID(), errorCode, message, httpStatusCode, metadata
         ));
     }
 

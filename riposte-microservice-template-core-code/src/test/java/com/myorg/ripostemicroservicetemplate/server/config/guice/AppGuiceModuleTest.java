@@ -79,8 +79,9 @@ public class AppGuiceModuleTest {
 
     @Test
     public void appEndpoints_returns_non_empty_set() {
-        Set<Endpoint<?>> endpointsSet = injector.getInstance(Key.get(new TypeLiteral<Set<Endpoint<?>>>() {
-        }, Names.named("appEndpoints")));
+        @SuppressWarnings("Convert2Diamond")
+        Set<Endpoint<?>> endpointsSet = injector.getInstance(Key.get(new TypeLiteral<Set<Endpoint<?>>>() {},
+                                                                     Names.named("appEndpoints")));
         assertThat(endpointsSet).isNotEmpty();
     }
 
@@ -107,6 +108,7 @@ public class AppGuiceModuleTest {
     @Test
     public void appInfoFuture_returns_non_null_object() throws Exception {
         // when
+        @SuppressWarnings("Convert2Diamond")
         CompletableFuture<AppInfo> appInfoFuture =
             injector.getInstance(Key.get(new TypeLiteral<CompletableFuture<AppInfo>>() {},
                                          Names.named("appInfoFuture")));

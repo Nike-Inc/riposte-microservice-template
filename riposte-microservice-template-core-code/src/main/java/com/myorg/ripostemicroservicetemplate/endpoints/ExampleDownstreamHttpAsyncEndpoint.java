@@ -87,6 +87,7 @@ public class ExampleDownstreamHttpAsyncEndpoint extends StandardEndpoint<Void, M
     }
 
     private Map<String, Object> modifyResponseBody(String rawDownstreamResponse) throws IOException {
+        @SuppressWarnings("Convert2Diamond")
         Map<String, Object> deserializedResponse = objectMapper.readValue(rawDownstreamResponse,
                                                                           new TypeReference<Map<String, Object>>() {});
         deserializedResponse.put("viaAsyncHttpClient", "true");

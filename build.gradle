@@ -86,8 +86,8 @@ ext {
     backstopperVersion = '0.14.1'
     slf4jVersion = '1.7.36'
     logbackVersion = '1.2.11'
-    janinoVersion = '3.1.6'
-    jacksonVersion = '2.13.2'
+    janinoVersion = '3.1.7'
+    jacksonVersion = '2.13.3'
     googleFindbugsJsr305Version = '3.0.2'
     jetbrainsAnnotationsVersion = '23.0.0'
     // Guice 5.1.0 or later required for Java 17 support.
@@ -100,12 +100,12 @@ ext {
     jaxbApiVersion = '2.4.0-b180830.0359'
 
     junit5Version = '5.8.2'
-    mockitoVersion = '4.4.0'
-    assertJVersion = '3.22.0'
-    restAssuredVersion = '4.5.1'
+    mockitoVersion = '4.6.0'
+    assertJVersion = '3.23.0'
+    restAssuredVersion = '5.1.0'
 
     // JACOCO PROPERTIES
-    jacocoToolVersion = '0.8.7'
+    jacocoToolVersion = '0.8.8'
     // Anything in this jacocoExclusions list will be excluded from coverage reports. The format is paths to class
     //      files, with wildcards allowed. e.g.: jacocoExclusions = [ "com/nike/Foo.class", "**/Bar*.*" ]
     jacocoExclusions = ['setup*.*', '**/Example*Endpoint*.*']

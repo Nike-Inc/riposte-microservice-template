@@ -709,7 +709,7 @@ This Riposte microservice template is released under the
 [gh_action_build]:https://github.com/Nike-Inc/riposte-microservice-template/actions/workflows/build.yml
 [gh_action_build_img]:https://github.com/Nike-Inc/riposte-microservice-template/actions/workflows/build.yml/badge.svg
 
-[codecov]:https://codecov.io/github/Nike-Inc/riposte-microservice-template?branch=main
+[codecov]:https://app.codecov.io/gh/Nike-Inc/riposte-microservice-template/branch/main
 [codecov_img]:https://img.shields.io/codecov/c/github/Nike-Inc/riposte-microservice-template/main.svg
 
 [license]:LICENSE.txt

@@ -71,8 +71,8 @@ public class ExampleEndpoint {
             return CompletableFuture.completedFuture(
                 ResponseInfo.newBuilder(
                     new ErrorHandlingEndpointArgs(
-                        "some-val1-" + UUID.randomUUID().toString(),
-                        "some-val2-" + UUID.randomUUID().toString(),
+                        "some-val1-" + UUID.randomUUID(),
+                        "some-val2-" + UUID.randomUUID(),
                         false
                     )
                 ).build()

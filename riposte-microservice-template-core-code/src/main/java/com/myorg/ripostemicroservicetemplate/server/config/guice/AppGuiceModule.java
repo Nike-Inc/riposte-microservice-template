@@ -96,6 +96,7 @@ public class AppGuiceModule extends AbstractModule {
 
     @Provides
     @Singleton
+    @SuppressWarnings("resource")
     public Validator validator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }

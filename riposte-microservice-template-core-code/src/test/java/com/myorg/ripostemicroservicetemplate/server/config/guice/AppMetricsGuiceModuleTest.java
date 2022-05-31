@@ -88,6 +88,7 @@ public class AppMetricsGuiceModuleTest {
     @SuppressWarnings("unchecked")
     public void metrics_related_objects_are_non_null_and_related_to_each_other_as_expected() {
         // when
+        @SuppressWarnings("Convert2Diamond")
         List<ReporterFactory> reporters = injector.getInstance(Key.get(new TypeLiteral<List<ReporterFactory>>() {}));
         CodahaleMetricsCollector cmc = injector.getInstance(CodahaleMetricsCollector.class);
         CodahaleMetricsEngine engine = injector.getInstance(CodahaleMetricsEngine.class);
@@ -132,6 +133,7 @@ public class AppMetricsGuiceModuleTest {
         injector = generateInjector(appGuiceModule, configForTesting);
 
         // when
+        @SuppressWarnings("Convert2Diamond")
         List<ReporterFactory> reporters = injector.getInstance(Key.get(new TypeLiteral<List<ReporterFactory>>() {}));
         List<Class<? extends ReporterFactory>> reporterClasses = reporters.stream()
                                                                           .map(ReporterFactory::getClass)
@@ -181,6 +183,7 @@ public class AppMetricsGuiceModuleTest {
         injector = generateInjector(appGuiceModule, configForTesting);
 
         // when
+        @SuppressWarnings("Convert2Diamond")
         List<ReporterFactory> reporters = injector.getInstance(Key.get(new TypeLiteral<List<ReporterFactory>>() {}));
         CodahaleMetricsCollector cmc = injector.getInstance(CodahaleMetricsCollector.class);
         CodahaleMetricsEngine engine = injector.getInstance(CodahaleMetricsEngine.class);

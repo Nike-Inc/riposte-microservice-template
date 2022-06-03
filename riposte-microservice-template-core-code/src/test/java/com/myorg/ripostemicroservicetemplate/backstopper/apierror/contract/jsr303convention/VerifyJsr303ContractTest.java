@@ -16,8 +16,6 @@ import com.myorg.ripostemicroservicetemplate.error.ProjectApiErrorsImpl;
  * convention) by making sure that the {@link ApplicationJsr303AnnotationTroller#ignoreAllAnnotationsAssociatedWithTheseProjectClasses()}
  * and {@link ApplicationJsr303AnnotationTroller#specificAnnotationDeclarationExclusionsForProject()} methods return
  * what you need, but you should not exclude any annotations in production code under normal circumstances.
- *
- * @author Nic Munroe
  */
 public class VerifyJsr303ContractTest extends VerifyJsr303ValidationMessagesPointToApiErrorsTest {
 

@@ -24,8 +24,6 @@ import io.restassured.response.ExtractableResponse;
  *
  * <p>Other classes can simply reference {@link #INSTANCE}, and from there get access to any of the public fields or
  * methods in this class.
- *
- * @author Nic Munroe
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class PropertiesHelper {

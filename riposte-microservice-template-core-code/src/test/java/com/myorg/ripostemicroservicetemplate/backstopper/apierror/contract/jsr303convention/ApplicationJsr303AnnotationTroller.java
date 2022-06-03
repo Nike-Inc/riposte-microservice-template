@@ -20,8 +20,6 @@ import java.util.List;
  * if you *really* know what you're doing. Usually it's only done for unit test classes that are intended to violate the
  * convention. It should not be done for production code under normal circumstances. See the javadocs for the super
  * class for those methods if you need to use them.
- *
- * @author Nic Munroe
  */
 public final class ApplicationJsr303AnnotationTroller extends ReflectionBasedJsr303AnnotationTrollerBase {
 

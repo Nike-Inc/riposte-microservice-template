@@ -41,8 +41,6 @@ import java.util.concurrent.CompletableFuture;
  * {@link #getAppGuiceModules(Config)} list. You should never remove the {@link BackstopperRiposteConfigGuiceModule}
  * module from that list unless you replace it with an extension of that class that performs the same function - it is
  * what configures the application's error handling system.
- *
- * @author Nic Munroe
  */
 @SuppressWarnings("WeakerAccess")
 public class AppServerConfig implements ServerConfig {

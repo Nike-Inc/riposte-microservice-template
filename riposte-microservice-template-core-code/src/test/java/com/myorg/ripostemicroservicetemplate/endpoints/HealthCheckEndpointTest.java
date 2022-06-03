@@ -15,8 +15,6 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Verifies the functionality of {@link HealthCheckEndpoint}
- *
- * @author Nic Munroe
  */
 public class HealthCheckEndpointTest {
 

@@ -42,8 +42,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the functionality of {@link AppMetricsGuiceModule}.
- *
- * @author Nic Munroe
  */
 public class AppMetricsGuiceModuleTest {
 

@@ -10,8 +10,6 @@ import com.typesafe.config.Config;
 /**
  * Main class entry point for this app. Sets up Typesafe Config and initializes a new Riposte {@link Server} with the
  * application's {@link ServerConfig}.
- *
- * @author Nic Munroe
  */
 public class Main extends TypesafeConfigServer {
 

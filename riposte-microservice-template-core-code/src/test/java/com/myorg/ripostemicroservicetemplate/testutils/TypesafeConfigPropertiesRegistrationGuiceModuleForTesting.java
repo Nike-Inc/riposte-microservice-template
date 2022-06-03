@@ -9,8 +9,6 @@ import com.typesafe.config.Config;
  * An extension of {@link TypesafeConfigPropertiesRegistrationGuiceModule} that forces Typesafe Config to be loaded with
  * the given app ID and environment. Useful for loading the compiletimetest environment properties file when unit
  * testing so you can keep your unit test props separated from your local/test/prod properties.
- *
- * @author Nic Munroe
  */
 public class TypesafeConfigPropertiesRegistrationGuiceModuleForTesting
     extends TypesafeConfigPropertiesRegistrationGuiceModule {

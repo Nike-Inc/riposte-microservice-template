@@ -24,8 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Contains static helper methods for performing some common test tasks, mainly around launching a real server to test
  * against ({@link #createServerForTesting()}).
- *
- * @author Nic Munroe
  */
 public class TestUtils {
 

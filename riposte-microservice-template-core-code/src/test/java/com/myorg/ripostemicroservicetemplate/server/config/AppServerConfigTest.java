@@ -40,8 +40,6 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Tests the functionality of {@link AppServerConfig}
- *
- * @author Nic Munroe
  */
 public class AppServerConfigTest {
 

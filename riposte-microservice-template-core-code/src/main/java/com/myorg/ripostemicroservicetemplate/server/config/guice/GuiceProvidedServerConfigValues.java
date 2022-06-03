@@ -22,8 +22,6 @@ import javax.inject.Named;
 /**
  * An extension of {@link DependencyInjectionProvidedServerConfigValuesBase} that includes all the extra
  * dependency-injected properties needed by {@link AppServerConfig}.
- *
- * @author Nic Munroe
  */
 public class GuiceProvidedServerConfigValues extends DependencyInjectionProvidedServerConfigValuesBase {
 

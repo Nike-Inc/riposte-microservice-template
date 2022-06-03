@@ -15,8 +15,6 @@ import io.netty.channel.ChannelHandlerContext;
 /**
  * Dummy health check endpoint. This will immediately respond with a 200 HTTP status code. It will let you know when
  * your machine has fallen over but not much else (which may be sufficient depending on your use case).
- *
- * @author Nic Munroe
  */
 public class HealthCheckEndpoint extends StandardEndpoint<Void, Void> {
 

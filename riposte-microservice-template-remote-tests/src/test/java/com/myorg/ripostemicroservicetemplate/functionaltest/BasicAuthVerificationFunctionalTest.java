@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>TODO: EXAMPLE CLEANUP - If your app does not use any security validation (e.g. basic auth for the examples) then
  *          you can delete this class entirely. If you do use security validation then you'll want to adjust these tests
  *          to tests your real endpoint security rather than the example stuff.
- *
- * @author Nic Munroe
  */
 public class BasicAuthVerificationFunctionalTest {
 

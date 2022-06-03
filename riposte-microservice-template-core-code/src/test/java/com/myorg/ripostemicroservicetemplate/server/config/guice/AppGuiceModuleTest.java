@@ -31,8 +31,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 /**
  * Tests the functionality of {@link AppGuiceModule}
- *
- * @author Nic Munroe
  */
 public class AppGuiceModuleTest {
 

@@ -12,8 +12,6 @@ import com.nike.backstopper.validation.constraints.StringConvertsToClassType;
  * convention) by making sure that the {@link ApplicationJsr303AnnotationTroller#ignoreAllAnnotationsAssociatedWithTheseProjectClasses()}
  * and {@link ApplicationJsr303AnnotationTroller#specificAnnotationDeclarationExclusionsForProject()} methods return
  * what you need, but you should not exclude any annotations in production code under normal circumstances.
- *
- * @author Nic Munroe
  */
 public class VerifyStringConvertsToClassTypeAnnotationsAreValidTest
     extends VerifyEnumsReferencedByStringConvertsToClassTypeJsr303AnnotationsAreJacksonCaseInsensitiveTest {

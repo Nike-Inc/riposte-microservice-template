@@ -47,8 +47,6 @@ import javax.validation.Validator;
  * non-healthcheck endpoints. Alternately you can choose only specific endpoints to protect, or disable auth entirely,
  * or switch to a different auth scheme, or remove security validation entirely depending on your application's
  * requirements.
- *
- * @author Nic Munroe
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AppGuiceModule extends AbstractModule {

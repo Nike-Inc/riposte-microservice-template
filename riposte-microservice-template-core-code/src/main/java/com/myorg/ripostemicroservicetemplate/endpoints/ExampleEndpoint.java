@@ -45,8 +45,6 @@ import static java.util.Collections.singletonList;
  * <a href="https://github.com/Nike-Inc/backstopper">Backstopper</a>. See that project's readme for more information.
  *
  * <p>TODO: EXAMPLE CLEANUP - Delete this class.
- *
- * @author Nic Munroe
  */
 @SuppressWarnings("WeakerAccess")
 public class ExampleEndpoint {

@@ -28,8 +28,6 @@ import io.netty.channel.ChannelHandlerContext;
  * Executor, ChannelHandlerContext)} methods.
  *
  * <p>TODO: EXAMPLE CLEANUP - Delete this class.
- *
- * @author Nic Munroe
  */
 public class ExampleProxyRouterEndpoint extends SimpleProxyRouterEndpoint {
 

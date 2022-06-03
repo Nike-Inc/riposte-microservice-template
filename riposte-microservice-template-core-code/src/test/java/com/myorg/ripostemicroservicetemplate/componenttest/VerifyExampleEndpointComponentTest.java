@@ -32,8 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * <p>TODO: EXAMPLE CLEANUP - Delete this class since it is specific to ExampleEndpoint, however it's recommended that
  *          you add similar classes for your real application endpoints.
- *
- * @author Nic Munroe
  */
 public class VerifyExampleEndpointComponentTest {
 

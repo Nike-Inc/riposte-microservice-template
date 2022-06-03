@@ -19,8 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the functionality of {@link Main}.
- *
- * @author Nic Munroe
  */
 public class MainTest {
 

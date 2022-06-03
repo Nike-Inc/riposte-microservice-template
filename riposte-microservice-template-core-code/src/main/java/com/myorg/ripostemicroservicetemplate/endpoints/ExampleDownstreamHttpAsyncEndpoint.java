@@ -33,8 +33,6 @@ import io.netty.channel.ChannelHandlerContext;
  * the downstream response before returning.
  *
  * <p>TODO: EXAMPLE CLEANUP - Delete this class.
- *
- * @author Nic Munroe
  */
 @SuppressWarnings("WeakerAccess")
 public class ExampleDownstreamHttpAsyncEndpoint extends StandardEndpoint<Void, Map<String, Object>> {

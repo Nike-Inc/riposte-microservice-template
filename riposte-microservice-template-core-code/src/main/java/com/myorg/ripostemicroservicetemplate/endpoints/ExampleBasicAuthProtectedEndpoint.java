@@ -48,8 +48,6 @@ import io.netty.util.CharsetUtil;
  * AppSecurityGuiceModule#authProtectedEndpoints(Set)} to see how to switch to protect all endpoints except /healthcheck.
  *
  * <p>TODO: EXAMPLE CLEANUP - Delete this class.
- *
- * @author Nic Munroe
  */
 public class ExampleBasicAuthProtectedEndpoint {
 

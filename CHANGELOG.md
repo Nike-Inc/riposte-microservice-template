@@ -3,6 +3,14 @@
 All notable changes to the `Riposte Microservice Template` will be documented in this file. This is a template project 
 and is not available via typical artifact repositories (Maven Central, etc), therefore it does not have version 
 numbers. This file will track changes based on the dates the changes were made.
+   
+## 2022-06-03
+         
+### Updated 
+
+- Migrated to `backstopper-reusable-tests-junit5` and got rid of last bits of JUnit 4 in the project.
+- Replaced copied mockito class with `Glassbox`.
+- Removed author tags in javadocs.
 
 ## 2022-05-31
 

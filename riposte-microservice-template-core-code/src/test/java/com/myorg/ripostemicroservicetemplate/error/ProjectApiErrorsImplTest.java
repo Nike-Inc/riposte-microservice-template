@@ -3,8 +3,7 @@ package com.myorg.ripostemicroservicetemplate.error;
 import com.nike.backstopper.apierror.ApiError;
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrors;
 import com.nike.backstopper.apierror.projectspecificinfo.ProjectApiErrorsTestBase;
-
-import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
+import com.nike.internal.util.testing.Glassbox;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +31,7 @@ public class ProjectApiErrorsImplTest extends ProjectApiErrorsTestBase {
     public void getMetadata_delegates_to_delegate_ApiError() {
         for (ProjectApiError pae : ProjectApiError.values()) {
             // given
-            ApiError delegate = (ApiError) Whitebox.getInternalState(pae, "delegate");
+            ApiError delegate = (ApiError) Glassbox.getInternalState(pae, "delegate");
 
             // expect
             assertThat(pae.getMetadata()).isSameAs(delegate.getMetadata());

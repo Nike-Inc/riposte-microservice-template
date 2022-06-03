@@ -4,6 +4,7 @@ import com.nike.backstopper.handler.riposte.RiposteApiExceptionHandler;
 import com.nike.backstopper.handler.riposte.RiposteUnhandledExceptionHandler;
 import com.nike.backstopper.handler.riposte.config.guice.BackstopperRiposteConfigGuiceModule;
 import com.nike.backstopper.service.riposte.BackstopperRiposteValidatorAdapter;
+import com.nike.internal.util.testing.Glassbox;
 import com.nike.riposte.metrics.MetricsListener;
 import com.nike.riposte.metrics.codahale.CodahaleMetricsListener;
 import com.nike.riposte.metrics.codahale.EndpointMetricsHandler;
@@ -20,7 +21,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 import com.google.inject.util.Providers;
 import com.myorg.ripostemicroservicetemplate.server.config.guice.AppGuiceModule;
-import com.myorg.ripostemicroservicetemplate.testutils.TestUtils.Whitebox;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
 
@@ -192,7 +192,7 @@ public class AppServerConfigTest {
     public void postServerStartupHooks_works_as_expected(boolean eurekaStartupHookIsNull) {
         // given
         PostServerStartupHook eurekaStartupHook = (eurekaStartupHookIsNull) ? null : mock(PostServerStartupHook.class);
-        Whitebox.setInternalState(
+        Glassbox.setInternalState(
             appServerConfig.guiceValues.eurekaServerHooks, "eurekaStartupHook", eurekaStartupHook
         );
 
@@ -218,7 +218,7 @@ public class AppServerConfigTest {
     public void serverShutdownHooks_works_as_expected(boolean eurekaShutdownHookIsNull) {
         // given
         ServerShutdownHook eurekaShutdownHook = (eurekaShutdownHookIsNull) ? null : mock(ServerShutdownHook.class);
-        Whitebox.setInternalState(
+        Glassbox.setInternalState(
             appServerConfig.guiceValues.eurekaServerHooks, "eurekaShutdownHook", eurekaShutdownHook
         );
 

@@ -54,9 +54,9 @@ public class AppEurekaGuiceModuleTest {
 //        com.nike.riposte.serviceregistration.eureka.EurekaHandler eurekaHandler =
 //            ((com.nike.riposte.serviceregistration.eureka.EurekaServerHook)result.eurekaStartupHook).eurekaHandler;
 //        Supplier<Boolean> eurekaIsDisabledPropertySupplier =
-//            (Supplier<Boolean>) Whitebox.getInternalState(eurekaHandler, "eurekaIsDisabledPropertySupplier");
+//            (Supplier<Boolean>) Glassbox.getInternalState(eurekaHandler, "eurekaIsDisabledPropertySupplier");
 //        Supplier<String> datacenterTypePropertySupplier =
-//            (Supplier<String>) Whitebox.getInternalState(eurekaHandler, "datacenterTypePropertySupplier");
+//            (Supplier<String>) Glassbox.getInternalState(eurekaHandler, "datacenterTypePropertySupplier");
 //
 //        // when
 //        eurekaIsDisabledPropertySupplier.get();

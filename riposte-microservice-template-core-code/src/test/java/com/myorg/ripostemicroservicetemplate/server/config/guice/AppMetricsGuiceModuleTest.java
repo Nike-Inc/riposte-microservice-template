@@ -1,6 +1,7 @@
 package com.myorg.ripostemicroservicetemplate.server.config.guice;
 
 import com.nike.guice.typesafeconfig.TypesafeConfigPropertiesRegistrationGuiceModule;
+import com.nike.internal.util.testing.Glassbox;
 import com.nike.riposte.metrics.codahale.CodahaleMetricsCollector;
 import com.nike.riposte.metrics.codahale.CodahaleMetricsEngine;
 import com.nike.riposte.metrics.codahale.CodahaleMetricsListener;
@@ -19,7 +20,6 @@ import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-import com.myorg.ripostemicroservicetemplate.testutils.TestUtils;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValueFactory;
 
@@ -104,14 +104,14 @@ public class AppMetricsGuiceModuleTest {
 
         // CodahaleMetricsEngine uses the same CodahaleMetricsCollector and ReporterFactory list, and has been started
         assertThat(engine).isNotNull();
-        assertThat(TestUtils.Whitebox.getInternalState(engine, "metricsCollector")).isSameAs(cmc);
-        assertThat((Collection<ReporterFactory>) TestUtils.Whitebox.getInternalState(engine, "reporters"))
+        assertThat(Glassbox.getInternalState(engine, "metricsCollector")).isSameAs(cmc);
+        assertThat((Collection<ReporterFactory>) Glassbox.getInternalState(engine, "reporters"))
             .containsExactlyInAnyOrderElementsOf(reporters);
-        assertThat(TestUtils.Whitebox.getInternalState(engine, "started")).isEqualTo(true);
+        assertThat(Glassbox.getInternalState(engine, "started")).isEqualTo(true);
 
         // CodahaleMetricsListener uses the same CodahaleMetricsCollector
         assertThat(listener).isNotNull();
-        assertThat(TestUtils.Whitebox.getInternalState(listener, "metricsCollector")).isSameAs(cmc);
+        assertThat(Glassbox.getInternalState(listener, "metricsCollector")).isSameAs(cmc);
     }
 
     @ParameterizedTest
@@ -165,10 +165,10 @@ public class AppMetricsGuiceModuleTest {
                                     + "." + appInfo.instanceId();
             String expectedGraphiteUrl = configForTesting.getString("metrics.graphite.url");
             int expectedPort = configForTesting.getInt("metrics.graphite.port");
-            assertThat(TestUtils.Whitebox.getInternalState(graphiteReporter, "prefix")).isEqualTo(expectedPrefix);
+            assertThat(Glassbox.getInternalState(graphiteReporter, "prefix")).isEqualTo(expectedPrefix);
             assertThat(
-                TestUtils.Whitebox.getInternalState(graphiteReporter, "graphiteURL")).isEqualTo(expectedGraphiteUrl);
-            assertThat(TestUtils.Whitebox.getInternalState(graphiteReporter, "graphitePort")).isEqualTo(expectedPort);
+                Glassbox.getInternalState(graphiteReporter, "graphiteURL")).isEqualTo(expectedGraphiteUrl);
+            assertThat(Glassbox.getInternalState(graphiteReporter, "graphitePort")).isEqualTo(expectedPort);
         }
         else {
             assertThat(reporterClasses).doesNotContain(DefaultGraphiteReporterFactory.class);
@@ -206,8 +206,8 @@ public class AppMetricsGuiceModuleTest {
         CodahaleMetricsEngine engine = appGuiceModule.codahaleMetricsEngine(cmc, null, false);
 
         // then
-        assertThat((Collection<ReporterFactory>) TestUtils.Whitebox.getInternalState(engine, "reporters")).isEmpty();
-        assertThat(TestUtils.Whitebox.getInternalState(engine, "started")).isEqualTo(true);
+        assertThat((Collection<ReporterFactory>) Glassbox.getInternalState(engine, "reporters")).isEmpty();
+        assertThat(Glassbox.getInternalState(engine, "started")).isEqualTo(true);
     }
 
     @ParameterizedTest
@@ -226,6 +226,6 @@ public class AppMetricsGuiceModuleTest {
         CodahaleMetricsEngine engine = injector.getInstance(CodahaleMetricsEngine.class);
 
         // then
-        assertThat(TestUtils.Whitebox.getInternalState(engine, "jvmMetricsAdded")).isEqualTo(reportJvmMetrics);
+        assertThat(Glassbox.getInternalState(engine, "jvmMetricsAdded")).isEqualTo(reportJvmMetrics);
     }
 }

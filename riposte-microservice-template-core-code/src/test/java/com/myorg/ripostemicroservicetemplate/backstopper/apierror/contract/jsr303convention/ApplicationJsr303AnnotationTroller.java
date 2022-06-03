@@ -3,11 +3,10 @@ package com.myorg.ripostemicroservicetemplate.backstopper.apierror.contract.jsr3
 import com.nike.backstopper.apierror.contract.jsr303convention.ReflectionBasedJsr303AnnotationTrollerBase;
 import com.nike.internal.util.Pair;
 
-import com.google.common.base.Predicate;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Extension of {@link ReflectionBasedJsr303AnnotationTrollerBase} for use with this project. This is used by JSR 303

@@ -83,7 +83,7 @@ artifacts {
 ext {
     // DEPENDENCY VERSIONS
     riposteVersion = '0.20.0'
-    backstopperVersion = '0.14.1'
+    backstopperVersion = '0.15.0'
     slf4jVersion = '1.7.36'
     logbackVersion = '1.2.11'
     janinoVersion = '3.1.7'
